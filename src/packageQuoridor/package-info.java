@@ -1,0 +1,8 @@
+/**
+ * 
+ */
+/**
+ * @author Nicky
+ *
+ */
+package packageQuoridor;
