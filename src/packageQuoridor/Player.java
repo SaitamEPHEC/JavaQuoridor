@@ -9,8 +9,8 @@ public class Player {
 	protected String nickname;
 	protected int nbrTotBarrier;
 	protected int nbrBarrierLeft;
-	// protected List<Barrier> barriersOnField;
-	// protected Pawn pawn;
+	protected ArrayList<Barrier> barriersOnField;
+	protected Pawn myPawn;
 	protected static int genericNickname = 10000;
 	
 	/*
@@ -21,6 +21,8 @@ public class Player {
 		nickname = Integer.toString(genericNickname++);
 		nbrTotBarrier = 10;
 		nbrBarrierLeft = 10;
+		barriersOnField = new ArrayList<Barrier>();
+		myPawn = new Pawn;
 	}
 
 	/*
@@ -31,6 +33,8 @@ public class Player {
 		this.nickname = nickname;
 		nbrTotBarrier = 10;
 		nbrBarrierLeft = 10;
+		barriersOnField = new ArrayList<Barrier>();
+		myPawn = new Pawn;
 	}	
 
 	/*
@@ -41,6 +45,8 @@ public class Player {
 		this.nickname = nickname;
 		this.nbrTotBarrier = nbrTotBarrier;
 		this.nbrBarrierLeft = nbrBarrierLeft;
+		barriersOnField = new ArrayList<Barrier>();
+		myPawn = new Pawn;
 	}		
 	
 	/*
@@ -134,7 +140,7 @@ public class Player {
 	 * @return the pawn
 	 */
 /*	public Pawn getPawn() {
-*		return pawn;
+*		return myPawn;
 *	}
 */	
 	
