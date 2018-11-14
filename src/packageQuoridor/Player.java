@@ -1,5 +1,7 @@
 package packageQuoridor;
 
+import java.util.ArrayList;
+
 /**
  * @author Nicky Riat, Mathias Gassmann, Adrien Chellé
  * Projet EPHEC 2TL1 
@@ -22,7 +24,7 @@ public class Player {
 		nbrTotBarrier = 10;
 		nbrBarrierLeft = 10;
 		barriersOnField = new ArrayList<Barrier>();
-		myPawn = new Pawn;
+		myPawn = new Pawn();
 	}
 
 	/*
@@ -34,7 +36,7 @@ public class Player {
 		nbrTotBarrier = 10;
 		nbrBarrierLeft = 10;
 		barriersOnField = new ArrayList<Barrier>();
-		myPawn = new Pawn;
+		myPawn = new Pawn();
 	}	
 
 	/*
@@ -46,7 +48,7 @@ public class Player {
 		this.nbrTotBarrier = nbrTotBarrier;
 		this.nbrBarrierLeft = nbrBarrierLeft;
 		barriersOnField = new ArrayList<Barrier>();
-		myPawn = new Pawn;
+		myPawn = new Pawn();
 	}		
 	
 	/*
