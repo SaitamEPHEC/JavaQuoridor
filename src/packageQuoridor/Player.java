@@ -143,6 +143,17 @@ public class Player {
 *		return myPawn;
 *	}
 */	
+	public void addBarrier(Barrier b) {
+		barriersOnField.add(b);
+	}
+	
+	public void removeBarrier(Barrier b) {
+		barriersOnField.remove(b);
+	}
+	
+	public int getNumBarrier() {
+		return barriersOnField.size();
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
