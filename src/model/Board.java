@@ -31,4 +31,10 @@ public class Board extends Observable {
 		notifyObservers();
 	}
 	
+	@Override
+	public String toString() {
+		//TODO AFFICHE LE BOARD EN CONSOLE
+		return "Salut Roi du Soleil";
+	}
+	
 }
