@@ -1,4 +1,4 @@
-package packageQuoridor;
+package model;
 
 public class Pawn {
 	private int posX;

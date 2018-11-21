@@ -1,4 +1,4 @@
-package packageQuoridor;
+package model;
 
 public class BonusCase implements BonusCaseName{
 	private String name;

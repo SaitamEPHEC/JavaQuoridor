@@ -1,4 +1,4 @@
-package packageQuoridor;
+package model;
 
 
 /**

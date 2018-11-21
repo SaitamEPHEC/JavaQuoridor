@@ -4,5 +4,5 @@ Modifier l'UML :
 
 - Nicky : - Ajouter dans l'UML les méthodes que tu ajoutes dans le code (genre les méthodes addBarrier(barrier b), removeBarreir(barrier b), etc...
 	qui ne sont pas dans l'UML de base)
-	- T'as aussi oublié la fonction "getBarriersOnField() : List<Barrier>" qui permet d'avoir la liste des barrières sur le board à un moment donné.
-	- Retirer la méthode main() dans la classe Player ? Vu qu'on va juste créer des méthodes dans Player() qui seront ensuites appelées dans la main() de la classe Board?
+FAIT	- T'as aussi oublié la fonction "getBarriersOnField() : List<Barrier>" qui permet d'avoir la liste des barrières sur le board à un moment donné.
+FAIT	- Retirer la méthode main() dans la classe Player ? Vu qu'on va juste créer des méthodes dans Player() qui seront ensuites appelées dans la main() de la classe Board?

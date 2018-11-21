@@ -1,4 +1,4 @@
-package packageQuoridor;
+package model;
 
 import java.util.ArrayList;
 
@@ -137,6 +137,13 @@ public class Player {
 	public int getNbrBarrierLeft() {
 		return nbrBarrierLeft;
 	}
+	
+	/**
+	 * @return the nbrBarrierLeft
+	 */
+	public ArrayList<Barrier> getBarriersOnField() {
+		return barriersOnField;
+	}	
 
 	/**
 	 * @return the pawn
@@ -157,11 +164,7 @@ public class Player {
 		return barriersOnField.size();
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public void setNbrBarrierLeft(int nbr) {
+		nbrBarrierLeft = nbr;
 	}
-	
-	
-
 }
