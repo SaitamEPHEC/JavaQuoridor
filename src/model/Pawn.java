@@ -12,6 +12,7 @@ public class Pawn {
 		super();
 		this.posX = posX;
 		this.posY = posY;
+		//TODO : dessiner directement le pion aux positions indiquées, dans le board
 	}
 
 	public int getPosX() {
