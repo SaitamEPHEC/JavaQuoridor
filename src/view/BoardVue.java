@@ -1,5 +1,6 @@
 package view;
 
+import java.util.Observable;
 import java.util.Observer;
 
 import controller.BoardController;
@@ -16,6 +17,8 @@ public abstract class BoardVue implements Observer{
 		model.addObserver(this); // connexion entre vue et	modele
 	}
 
-	public abstract void affiche(String string) ;
+	public abstract void affiche(String string);
+	
+	public abstract void update(Observable o, Object arg);
 }
 
