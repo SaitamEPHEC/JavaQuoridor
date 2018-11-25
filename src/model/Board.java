@@ -10,7 +10,6 @@ public class Board extends Observable {
 	
 	public Board() {
 		super();
-		
 		initiateBoardConsole();
 		drawBoardConsole();
 	}
@@ -54,7 +53,6 @@ public class Board extends Observable {
 			}
 		}
 	}
-	
 	
 	private void drawBoardConsole() {
 		//TODO

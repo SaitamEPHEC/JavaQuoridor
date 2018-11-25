@@ -25,6 +25,7 @@ public class Barrier {
 		this.posX2 = posX2;
 		this.posY1 = posY1;
 		this.posY2 = posY2;
+		//TODO : dessiner directement la barrière aux bonnes positions dans le board
 	}
 
 	/**
