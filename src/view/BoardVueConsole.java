@@ -6,9 +6,6 @@ import java.util.Observer;
 import java.util.Scanner;
 import controller.BoardController;
 import model.Board;
-import tp7.controller.BibliothequeController;
-import tp7.model.Bibliotheque;
-import tp7.view.BibliothequeVueConsole.ReadInput;
 
 public class BoardVueConsole extends BoardVue {
 	
@@ -29,36 +26,64 @@ public class BoardVueConsole extends BoardVue {
 	}
 	
 	private void printHelp(){
-		affiche("Pour déplacer le pion, tapez : U (move Up), D (move Down), L (move Left), R (move Right)");
-		affiche("Pour déplacer la barriere, tapez les 4 coordonnées de la barrière. Exemple : A1B1 ou A2B2");
+		affiche("Entrez \"B\" pour choisir de placer une barriere, ou \"P\" pour choisir de déplacer votre pion\n");
+		affiche("Pour déplacer le pion, tapez : U (move Up), D (move Down), L (move Left), R (move Right)\n");
+		affiche("Pour placer la barriere, tapez les 4 coordonnées de la barrière. Exemple : A 1 B 1 ou A 5 A 6\n");
 	}
+	
+	
 	
 	//TODO : à MODIFIER avec notre projet
 	private class ReadInput implements Runnable{
 		public void run() {
+			String listeLettres = "ABCDEFGHI";
+			String listeMvmt = "UDRL";
 			while(true){
-				try{
-					String c = sc.next();
-					if(c.length()!=1){
-						affiche("Format d'input incorrect");
-						printHelp();
-					}
-						
-					int i = sc.nextInt();
-					if(i<0 || i> 9){
-						affiche("Numero du livre incorrect");
-						printHelp(); 
-					}
+				try {
+					String c = sc.next().toUpperCase();
 					switch(c){
-						case "R" :
-							controller.rendreLivre(i);
+						case "B" :
+							//barrière
+								String c1 = sc.next().toUpperCase();
+								if((c1.length()!=1) || (listeLettres.indexOf(c1) == -1)) {
+									affiche("Première lettre incorrecte, entrez une seule lettre entre A et I\n");
+									printHelp();
+								}
+									
+								int i1 = sc.nextInt();
+								if(i1<0 || i1> 8){
+									affiche("Premier numero de case incorrecte, entrez un chiffre entre 0 et 8\n");
+									printHelp(); 
+								}
+								
+								String c2 = sc.next().toUpperCase();
+								if((c2.length()!=1) || (listeLettres.indexOf(c2) == -1)){
+									affiche("Seconde lettre incorrecte, entrez une seule lettre entre A et I\n");
+									printHelp();
+								}
+									
+								int i2 = sc.nextInt();
+								if(i2<0 || i2> 8){
+									affiche("Second numero de case incorrect, entrez un chiffre entre 0 et 8\n");
+									printHelp(); 
+								}
+								
+								//caractérise une barrière
+								if (!(((c1 == c2) && Math.abs(i1 - i2) ==1) || ((i1 == i2) && Math.abs(listeLettres.indexOf(c1) - listeLettres.indexOf(c2)) == 1))) {
+									affiche("Position de la barrière incorrecte.\nExemple de barrière horizontale : A 1 B 1\nExemple de barrière verticale : A 5 A 6\n");
+									printHelp();
+								}
 							break;
-						case "E" : 
-							controller.emprunteLivre(i);
+						case "P" :
+							//pion
+							String m = sc.next().toUpperCase();
+							if(listeMvmt.indexOf(m) == -1) {
+								affiche("Mouvement incorrect, entrez U pour monter, D pour descendre, L pour aller à gauche, et R pour aller à droite\n");
+								printHelp();
+							}
 							break;
 						default : 
-							affiche("Operation incorrecte");
-							printHelp();
+							affiche("Operation incorrecte; entrez \"B\" pour placer une barriere, ou \"P\" pour déplacer votre pion\n");
 					}
 				}
 				catch(InputMismatchException e){
