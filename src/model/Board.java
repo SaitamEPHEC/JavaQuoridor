@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Observable;
 
+
 public class Board extends Observable {
 	private String board[][]= new String [17][17];
 	private int turn;
@@ -11,7 +12,6 @@ public class Board extends Observable {
 	public Board() {
 		super();
 		initiateBoardConsole();
-		drawBoardConsole();
 	}
 	
 	public Board(String[][] board, int turn, ArrayList<Player> players) {
@@ -21,11 +21,6 @@ public class Board extends Observable {
 		this.players = players;
 	}
 	
-	public void play() {
-		//TODO
-		setChanged();
-		notifyObservers();
-	}
 	
 	public void initiateBoardConsole() {
 		for(int i=0; i<board.length; i++) {
@@ -53,23 +48,18 @@ public class Board extends Observable {
 			}
 		}
 	}
+
 	
-	private void drawBoardConsole() {
-		//TODO
-		for(int i = 0;i<board.length;i++) {
-			for(int j = 0;j<board.length;j++) {
-				if(j == board.length-1) {
-					System.out.println(board[i][j]);
-				}
-				else {
-					System.out.print(board[i][j]);
-				}
-			}
-		}
-		setChanged();
-		notifyObservers();
+	public String[][] getBoard() {
+		return board;
 	}
 	
+	public int getLength() {
+		return this.board.length;
+	}
+
+	
+
 	@Override
 	public String toString() {
 		//TODO AFFICHE LE BOARD EN CONSOLE

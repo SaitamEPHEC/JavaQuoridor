@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * @author Nicky Riat, Mathias Gassmann, Adrien Chellé
@@ -14,13 +15,15 @@ public class Player {
 	protected ArrayList<Barrier> barriersOnField;
 	protected Pawn myPawn;
 	protected static int genericNickname = 10000;
+	Scanner sc = new Scanner(System.in);
 	
 	/*
 	 * 
 	 * Constructeur par default
 	 */
 	public Player(){
-		nickname = Integer.toString(genericNickname++);
+		System.out.println("Quel est le pseudo du joueur ?");
+		this.nickname = sc.nextLine();
 		nbrTotBarrier = 10;
 		nbrBarrierLeft = 10;
 		barriersOnField = new ArrayList<Barrier>();
@@ -50,6 +53,11 @@ public class Player {
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}		
+	
+	public boolean play() {
+		
+		return false;
+	}
 	
 	/*
 	 *  a faire
@@ -148,10 +156,10 @@ public class Player {
 	/**
 	 * @return the pawn
 	 */
-/*	public Pawn getPawn() {
-*		return myPawn;
-*	}
-*/	
+	public Pawn getPawn() {
+		return myPawn;
+	}
+	
 	public void addBarrier(Barrier b) {
 		barriersOnField.add(b);
 	}

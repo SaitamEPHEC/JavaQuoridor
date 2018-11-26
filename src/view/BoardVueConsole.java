@@ -2,18 +2,20 @@ package view;
 
 import java.util.InputMismatchException;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
+
 import controller.BoardController;
 import model.Board;
 
 public class BoardVueConsole extends BoardVue {
 	
 	protected Scanner sc;
+	private Board board = new Board();
 
 	public BoardVueConsole(Board model,
 			BoardController controller) {
 		super(model, controller);
+		this.board = model;
 		update(null, null);
 		sc = new Scanner(System.in);
 		new Thread (new ReadInput()).start();	
@@ -31,11 +33,26 @@ public class BoardVueConsole extends BoardVue {
 		affiche("Pour placer la barriere, tapez les 4 coordonnées de la barrière. Exemple : A 1 B 1 ou A 5 A 6\n");
 	}
 	
+	private void drawBoardConsole() {
+		
+		for(int i = 0;i<this.board.getLength();i++) {
+			for(int j = 0;j<this.board.getLength();j++) {
+				if(j == this.board.getLength()-1) {
+					System.out.println(this.board.getBoard()[i][j]);
+				}
+				else {
+					System.out.print(this.board.getBoard()[i][j]);
+				}
+			}
+		}
+	}
+	
 	
 	
 	//TODO : à MODIFIER avec notre projet
 	private class ReadInput implements Runnable{
 		public void run() {
+			drawBoardConsole();
 			String listeLettres = "ABCDEFGHI";
 			String listeMvmt = "UDRL";
 			while(true){

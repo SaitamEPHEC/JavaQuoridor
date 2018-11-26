@@ -1,19 +1,17 @@
 package test;
-/**
- * @author <a href="mailto:gery.casiez@lifl.fr">Gery Casiez</a>
- * modified by vvds
- */
 
 import controller.BoardController;
 import model.Board;
+import model.Player;
 import view.BoardVueConsole;
-import view.BoardVueGUI;
 
 public class BoardMVC {
+	
 	public BoardMVC() {
 		
 		//Création du modèle
 		Board modele = new Board();
+
 
 		//Création des contrôleurs : Un pour chaque vue
 		//Chaque contrôleur doit avoir une référence vers le modèle pour pouvoir le commander
@@ -39,7 +37,16 @@ public class BoardMVC {
 		//creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				Player joueur1 = new Player();
+				joueur1.getPawn().setPosX(0);
+				joueur1.getPawn().setPosY(8);
+				Player joueur2 = new Player();
+				joueur2.getPawn().setPosX(16);
+				joueur2.getPawn().setPosY(8);
 				new BoardMVC();
+				//j'arrive pas a passer la position du pion 
+				
+				
 			}
 		});
 	}
