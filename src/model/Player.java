@@ -8,12 +8,11 @@ import java.util.Scanner;
  * Projet EPHEC 2TL1 
  */
 public class Player {
-
+	final static int NBR_BARRIER_TOT = 10;
 	protected String nickname;
-	protected int nbrTotBarrier;
 	protected int nbrBarrierLeft;
 	protected ArrayList<Barrier> barriersOnField;
-	protected Pawn myPawn;
+	protected Pawn myPawn = new Pawn();
 	protected static int genericNickname = 10000;
 	Scanner sc = new Scanner(System.in);
 	
@@ -24,8 +23,7 @@ public class Player {
 	public Player(){
 		System.out.println("Quel est le pseudo du joueur ?");
 		this.nickname = sc.nextLine();
-		nbrTotBarrier = 10;
-		nbrBarrierLeft = 10;
+		nbrBarrierLeft = NBR_BARRIER_TOT;
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}
@@ -36,8 +34,7 @@ public class Player {
 	 */
 	public Player(String nickname){
 		this.nickname = nickname;
-		nbrTotBarrier = 10;
-		nbrBarrierLeft = 10;
+		nbrBarrierLeft = NBR_BARRIER_TOT;
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}	
@@ -46,9 +43,8 @@ public class Player {
 	 * 
 	 * Constructeur avec tout configurable
 	 */
-	public Player(String nickname, int nbrTotBarrier, int nbrBarrierLeft){
+	public Player(String nickname, int nbrBarrierLeft){
 		this.nickname = nickname;
-		this.nbrTotBarrier = nbrTotBarrier;
 		this.nbrBarrierLeft = nbrBarrierLeft;
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
@@ -60,51 +56,59 @@ public class Player {
 	}
 	
 	/*
-	 *  a faire
-	 * post :
+	 * 
+	 * post : le pion bouge graphiquement d'une case vers le haut, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
-	public static boolean moveUp() {
-		if (pawn.posY == 10) {return false}
-		myPawn.posY += 2;
-		return true;
+	public boolean moveUp() {
+		if(myPawn.getPosY() == 0) {return false;}
+		else{
+			myPawn.setPosY(myPawn.getPosY() - 2);
+			return true;
+			}
 	}
 	
 	/*
-	 *  a faire
-	 * post :
+	 * 
+	 * post : le pion bouge graphiquement d'une case vers le bas, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
-	public static boolean moveDown() {
-		// pawn.posY -= 2;
-		// if pawn.posY == 0 then false
-		return true;
+	public boolean moveDown() {
+		if(myPawn.getPosY() == 16) {return false;}
+		else{
+			myPawn.setPosY(myPawn.getPosY() + 2);
+			return true;
+			}
 	}
 	
 	/*
-	 *  a faire
-	 * post :
+	 * 
+	 * post : le pion bouge graphiquement d'une case vers la gauche, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
-	public static boolean moveLeft() {
-		// pawn.posX -= 2;
-		// if pawn.posX == 0 then false
-		return true;
+	public boolean moveLeft() {
+		if(myPawn.getPosX() == 0) {return false;}
+		else{
+			myPawn.setPosX(myPawn.getPosX() - 2);
+			return true;
+			}
 	}
 	
 	/*
-	 *  a faire
-	 * post :
+	 * 
+	 * post : le pion bouge graphiquement d'une case vers la droite, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
-	public static boolean moveRight() {
-		// pawn.posX += 2;
-		// if pawn.posX == 10 then false
-		return true;
+	public boolean moveRight() {
+		if(myPawn.getPosX() == 16) {return false;}
+		else{
+			myPawn.setPosX(myPawn.getPosX() + 2);
+			return true;
+			}
 	}	
 
 	/*
 	 *  a faire
 	 * post :
 	 */
-	public static boolean putBarrierOnField() {
-		// modif liste barriersOnField
+	public boolean putBarrierOnField(int x1, int x2, int y1, int y2) {
+		
 		return true;
 	}	
 
@@ -130,13 +134,6 @@ public class Player {
 	 */
 	public String getNickname() {
 		return nickname;
-	}
-
-	/**
-	 * @return the nbrTotBarrier
-	 */
-	public int getNbrTotBarrier() {
-		return nbrTotBarrier;
 	}
 
 	/**
