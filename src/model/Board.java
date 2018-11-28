@@ -73,6 +73,55 @@ public class Board extends Observable {
 		player1.getPawn().getPosX();
 	}
 	
+	
+	/*
+	 * 
+	 * post : le pion bouge graphiquement d'une case vers le haut, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 */
+	public boolean moveUp() {
+		if(myPawn.getPosY() == 0) {return false;}
+		else{
+			myPawn.setPosY(myPawn.getPosY() - 2);
+			return true;
+			}
+	}
+	
+	/*
+	 * 
+	 * post : le pion bouge graphiquement d'une case vers le bas, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 */
+	public boolean moveDown() {
+		if(myPawn.getPosY() == 16) {return false;}
+		else{
+			myPawn.setPosY(myPawn.getPosY() + 2);
+			return true;
+			}
+	}
+	
+	/*
+	 * 
+	 * post : le pion bouge graphiquement d'une case vers la gauche, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 */
+	public boolean moveLeft() {
+		if(myPawn.getPosX() == 0) {return false;}
+		else{
+			myPawn.setPosX(myPawn.getPosX() - 2);
+			return true;
+			}
+	}
+	
+	/*
+	 * 
+	 * post : le pion bouge graphiquement d'une case vers la droite, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 */
+	public boolean moveRight() {
+		if(myPawn.getPosX() == 16) {return false;}
+		else{
+			myPawn.setPosX(myPawn.getPosX() + 2);
+			return true;
+			}
+	}	
+	
 	public String[][] getBoard() {
 		return board;
 	}
@@ -81,27 +130,6 @@ public class Board extends Observable {
 		return this.board.length;
 	}
 	
-	public void boardUpdate(int x, int y, String str) {
-		board[x][y] = str;
-	}
-	
-	public void boardUpdate(int x1, int x2, int y1, int y2, String str) {
-		
-	}
-
-	public void drawBoardConsole() {
-		
-		for(int i = 0;i<this.getLength();i++) {
-			for(int j = 0;j<this.getLength();j++) {
-				if(j == this.getLength()-1) {
-					System.out.println(this.getBoard()[i][j]);
-				}
-				else {
-					System.out.print(this.getBoard()[i][j]);
-				}
-			}
-		}
-	}
 
 	@Override
 	public String toString() {
