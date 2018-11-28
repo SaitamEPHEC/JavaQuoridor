@@ -37,16 +37,7 @@ public class BoardMVC {
 		//creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				Player joueur1 = new Player();
-				joueur1.getPawn().setPosX(0);
-				joueur1.getPawn().setPosY(8);
-				Player joueur2 = new Player();
-				joueur2.getPawn().setPosX(16);
-				joueur2.getPawn().setPosY(8);
 				new BoardMVC();
-				//j'arrive pas a passer la position du pion 
-				
-				
 			}
 		});
 	}

@@ -64,8 +64,8 @@ public class Player {
 	 * post :
 	 */
 	public static boolean moveUp() {
-		// pawn.posY += 2;
-		// if pawn.posY == 10 then false
+		if (pawn.posY == 10) {return false}
+		myPawn.posY += 2;
 		return true;
 	}
 	

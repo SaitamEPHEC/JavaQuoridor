@@ -30,23 +30,25 @@ public class Board extends Observable {
 						board[i][j] = "  ";
 					}
 					else {
-						board[i][j] = "| ";
+						board[i][j] = "  ";
 					}
 					
 				}
 				else {
 					if(j == 16) {
-						board[i][j] = "-";
+						board[i][j] = " ";
 					}
 					else if(j%2==0) {
-						board[i][j] = "--";
+						board[i][j] = "  ";
 					}
 					else {
-						board[i][j] = "+-";
+						board[i][j] = "+ ";
 					}
 				}
 			}
 		}
+		board[0][8] = "P1";
+		board [16][8] = "P2";
 	}
 
 	
@@ -57,13 +59,33 @@ public class Board extends Observable {
 	public int getLength() {
 		return this.board.length;
 	}
-
 	
+	public void boardUpdate(int x, int y, String str) {
+		board[x][y] = str;
+	}
+	
+	public void boardUpdate(int x1, int x2, int y1, int y2, String str) {
+		
+	}
+
+	public void drawBoardConsole() {
+		
+		for(int i = 0;i<this.getLength();i++) {
+			for(int j = 0;j<this.getLength();j++) {
+				if(j == this.getLength()-1) {
+					System.out.println(this.getBoard()[i][j]);
+				}
+				else {
+					System.out.print(this.getBoard()[i][j]);
+				}
+			}
+		}
+	}
 
 	@Override
 	public String toString() {
 		//TODO AFFICHE LE BOARD EN CONSOLE
-		return "Salut Roi Soleil";
+		return "";
 	}
 
 	
