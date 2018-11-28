@@ -56,19 +56,19 @@ public class Board extends Observable {
 		player1.getPawn().setPosX(8);
 		player2.getPawn().setPosY(16);
 		player2.getPawn().setPosX(8);
-		board[0][8] = "P1";
-		board [16][8] = "P2";
-		
+		drawPawn
 		
 	}
 
-	public void drawPawn() {
+	public void drawPawn(int prevPosY, int prevPosX, int posX, int posY) {
 		if(turn.equals(player1)) {
 			board[player1.getPawn().getPosY()][player1.getPawn().getPosX()] = "P1";
+			turn = player2;
 			
 		}
 		else {
 			board[player2.getPawn().getPosY()][player2.getPawn().getPosX()] = "P2";
+			turn = player1;
 		}
 		player1.getPawn().getPosX();
 	}
