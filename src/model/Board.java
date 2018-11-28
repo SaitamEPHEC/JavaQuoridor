@@ -6,8 +6,9 @@ import java.util.Observable;
 
 public class Board extends Observable {
 	private String board[][]= new String [17][17];
-	private int turn;
-	private ArrayList<Player> players;
+	private Player turn;
+	private Player player1;
+	private Player player2;
 	
 	public Board() {
 		super();
@@ -47,10 +48,30 @@ public class Board extends Observable {
 				}
 			}
 		}
+		
+		player1 = new Player();
+		player2 = new Player();
+		
+		player1.getPawn().setPosY(0);
+		player1.getPawn().setPosX(8);
+		player2.getPawn().setPosY(16);
+		player2.getPawn().setPosX(8);
 		board[0][8] = "P1";
 		board [16][8] = "P2";
+		
+		
 	}
 
+	public void drawPawn() {
+		if(turn.equals(player1)) {
+			board[player1.getPawn().getPosY()][player1.getPawn().getPosX()] = "P1";
+			
+		}
+		else {
+			board[player2.getPawn().getPosY()][player2.getPawn().getPosX()] = "P2";
+		}
+		player1.getPawn().getPosX();
+	}
 	
 	public String[][] getBoard() {
 		return board;
