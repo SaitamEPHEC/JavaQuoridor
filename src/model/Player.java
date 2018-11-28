@@ -8,9 +8,8 @@ import java.util.Scanner;
  * Projet EPHEC 2TL1 
  */
 public class Player {
-
+	final static int NBR_BARRIER_TOT = 10;
 	protected String nickname;
-	protected int nbrTotBarrier;
 	protected int nbrBarrierLeft;
 	protected ArrayList<Barrier> barriersOnField;
 	protected Pawn myPawn = new Pawn();
@@ -24,8 +23,7 @@ public class Player {
 	public Player(){
 		System.out.println("Quel est le pseudo du joueur ?");
 		this.nickname = sc.nextLine();
-		nbrTotBarrier = 10;
-		nbrBarrierLeft = 10;
+		nbrBarrierLeft = NBR_BARRIER_TOT;
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}
@@ -36,8 +34,7 @@ public class Player {
 	 */
 	public Player(String nickname){
 		this.nickname = nickname;
-		nbrTotBarrier = 10;
-		nbrBarrierLeft = 10;
+		nbrBarrierLeft = NBR_BARRIER_TOT;
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}	
@@ -46,9 +43,8 @@ public class Player {
 	 * 
 	 * Constructeur avec tout configurable
 	 */
-	public Player(String nickname, int nbrTotBarrier, int nbrBarrierLeft){
+	public Player(String nickname, int nbrBarrierLeft){
 		this.nickname = nickname;
-		this.nbrTotBarrier = nbrTotBarrier;
 		this.nbrBarrierLeft = nbrBarrierLeft;
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
@@ -138,13 +134,6 @@ public class Player {
 	 */
 	public String getNickname() {
 		return nickname;
-	}
-
-	/**
-	 * @return the nbrTotBarrier
-	 */
-	public int getNbrTotBarrier() {
-		return nbrTotBarrier;
 	}
 
 	/**
