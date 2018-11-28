@@ -60,19 +60,10 @@ public class Board extends Observable {
 		
 	}
 
-	public void drawPawn(int prevPosY, int prevPosX, int posX, int posY) {
-		if(turn.equals(player1)) {
-			board[player1.getPawn().getPosY()][player1.getPawn().getPosX()] = "P1";
-			turn = player2;
-			
-		}
-		else {
-			board[player2.getPawn().getPosY()][player2.getPawn().getPosX()] = "P2";
-			turn = player1;
-		}
-		player1.getPawn().getPosX();
+	public void drawPawn(int prevPosY, int prevPosX, int posY, int posX, String p) {
+		board[prevPosY][prevPosX] = "  ";
+		board[posY][posX] = p;
 	}
-	
 	
 	/*
 	 * 
