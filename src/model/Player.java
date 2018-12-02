@@ -54,54 +54,6 @@ public class Player {
 		
 		return false;
 	}
-	
-	/*
-	 * 
-	 * post : le pion bouge graphiquement d'une case vers le haut, retour true si pas d'erreur, false si erreur (rentre dans un mur)
-	 */
-	public boolean moveUp() {
-		if(myPawn.getPosY() == 0) {return false;}
-		else{
-			myPawn.setPosY(myPawn.getPosY() - 2);
-			return true;
-			}
-	}
-	
-	/*
-	 * 
-	 * post : le pion bouge graphiquement d'une case vers le bas, retour true si pas d'erreur, false si erreur (rentre dans un mur)
-	 */
-	public boolean moveDown() {
-		if(myPawn.getPosY() == 16) {return false;}
-		else{
-			myPawn.setPosY(myPawn.getPosY() + 2);
-			return true;
-			}
-	}
-	
-	/*
-	 * 
-	 * post : le pion bouge graphiquement d'une case vers la gauche, retour true si pas d'erreur, false si erreur (rentre dans un mur)
-	 */
-	public boolean moveLeft() {
-		if(myPawn.getPosX() == 0) {return false;}
-		else{
-			myPawn.setPosX(myPawn.getPosX() - 2);
-			return true;
-			}
-	}
-	
-	/*
-	 * 
-	 * post : le pion bouge graphiquement d'une case vers la droite, retour true si pas d'erreur, false si erreur (rentre dans un mur)
-	 */
-	public boolean moveRight() {
-		if(myPawn.getPosX() == 16) {return false;}
-		else{
-			myPawn.setPosX(myPawn.getPosX() + 2);
-			return true;
-			}
-	}	
 
 	/*
 	 *  a faire

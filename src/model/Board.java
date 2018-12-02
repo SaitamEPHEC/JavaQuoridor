@@ -56,7 +56,6 @@ public class Board extends Observable {
 		player1.getPawn().setPosX(8);
 		player2.getPawn().setPosY(16);
 		player2.getPawn().setPosX(8);
-		drawPawn
 		
 	}
 
