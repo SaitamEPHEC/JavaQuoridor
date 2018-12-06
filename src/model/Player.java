@@ -8,13 +8,13 @@ import java.util.Scanner;
  * Projet EPHEC 2TL1 
  */
 public class Player {
-	final static int NBR_BARRIER_TOT = 10;
-	protected String nickname;
-	protected int nbrBarrierLeft;
-	protected ArrayList<Barrier> barriersOnField;
-	protected Pawn myPawn = new Pawn();
-	protected static int genericNickname = 10000;
-	Scanner sc = new Scanner(System.in);
+	private final static int NBR_BARRIER_TOT = 10;
+	private String nickname;
+	private int nbrBarrierLeft;
+	private ArrayList<Barrier> barriersOnField;
+	private Pawn myPawn;
+	private static int genericNickname = 10000;
+	private Scanner sc = new Scanner(System.in);
 	
 	/*
 	 * 

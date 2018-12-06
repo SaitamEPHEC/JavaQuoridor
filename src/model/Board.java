@@ -15,11 +15,12 @@ public class Board extends Observable {
 		initiateBoardConsole();
 	}
 	
-	public Board(String[][] board, int turn, ArrayList<Player> players) {
+	public Board(String[][] board, Player turn, Player player1, Player player2) {
 		super();
 		this.board = board;
 		this.turn = turn;
-		this.players = players;
+		this.player1 = player1;
+		this.player2 = player2;
 	}
 	
 	
@@ -27,23 +28,24 @@ public class Board extends Observable {
 		for(int i=0; i<board.length; i++) {
 			for(int j=0; j<board[0].length; j++) {
 				if(i%2 == 0)  {
+					//Emplacement Pion
 					if(j%2==0) {
 						board[i][j] = "  ";
 					}
+					//Emplacement Barriere
 					else {
-						board[i][j] = "  ";
+						board[i][j] = "   ";
 					}
 					
 				}
 				else {
-					if(j == 16) {
-						board[i][j] = " ";
-					}
-					else if(j%2==0) {
+					//Emplacement Barriere
+					if(j%2==0) {
 						board[i][j] = "  ";
 					}
+					//Emplacement ni Barriere ni Pion
 					else {
-						board[i][j] = "+ ";
+						board[i][j] = " + ";
 					}
 				}
 			}
@@ -57,11 +59,28 @@ public class Board extends Observable {
 		player2.getPawn().setPosY(16);
 		player2.getPawn().setPosX(8);
 		
+		drawP1(0,0,player1.getPawn().getPosY(),player1.getPawn().getPosX());
+		drawP2(0,0,player2.getPawn().getPosY(),player2.getPawn().getPosX());
 	}
 
-	public void drawPawn(int prevPosY, int prevPosX, int posY, int posX, String p) {
+	/*
+	 * @pre : Les positions Y et X precedentes du pion, les nouvelles positions Y et X du pion
+	 * 		  et une string p qui sera la representation du pion du joueur 1.
+	 * @post : Modifie le board en retirant le pion de sa position YX precedente et en le mettant a sa nouvelle position YX
+	 */
+	public void drawP1(int prevPosY, int prevPosX, int posY, int posX) {
 		board[prevPosY][prevPosX] = "  ";
-		board[posY][posX] = p;
+		board[posY][posX] = "P1";
+	}
+	
+	/*
+	 * @pre : Les positions Y et X precedentes du pion, les nouvelles positions Y et X du pion
+	 * 		  et une string p qui sera la representation du pion du joueur 2..
+	 * @post : Modifie le board en retirant le pion de sa position YX precedente et en le mettant a sa nouvelle position YX
+	 */
+	public void drawP2(int prevPosY, int prevPosX, int posY, int posX) {
+		board[prevPosY][prevPosX] = "  ";
+		board[posY][posX] = "P2";
 	}
 	
 	/*
