@@ -98,6 +98,30 @@ public class BoardVueConsole extends BoardVue {
 								affiche("Mouvement incorrect, entrez U pour monter, D pour descendre, L pour aller à gauche, et R pour aller à droite\n");
 								printHelp();
 							}
+							else {
+								switch(m) {
+									case "U" : 
+										board.moveUp();
+										drawBoardConsole();
+										break;
+									case "D" : 
+										board.moveDown();
+										drawBoardConsole();
+										break;
+									case "L" : 
+										board.moveLeft();
+										drawBoardConsole();
+										break;
+									case "R" : 
+										board.moveRight();
+										drawBoardConsole();
+										break;
+									default :
+										affiche("Mouvement incorrect, entrez U pour monter, D pour descendre, L pour aller à gauche, et R pour aller à droite\n");
+										printHelp();
+								}
+								
+							}
 							break;
 						default : 
 							affiche("Operation incorrecte; entrez \"B\" pour placer une barriere, ou \"P\" pour déplacer votre pion\n");

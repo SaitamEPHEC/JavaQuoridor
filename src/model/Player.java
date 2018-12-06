@@ -21,8 +21,8 @@ public class Player {
 	 * Constructeur par default
 	 */
 	public Player(){
-		System.out.println("Quel est le pseudo du joueur ?");
-		this.nickname = sc.nextLine();
+		/*System.out.println("Quel est le pseudo du joueur ?");
+		this.nickname = sc.nextLine();*/
 		nbrBarrierLeft = NBR_BARRIER_TOT;
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
