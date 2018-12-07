@@ -28,8 +28,8 @@ public class BoardVueConsole extends BoardVue {
 	
 	private void printHelp(){
 		affiche("Pour déplacer votre pion, Entrez \"P\" puis appuyez sur Enter.\n"
-				+ "Ensuite, tapez \"U\" pour déplacer votre pion d'une case en haut, \"D\" pour déplacer votre pion d'une case en bas\n"
-				+ ", \"L\" pour déplacer votre pion d'une case à gauche et \"R\" pour déplacer votre pion d'une case à droite \n");
+				+ "Ensuite, tapez \"U\" pour déplacer votre pion d'une case en haut, \"D\" pour déplacer votre pion d'une case en bas,\n"
+				+ "\"L\" pour déplacer votre pion d'une case à gauche et \"R\" pour déplacer votre pion d'une case à droite \n");
 		affiche("Pour placer une barrière, Entrez \"B\" puis appuyez sur Enter.\n"
 				+ "Ensuite, tapez les 4 coordonnées de la barrière suivant les coordonnées possible sur le plateau de jeu"
 				+ ". Exemple : A 1 B 1 ou A 5 A 6\n");
