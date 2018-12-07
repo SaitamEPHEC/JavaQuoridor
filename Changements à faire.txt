@@ -1,8 +1,7 @@
-Modifier l'UML : 
+- Actualiser l'UML 
 
-- rajouter une méthode main() dans la classe Board()
+- S'occuper de pouvoir ajouter des barrières sur le board
 
-- Nicky : - Ajouter dans l'UML les méthodes que tu ajoutes dans le code (genre les méthodes addBarrier(barrier b), removeBarreir(barrier b), etc...
-	qui ne sont pas dans l'UML de base)
-FAIT	- T'as aussi oublié la fonction "getBarriersOnField() : List<Barrier>" qui permet d'avoir la liste des barrières sur le board à un moment donné.
-FAIT	- Retirer la méthode main() dans la classe Player ? Vu qu'on va juste créer des méthodes dans Player() qui seront ensuites appelées dans la main() de la classe Board?
+- Un cas qui coince pour le déplacement des pions : lorsque 2 pions se font face à face, il faut qu'un pion puisse sauter au-dessus de l'autre.
+
+- Un cas qui coincera :  lorsque 2 pions se font face à face si une barrière est derrière un des pion, il doit être possible de sauter en diagonale pour l'autre.

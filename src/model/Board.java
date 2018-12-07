@@ -76,6 +76,8 @@ public class Board extends Observable {
 	public void drawP1(int prevPosY, int prevPosX, int posY, int posX) {
 		board[prevPosY][prevPosX] = "  ";
 		board[posY][posX] = "P1";
+		setP1Y(posY);
+		setP1X(posX);
 	}
 	
 	/*
@@ -86,37 +88,43 @@ public class Board extends Observable {
 	public void drawP2(int prevPosY, int prevPosX, int posY, int posX) {
 		board[prevPosY][prevPosX] = "  ";
 		board[posY][posX] = "P2";
+		setP2Y(posY);
+		setP2X(posX);
 	}
 	
 	/*
 	 * 
 	 * post : le pion bouge graphiquement d'une case vers le haut, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
-	public boolean moveUp() {
+	public int moveUp() {
 		if(turn.equals(player1)){
+			//P1 est bloque contre le bord superieur du board
 			if(getP1Y() == 0){
-				return false;
+				return 1;
 			}
+			//P1 est bloque par une barriere au-dessus
 			else if(board[getP1Y()-1][getP1X()] == "――") {
-				return false;
+				return 2;
 			}
 			else{
-				drawP1(getP1Y(),getP1X(),getP1Y()-1,getP1X());
+				drawP1(getP1Y(),getP1X(),getP1Y()-2,getP1X());
 				turn = player2;
-				return true;
+				return 0;
 			}
 		}
 		else{
+			//P2 est bloque contre le bord superieur du board
 			if(getP2Y() == 0) {
-				return false;
+				return 3;
 			}
+			//P2 est bloque par une barriere au-dessus
 			else if(board[getP2Y()-1][getP2X()] == "――") {
-				return false;
+				return 4;
 			}
 			else{
-				drawP2(getP2Y(),getP2X(),getP2Y()-1,getP2X());
+				drawP2(getP2Y(),getP2X(),getP2Y()-2,getP2X());
 				turn = player1;
-				return true;
+				return 0;
 			}
 		}
 	}
@@ -125,31 +133,35 @@ public class Board extends Observable {
 	 * 
 	 * post : le pion bouge graphiquement d'une case vers le bas, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
-	public boolean moveDown() {
+	public int moveDown() {
 		if(turn.equals(player1)) {
+			//P1 est bloque contre le bord inferieur du board
 			if(getP1Y() == 16) {
-				return false;
+				return 1;
 			}
+			//P1 est bloque par une barriere en-dessous
 			else if(board[getP1Y()+1][getP1X()] == "――"){
-				return false;
+				return 2;
 			}
 			else{
-				drawP1(getP1Y(),getP1X(),getP1Y()+1,getP1X());
+				drawP1(getP1Y(),getP1X(),getP1Y()+2,getP1X());
 				turn = player2;
-				return true;
+				return 0;
 			}
 		}
 		else{
+			//P2 est bloque contre le bord inferieur du board
 			if(getP2Y() == 16) {
-				return false;
+				return 3;
 			}
+			//P2 est bloque par une barriere en-dessous
 			else if(board[getP2Y()+1][getP2X()] == "――") {
-				return false;
+				return 4;
 			}
 			else{
-				drawP2(getP2Y(),getP2X(),getP2Y()+1,getP2X());
+				drawP2(getP2Y(),getP2X(),getP2Y()+2,getP2X());
 				turn = player1;
-				return true;
+				return 0;
 			}
 		}
 	}
@@ -158,31 +170,35 @@ public class Board extends Observable {
 	 * 
 	 * post : le pion bouge graphiquement d'une case vers la gauche, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
-	public boolean moveLeft() {
+	public int moveLeft() {
 		if(turn.equals(player1)) {
+			//P1 est bloque contre le bord gauche du board
 			if(getP1X() == 0) {
-				return false;
+				return 1;
 			}
+			//P1 est bloque par une barriere a gauche
 			else if(board[getP1Y()][getP1X()-1] == " | "){
-				return false;
+				return 2;
 			}
 			else{
-				drawP1(getP1Y(),getP1X(),getP1Y(),getP1X()-1);
+				drawP1(getP1Y(),getP1X(),getP1Y(),getP1X()-2);
 				turn = player2;
-				return true;
+				return 0;
 			}
 		}
 		else{
+			//P2 est bloque contre le bord gauche du board
 			if(getP2X() == 0) {
-				return false;
+				return 3;
 			}
+			//P2 est bloque par une barriere a gauche
 			else if(board[getP2Y()][getP2X()-1] == " | "){
-				return false;
+				return 4;
 			}
 			else{
-				drawP1(getP2Y(),getP2X(),getP2Y(),getP2X()-1);
+				drawP2(getP2Y(),getP2X(),getP2Y(),getP2X()-2);
 				turn = player1;
-				return true;
+				return 0;
 			}
 		}
 	}
@@ -191,31 +207,35 @@ public class Board extends Observable {
 	 * 
 	 * post : le pion bouge graphiquement d'une case vers la droite, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
-	public boolean moveRight() {
+	public int moveRight() {
 		if(turn.equals(player1)) {
-			if(getP1X() == 0) {
-				return false;
+			//P1 est bloque contre le bord droit du board
+			if(getP1X() == 16) {
+				return 1;
 			}
+			//P1 est bloque par une barriere a droite
 			else if(board[getP1Y()][getP1X()+1] == " | "){
-				return false;
+				return 2;
 			}
 			else{
-				drawP1(getP1Y(),getP1X(),getP1Y(),getP1X()+1);
+				drawP1(getP1Y(),getP1X(),getP1Y(),getP1X()+2);
 				turn = player2;
-				return true;
+				return 0;
 			}
 		}
 		else{
-			if(getP2X() == 0) {
-				return false;
+			//P2 est bloque contre le bord droit du board
+			if(getP2X() == 16) {
+				return 3;
 			}
+			//P2 est bloque par une barriere a droite
 			else if(board[getP2Y()][getP2X()+1] == " | "){
-				return false;
+				return 4;
 			}
 			else{
-				drawP1(getP2Y(),getP2X(),getP2Y(),getP2X()+1);
+				drawP2(getP2Y(),getP2X(),getP2Y(),getP2X()+2);
 				turn = player1;
-				return true;
+				return 0;
 			}
 		}
 	}	
@@ -264,7 +284,7 @@ public class Board extends Observable {
 	}
 	
 	/*
-	 * @pre : Un entier y représentant la nouvelle position y du pion du joueur 1
+	 * @pre : Un entier y reprÃ©sentant la nouvelle position y du pion du joueur 1
 	 * @post : Modifie la position Y du pion du joueur 1
 	 */
 	public void setP1Y(int y) {
@@ -272,7 +292,7 @@ public class Board extends Observable {
 	}
 	
 	/*
-	 * @pre : Un entier x représentant la nouvelle position x du pion du joueur 1
+	 * @pre : Un entier x reprÃ©sentant la nouvelle position x du pion du joueur 1
 	 * @post : Modifie la position X du pion du joueur 1
 	 */
 	public void setP1X(int x) {
@@ -280,7 +300,7 @@ public class Board extends Observable {
 	}
 	
 	/*
-	 * @pre : Un entier y représentant la nouvelle position y du pion du joueur 2
+	 * @pre : Un entier y reprÃ©sentant la nouvelle position y du pion du joueur 2
 	 * @post : Modifie la position Y du pion du joueur 2
 	 */
 	public void setP2Y(int y) {
@@ -288,7 +308,7 @@ public class Board extends Observable {
 	}
 	
 	/*
-	 * @pre : Un entier x représentant la nouvelle position x du pion du joueur 2
+	 * @pre : Un entier x reprÃ©sentant la nouvelle position x du pion du joueur 2
 	 * @post : Modifie la position X du pion du joueur 2
 	 */
 	public void setP2X(int x) {
