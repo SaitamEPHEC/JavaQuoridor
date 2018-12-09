@@ -66,6 +66,8 @@ public class Board extends Observable {
 		
 		//le joueur 1 commence
 		turn = player1;
+		setChanged();
+		notifyObservers();
 	}
 	
 	/*
@@ -78,6 +80,8 @@ public class Board extends Observable {
 		board[posY][posX] = "P1";
 		setP1Y(posY);
 		setP1X(posX);
+		setChanged();
+		notifyObservers();
 	}
 	
 	/*
@@ -90,6 +94,8 @@ public class Board extends Observable {
 		board[posY][posX] = "P2";
 		setP2Y(posY);
 		setP2X(posX);
+		setChanged();
+		notifyObservers();
 	}
 	
 	/*
@@ -104,11 +110,15 @@ public class Board extends Observable {
 				player1.addBarrier(barrier);
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
 				turn = player2;
+				setChanged();
+				notifyObservers();
 			}
 			else {
 				player2.addBarrier(barrier);
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
 				turn = player1;
+				setChanged();
+				notifyObservers();
 			}
 	}
 	
@@ -124,11 +134,15 @@ public class Board extends Observable {
 				player1.addBarrier(barrier);
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
 				turn = player2;
+				setChanged();
+				notifyObservers();
 			}
 			else {
 				player2.addBarrier(barrier);
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
 				turn = player1;
+				setChanged();
+				notifyObservers();
 			}
 	}
 	
@@ -149,6 +163,8 @@ public class Board extends Observable {
 			else{
 				drawP1(getP1Y(),getP1X(),getP1Y()-2,getP1X());
 				turn = player2;
+				setChanged();
+				notifyObservers();
 				return 0;
 			}
 		}
@@ -164,6 +180,8 @@ public class Board extends Observable {
 			else{
 				drawP2(getP2Y(),getP2X(),getP2Y()-2,getP2X());
 				turn = player1;
+				setChanged();
+				notifyObservers();
 				return 0;
 			}
 		}
@@ -186,6 +204,8 @@ public class Board extends Observable {
 			else{
 				drawP1(getP1Y(),getP1X(),getP1Y()+2,getP1X());
 				turn = player2;
+				setChanged();
+				notifyObservers();
 				return 0;
 			}
 		}
@@ -201,6 +221,8 @@ public class Board extends Observable {
 			else{
 				drawP2(getP2Y(),getP2X(),getP2Y()+2,getP2X());
 				turn = player1;
+				setChanged();
+				notifyObservers();
 				return 0;
 			}
 		}
@@ -223,6 +245,8 @@ public class Board extends Observable {
 			else{
 				drawP1(getP1Y(),getP1X(),getP1Y(),getP1X()-2);
 				turn = player2;
+				setChanged();
+				notifyObservers();
 				return 0;
 			}
 		}
@@ -238,6 +262,8 @@ public class Board extends Observable {
 			else{
 				drawP2(getP2Y(),getP2X(),getP2Y(),getP2X()-2);
 				turn = player1;
+				setChanged();
+				notifyObservers();
 				return 0;
 			}
 		}
@@ -260,6 +286,8 @@ public class Board extends Observable {
 			else{
 				drawP1(getP1Y(),getP1X(),getP1Y(),getP1X()+2);
 				turn = player2;
+				setChanged();
+				notifyObservers();
 				return 0;
 			}
 		}
@@ -275,6 +303,8 @@ public class Board extends Observable {
 			else{
 				drawP2(getP2Y(),getP2X(),getP2Y(),getP2X()+2);
 				turn = player1;
+				setChanged();
+				notifyObservers();
 				return 0;
 			}
 		}
@@ -286,13 +316,6 @@ public class Board extends Observable {
 	
 	public int getLength() {
 		return this.board.length;
-	}
-	
-
-	@Override
-	public String toString() {
-		//TODO AFFICHE LE BOARD EN CONSOLE
-		return "";
 	}
 	
 	/*
@@ -324,7 +347,7 @@ public class Board extends Observable {
 	}
 	
 	/*
-	 * @pre : Un entier y reprÃ©sentant la nouvelle position y du pion du joueur 1
+	 * @pre : Un entier y representant la nouvelle position y du pion du joueur 1
 	 * @post : Modifie la position Y du pion du joueur 1
 	 */
 	public void setP1Y(int y) {
@@ -332,7 +355,7 @@ public class Board extends Observable {
 	}
 	
 	/*
-	 * @pre : Un entier x reprÃ©sentant la nouvelle position x du pion du joueur 1
+	 * @pre : Un entier x representant la nouvelle position x du pion du joueur 1
 	 * @post : Modifie la position X du pion du joueur 1
 	 */
 	public void setP1X(int x) {
@@ -340,7 +363,7 @@ public class Board extends Observable {
 	}
 	
 	/*
-	 * @pre : Un entier y reprÃ©sentant la nouvelle position y du pion du joueur 2
+	 * @pre : Un entier y representant la nouvelle position y du pion du joueur 2
 	 * @post : Modifie la position Y du pion du joueur 2
 	 */
 	public void setP2Y(int y) {
@@ -348,7 +371,7 @@ public class Board extends Observable {
 	}
 	
 	/*
-	 * @pre : Un entier x reprÃ©sentant la nouvelle position x du pion du joueur 2
+	 * @pre : Un entier x representant la nouvelle position x du pion du joueur 2
 	 * @post : Modifie la position X du pion du joueur 2
 	 */
 	public void setP2X(int x) {
