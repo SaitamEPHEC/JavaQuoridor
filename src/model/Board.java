@@ -12,6 +12,9 @@ public class Board extends Observable {
 	private Player player2;
 	private ArrayList<Barrier> barriersOnBoard;
 	private int numberBarriersOnBoard = 0;
+	private String contours[][]= new String [17][17];
+	private String premiereLigneContours = "123456789000";
+	private String lettreContours = "HHGGFFEEDDCCBBAA000";
 	
 	public Board(){
 		super();
@@ -57,6 +60,10 @@ public class Board extends Observable {
 			}
 		}
 		
+		//Initialise le contours "aide" du board 
+		initiateContours();
+		
+		
 		//Initialise les 2 joueurs
 		player1 = new Player();
 		player2 = new Player();
@@ -75,6 +82,51 @@ public class Board extends Observable {
 		turn = player1;
 		setChanged();
 		notifyObservers();
+	}
+	
+	public void initiateContours() {
+		int k = 0;
+		int m = 0;
+		for(int i=0; i<contours.length; i++) {
+			for(int j=0; j<contours[0].length; j++) {
+				if(i == 0 && j%2 != 0 && j != 0)  {
+					// 1ere ligne
+					if(j == contours.length-2) {
+						contours[i][j] = Character.toString(premiereLigneContours.charAt(m)) + "    9";
+					}
+					else {
+						contours[i][j] = Character.toString(premiereLigneContours.charAt(m)) + "    ";
+					}
+					m++;
+				}
+				
+				else if(i == contours.length-1 && j == 0 ) {
+					contours[i][j] = "A";
+				}
+				
+				else if(i == 0 && j%2 == 0) {
+					contours[i][j] = "";
+				}
+				
+				else if(j == 0) {//1ere colonne	
+					contours[i][j] = (Character.toString(lettreContours.charAt(k)));
+					k++;
+				}
+				
+				else if(j == (contours.length-1)) {
+					contours[i][j] = "";
+				}
+				
+				else {
+					contours[i][j] = "";
+				}
+			}
+		}
+		contours[0][0] = "   ";
+	}
+	
+	public String[][] getContours() {
+		return contours;
 	}
 	
 	/*

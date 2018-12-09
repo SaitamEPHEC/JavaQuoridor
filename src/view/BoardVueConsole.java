@@ -23,14 +23,43 @@ public class BoardVueConsole extends BoardVue {
 	
 	@Override
 	public void update(Observable o, Object arg) {
+		String[][] temp = this.board.getContours();
 		printHelp();
+/*		for(int i = 0;i<this.board.getLength();i++) {
+	*		for(int j = 0;j<this.board.getLength();j++) {
+	*			if(j == this.board.getLength()-1) {
+	*				System.out.println(this.board.getBoard()[i][j]);
+	*			}
+	*			else {
+	*				System.out.print(this.board.getBoard()[i][j]);
+	*			}
+	*		}
+	*	}	
+	*/
 		for(int i = 0;i<this.board.getLength();i++) {
 			for(int j = 0;j<this.board.getLength();j++) {
-				if(j == this.board.getLength()-1) {
-					System.out.println(this.board.getBoard()[i][j]);
+				if(i == 0 && j == 0) { // premiere case
+					for(int l = 0;l<temp.length-1;l++) { // premiere ligne de contour
+						System.out.print(temp[i][l]); // affiche 1 a 8
+					}
+					System.out.println(temp[i][temp.length-1]); // affiche 9 + \n
+					//System.out.println("");
+					System.out.print("I");
 				}
-				else {
-					System.out.print(this.board.getBoard()[i][j]);
+				else { // board normal plus contour
+					if(j == 0 && (i%2 == 0)){ // premiere colonne contour
+						System.out.print(temp[i][j]); // H - A
+					}
+					if(j == 0 && (i%2 != 0)) { // allignement des lignes sans lettres
+						System.out.print("   ");
+					}
+						
+					if(j == (this.board.getLength()-1)) {
+						System.out.println(this.board.getBoard()[i][j]); // board
+					}
+					else {
+						System.out.print(this.board.getBoard()[i][j]); // board
+					}
 				}
 			}
 		}	
