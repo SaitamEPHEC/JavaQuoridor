@@ -31,7 +31,7 @@ public class Player {
 
 	/*
 	 * 
-	 * Constructeur avec juste nickname
+	 * Constructeur avec pseudo
 	 */
 	public Player(String nickname){
 		this.nickname = nickname;

@@ -23,7 +23,17 @@ public class BoardVueConsole extends BoardVue {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println(model);	
+		printHelp();
+		for(int i = 0;i<this.board.getLength();i++) {
+			for(int j = 0;j<this.board.getLength();j++) {
+				if(j == this.board.getLength()-1) {
+					System.out.println(this.board.getBoard()[i][j]);
+				}
+				else {
+					System.out.print(this.board.getBoard()[i][j]);
+				}
+			}
+		}	
 	}
 	
 	private void printHelp(){
@@ -34,29 +44,12 @@ public class BoardVueConsole extends BoardVue {
 				+ "Ensuite, tapez les 4 coordonnées de la barrière suivant les coordonnées possible sur le plateau de jeu"
 				+ ". Exemple : A 1 B 1 ou A 5 A 6\n");
 	}
-	
-	private void drawBoardConsole() {
-		
-		for(int i = 0;i<this.board.getLength();i++) {
-			for(int j = 0;j<this.board.getLength();j++) {
-				if(j == this.board.getLength()-1) {
-					System.out.println(this.board.getBoard()[i][j]);
-				}
-				else {
-					System.out.print(this.board.getBoard()[i][j]);
-				}
-			}
-		}
-	}
-	
-	
+
 	
 	//TODO : à MODIFIER avec notre projet
 	private class ReadInput implements Runnable{
 		public void run() {
 			String listeLettres = "ABCDEFGHI";
-			printHelp();
-			drawBoardConsole();
 			while(true){
 				try {
 					String c = sc.next().toUpperCase();
@@ -139,13 +132,9 @@ public class BoardVueConsole extends BoardVue {
 										else {
 											if(posY1 == posY2) {
 												board.drawBarrierH(posY1, posX1, posY2, posX2);
-												printHelp();
-												drawBoardConsole();
 											}
 											else if(posX1 == posX2) {
 												board.drawBarrierV(posY1, posX1, posY2, posX2);
-												printHelp();
-												drawBoardConsole();
 											}
 										}
 									}
@@ -180,8 +169,6 @@ public class BoardVueConsole extends BoardVue {
 										printHelp();
 										break;
 									default : //Mouvement correct 
-										printHelp();
-										drawBoardConsole();
 										break;
 									}
 									break;
@@ -207,8 +194,6 @@ public class BoardVueConsole extends BoardVue {
 										printHelp();
 										break;
 									default : //Mouvement correct 
-										printHelp();
-										drawBoardConsole();
 										break;
 									}
 									break;
@@ -234,8 +219,6 @@ public class BoardVueConsole extends BoardVue {
 										printHelp();
 										break;
 									default : //Mouvement correct
-										printHelp();
-										drawBoardConsole();
 										break;
 									}
 									break;
@@ -261,8 +244,6 @@ public class BoardVueConsole extends BoardVue {
 										printHelp();
 										break;
 									default : //Mouvement correct 
-										printHelp();
-										drawBoardConsole();
 										break;
 									}
 									break;
