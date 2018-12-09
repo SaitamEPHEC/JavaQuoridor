@@ -13,7 +13,6 @@ public class Board extends Observable {
 	private Player turn;
 	private Player player1;
 	private Player player2;
-	// petit test
 	
 	public Board() {
 		super();
