@@ -5,9 +5,15 @@ import java.util.Observable;
 
 public class Board extends Observable {
 	private String board[][]= new String [17][17];
+	private String contours[][]= new String [17][17];
+	private String premiereLigneContours = "    A B C D E F G H I J  ";
+	private String derniereLigneContours = "    __________________________________";
+	private String chiffreContours = "1234567890";
+	private int k = 0;	
 	private Player turn;
 	private Player player1;
 	private Player player2;
+	// petit test
 	
 	public Board() {
 		super();
@@ -23,7 +29,7 @@ public class Board extends Observable {
 	}
 	
 	
-	public void initiateBoardConsole() {
+	public void initiateBoardConsole() { // board jouable 
 		for(int i=0; i<board.length; i++) {
 			for(int j=0; j<board[0].length; j++) {
 				if(i%2 == 0)  {
@@ -46,6 +52,36 @@ public class Board extends Observable {
 					else {
 						board[i][j] = " + ";
 					}
+				}
+			}
+		}
+		
+		for(int i=0; i<contours.length; i++) { // board de contour avec chiffres et lettres
+			for(int j=0; j<contours[0].length; j++) {
+				if(i == 0)  {
+					// 1ere ligne
+					contours[i][j] = Character.toString(premiereLigneContours.charAt(j));
+				}
+				else if(i == (contours.length-1)) {
+					// derniere ligne
+					contours[i][j] = Character.toString(derniereLigneContours.charAt(j));
+				}
+					//1ere colonne
+				else if(j == 0 && (i%2 == 0)){
+						contours[i][j] = (Character.toString(chiffreContours.charAt(k)) + " |");
+						k++;
+				}
+				
+				else if(j == 0) {
+					contours[i][j] = "  |";
+				}
+				
+				else if(j == (contours.length-1)) {
+					contours[i][j] = " |";
+				}
+
+				else {
+					contours[i][j] = "X";
 				}
 			}
 		}
