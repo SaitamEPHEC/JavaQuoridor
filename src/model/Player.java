@@ -11,7 +11,7 @@ public class Player {
 	private final static int NBR_BARRIER_TOT = 10;
 	private String nickname;
 	private int nbrBarrierLeft;
-	private ArrayList<Barrier> barriersOnField;
+	private ArrayList<Barrier> barriersOfThePlayer;
 	private Pawn myPawn;
 	private Scanner sc = new Scanner(System.in);
 	private static int playerCounter = 1;
@@ -25,7 +25,7 @@ public class Player {
 		this.nickname = sc.nextLine();
 		playerCounter++;
 		nbrBarrierLeft = NBR_BARRIER_TOT;
-		barriersOnField = new ArrayList<Barrier>();
+		barriersOfThePlayer = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}
 
@@ -36,7 +36,7 @@ public class Player {
 	public Player(String nickname){
 		this.nickname = nickname;
 		nbrBarrierLeft = NBR_BARRIER_TOT;
-		barriersOnField = new ArrayList<Barrier>();
+		barriersOfThePlayer = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}	
 
@@ -47,7 +47,7 @@ public class Player {
 	public Player(String nickname, int nbrBarrierLeft){
 		this.nickname = nickname;
 		this.nbrBarrierLeft = nbrBarrierLeft;
-		barriersOnField = new ArrayList<Barrier>();
+		barriersOfThePlayer = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}		
 	
@@ -99,8 +99,8 @@ public class Player {
 	/**
 	 * @return the nbrBarrierLeft
 	 */
-	public ArrayList<Barrier> getBarriersOnField() {
-		return barriersOnField;
+	public ArrayList<Barrier> getBarriersOfThePlayer() {
+		return barriersOfThePlayer;
 	}	
 
 	/**
@@ -111,15 +111,11 @@ public class Player {
 	}
 	
 	public void addBarrier(Barrier b) {
-		barriersOnField.add(b);
+		barriersOfThePlayer.add(b);
 	}
 	
 	public void removeBarrier(Barrier b) {
-		barriersOnField.remove(b);
-	}
-	
-	public int getNumBarrier() {
-		return barriersOnField.size();
+		barriersOfThePlayer.remove(b);
 	}
 	
 	public void setNbrBarrierLeft(int nbr) {

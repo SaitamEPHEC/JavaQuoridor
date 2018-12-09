@@ -37,16 +37,16 @@ public class BoardVueConsole extends BoardVue {
 	}
 	
 	private void printHelp(){
-		affiche("Pour dÈplacer votre pion, Entrez \"P\" puis appuyez sur Enter.\n"
-				+ "Ensuite, tapez \"U\" pour dÈplacer votre pion d'une case en haut, \"D\" pour dÈplacer votre pion d'une case en bas,\n"
-				+ "\"L\" pour dÈplacer votre pion d'une case ‡ gauche et \"R\" pour dÈplacer votre pion d'une case ‡ droite \n");
-		affiche("Pour placer une barriËre, Entrez \"B\" puis appuyez sur Enter.\n"
-				+ "Ensuite, tapez les 4 coordonnÈes de la barriËre suivant les coordonnÈes possible sur le plateau de jeu"
+		affiche("Pour d√©placer votre pion, Entrez \"P\" puis appuyez sur Enter.\n"
+				+ "Ensuite, tapez \"U\" pour d√©placer votre pion d'une case en haut, \"D\" pour d√©placer votre pion d'une case en bas,\n"
+				+ "\"L\" pour d√©placer votre pion d'une case √† gauche et \"R\" pour d√©placer votre pion d'une case √† droite \n");
+		affiche("Pour placer une barri√®re, Entrez \"B\" puis appuyez sur Enter.\n"
+				+ "Ensuite, tapez les 4 coordonn√©es de la barri√®re suivant les coordonn√©es possible sur le plateau de jeu"
 				+ ". Exemple : A 1 B 1 ou A 5 A 6\n");
 	}
 
 	
-	//TODO : ‡ MODIFIER avec notre projet
+	//TODO : √† MODIFIER avec notre projet
 	private class ReadInput implements Runnable{
 		public void run() {
 			String listeLettres = "ABCDEFGHI";
@@ -58,14 +58,14 @@ public class BoardVueConsole extends BoardVue {
 							
 								boolean isBarrier = true; //si reste true, les chiffres et lettres sont valides par rapport au board
 								
-								int posY1 = 0; //Position Y1 de la barriere qui sera remplie si l'utilisateur entre une lettre valide
-								int posX1 = 0; //Position X1 de la barriere qui sera remplie si l'utilisateur entre un chiffre valide
-								int posY2 = 0; //Position Y2 de la barriere qui sera remplie si l'utilisateur entre une lettre valide
-								int posX2 = 0; //Position X2 de la barriere qui sera remplie si l'utilisateur entre un chiffre valide
+								int posY1 = 0; //Position Y1 de la barriere dans le board qui sera remplie si l'utilisateur entre une lettre valide
+								int posX1 = 0; //Position X1 de la barriere dans le board qui sera remplie si l'utilisateur entre un chiffre valide
+								int posY2 = 0; //Position Y2 de la barriere dans le board qui sera remplie si l'utilisateur entre une lettre valide
+								int posX2 = 0; //Position X2 de la barriere dans le board qui sera remplie si l'utilisateur entre un chiffre valide
 								
 								String c1 = sc.next().toUpperCase();
 								if((c1.length()!=1) || (listeLettres.indexOf(c1) == -1)) {
-									affiche("PremiËre lettre incorrecte, entrez une seule lettre entre A et I\n");
+									affiche("Premi√®re lettre incorrecte, entrez une seule lettre entre A et I\n");
 									isBarrier = false; 
 								}
 								
@@ -94,7 +94,7 @@ public class BoardVueConsole extends BoardVue {
 									//cas de barriere horizontale
 									if(c1.equals(c2)) {
 										if(c1.equals("I") || c2.equals("I")) {
-											affiche("Position de la barriËre incorrecte. Vous ne pouvez pas placer une barriËre horizontale "
+											affiche("Position de la barri√®re incorrecte. Vous ne pouvez pas placer une barri√®re horizontale "
 													+ "sur la ligne I (Hors des limites du plateau de jeu)\n");
 											printHelp();
 											isBarrierHOrV = false;
@@ -110,7 +110,7 @@ public class BoardVueConsole extends BoardVue {
 									//cas de barriere verticale
 									if(i1 == i2) {
 										if(i1 == 9 || i2 == 9) {
-											affiche("Position de la barriËre incorrecte. Vous ne pouvez pas placer une barriËre verticale "
+											affiche("Position de la barri√®re incorrecte. Vous ne pouvez pas placer une barri√®re verticale "
 													+ "sur la colonne 9 (Hors des limites du plateau de jeu)\n");
 											printHelp();
 											isBarrierHOrV = false; 
@@ -126,15 +126,84 @@ public class BoardVueConsole extends BoardVue {
 									if(isBarrierHOrV) {
 										//test que les positions donnees sont bien celles d'une barriere horizontale OU verticale
 										if (!(((posY1 == posY2) && Math.abs(posX1 - posX2) == 2) || ((posX1 == posX2) && Math.abs(posY1 - posY2) == 2))) {
-											affiche("Position de la barriËre incorrecte.\nExemple de barriËre horizontale : A 1 B 1\nExemple de barriËre verticale : A 5 A 6\n");
+											affiche("Position de la barri√®re incorrecte.\nExemple de barri√®re horizontale : A 1 B 1\nExemple de barri√®re verticale : A 5 A 6\n");
 											printHelp();
 										}
 										else {
+											//barriere horizontale
 											if(posY1 == posY2) {
-												board.drawBarrierH(posY1, posX1, posY2, posX2);
+												//test si aucun symbole de barriere horizontale "‚Äï‚Äï" n'existe deja aux positions donnees pour placer
+												//la barriere horizontale
+												if(board.getBoard()[posY1][posX1] == "‚Äï‚Äï" || board.getBoard()[posY2][posX2] == "‚Äï‚Äï") {
+													affiche("Position de la barri√®re incorrecte : Vous ne pouvez pas placer une barri√®re sur une"
+															+ " barri√®re d√©j√† existante.\n");
+													printHelp();
+												}
+												else {
+													//Inverse la premiere coordonnee X entree avec la seconde coordonnee X entree
+													//si la premiere coordonnee X entree par l'utilisateur est plus grande que la seconde.
+													//Cela permet d'avoir toujours en posX1 la coordonnee X la plus petite. 
+													if (posX1 > posX2){
+														int posX = posX1;
+														posX1 = posX2;
+														posX2 = posX;
+													}
+													
+													//test si la barriere horizontale entree est entre 2 symboles de barriere verticales
+													if (board.getBoard()[posY1+1][posX1+1] == " | " && board.getBoard()[posY1-1][posX1+1] == " | "){
+														//test si la barriere horizontale entree passe a travers une barriere verticale existante
+														if(board.isBarrierOnBoard(posY1+1, posX1+1,posY1-1,posX1+1)){
+															affiche("Position de la barri√®re incorrecte : Vous ne pouvez pas croiser votre barri√®re horizontale avec "
+																	+ "une barri√®re verticale d√©j√† existante.\n");
+															printHelp();
+														}
+														//la barriere horizontale entree est entre 2 barrieres verticales existantes et peut donc etre placee
+														else{
+															board.drawBarrierH(posY1, posX1, posY2, posX2);
+														}
+													}
+													else {
+														board.drawBarrierH(posY1, posX1, posY2, posX2);
+													}
+												}
 											}
-											else if(posX1 == posX2) {
-												board.drawBarrierV(posY1, posX1, posY2, posX2);
+											//barriere verticale
+											if(posX1 == posX2) {
+												//test si aucun symbole de barriere verticale " | " n'existe deja aux positions donnees pour placer
+												//la barriere verticale
+												if(board.getBoard()[posY1][posX1] == " | " || board.getBoard()[posY2][posX2] == " | ") {
+													affiche("Position de la barri√®re incorrecte : Vous ne pouvez pas placer une barri√®re sur une"
+															+ " barri√®re d√©j√† existante.\n");
+													printHelp();
+												}
+												else {
+													//Inverse la premiere coordonnee Y entree avec la seconde coordonnee Y entree
+													//si la premiere coordonnee Y entree par l'utilisateur est plus petite que la seconde.
+													//Cela permet d'avoir toujours en posY1 la coordonnee Y la plus grande. 
+													if (posY1 < posY2){
+														int posY = posY1;
+														posY1 = posY2;
+														posY2 = posY;
+													}
+													
+													//test si la barriere verticale entree est entre 2 symboles de barriere horizontales
+													if (board.getBoard()[posY1-1][posX1-1] == "‚Äï‚Äï" && board.getBoard()[posY1-1][posX1+1] == "‚Äï‚Äï"){
+														//test si la barriere verticale entree passe a travers une barriere horizontale existante
+														if(board.isBarrierOnBoard(posY1-1, posX1-1,posY1-1,posX1+1)){
+															affiche("Position de la barri√®re incorrecte : Vous ne pouvez pas croiser votre barri√®re verticale avec "
+																	+ "une barri√®re horizontale d√©j√† existante.\n");
+															printHelp();
+														}
+														//la barriere verticale entree est entre 2 barrieres horizontales existantes et peut donc etre placee
+														else{
+															board.drawBarrierV(posY1, posX1, posY2, posX2);
+														}
+													}
+													else {
+														board.drawBarrierV(posY1, posX1, posY2, posX2);
+													}
+												}
+												
 											}
 										}
 									}
@@ -151,21 +220,21 @@ public class BoardVueConsole extends BoardVue {
 									int up = board.moveUp();
 									switch(up) {
 									case 1 :
-										affiche("Player 1 : Vous ne pouvez pas faire ce dÈplacement, vous Ítes bloquÈ contre le bord supÈrieur du plateau de jeu"
-												+ ", veuillez rÈessayer\n");
+										affiche("Player 1 : Vous ne pouvez pas faire ce d√©placement, vous √™tes bloqu√© contre le bord sup√©rieur du plateau de jeu"
+												+ ", veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 2 : 
-										affiche("Player 1 : Une barriËre vous empÍche de vous dÈplacer d'une case en haut, veuillez rÈessayer\n");
+										affiche("Player 1 : Une barri√®re vous emp√™che de vous d√©placer d'une case en haut, veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 3 : 
-										affiche("Player 2 : Vous ne pouvez pas faire ce dÈplacement, vous Ítes bloquÈ contre le bord supÈrieur du plateau de jeu"
-												+ ", veuillez rÈessayer\n");
+										affiche("Player 2 : Vous ne pouvez pas faire ce d√©placement, vous √™tes bloqu√© contre le bord sup√©rieur du plateau de jeu"
+												+ ", veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 4 : 
-										affiche("Player 2 : Une barriËre vous empÍche de vous dÈplacer d'une case en haut, veuillez rÈessayer\n");
+										affiche("Player 2 : Une barri√®re vous emp√™che de vous d√©placer d'une case en haut, veuillez r√©essayer\n");
 										printHelp();
 										break;
 									default : //Mouvement correct 
@@ -176,21 +245,21 @@ public class BoardVueConsole extends BoardVue {
 									int down = board.moveDown();
 									switch(down) {
 									case 1 :
-										affiche("Player 1 : Vous ne pouvez pas faire ce dÈplacement, vous Ítes bloquÈ contre le bord infÈrieur du plateau de jeu"
-												+ ", veuillez rÈessayer\n");
+										affiche("Player 1 : Vous ne pouvez pas faire ce d√©placement, vous √™tes bloqu√© contre le bord inf√©rieur du plateau de jeu"
+												+ ", veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 2 : 
-										affiche("Player 1 : Une barriËre vous empÍche de vous dÈplacer d'une case en bas, veuillez rÈessayer\n");
+										affiche("Player 1 : Une barri√®re vous emp√™che de vous d√©placer d'une case en bas, veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 3 : 
-										affiche("Player 2 : Vous ne pouvez pas faire ce dÈplacement, vous Ítes bloquÈ contre le bord infÈrieur du plateau de jeu"
-												+ ", veuillez rÈessayer\n");
+										affiche("Player 2 : Vous ne pouvez pas faire ce d√©placement, vous √™tes bloqu√© contre le bord inf√©rieur du plateau de jeu"
+												+ ", veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 4 : 
-										affiche("Player 2 : Une barriËre vous empÍche de vous dÈplacer d'une case en bas, veuillez rÈessayer\n");
+										affiche("Player 2 : Une barri√®re vous emp√™che de vous d√©placer d'une case en bas, veuillez r√©essayer\n");
 										printHelp();
 										break;
 									default : //Mouvement correct 
@@ -201,21 +270,21 @@ public class BoardVueConsole extends BoardVue {
 									int left = board.moveLeft();
 									switch(left) {
 									case 1 :
-										affiche("Player 1 : Vous ne pouvez pas faire ce dÈplacement, vous Ítes bloquÈ contre le bord latÈral gauche du plateau de jeu"
-												+ ", veuillez rÈessayer\n");
+										affiche("Player 1 : Vous ne pouvez pas faire ce d√©placement, vous √™tes bloqu√© contre le bord lat√©ral gauche du plateau de jeu"
+												+ ", veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 2 : 
-										affiche("Player 1 : Une barriËre vous empÍche de vous dÈplacer d'une case ‡ gauche, veuillez rÈessayer\n");
+										affiche("Player 1 : Une barri√®re vous emp√™che de vous d√©placer d'une case √† gauche, veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 3 : 
-										affiche("Player 2 : Vous ne pouvez pas faire ce dÈplacement, vous Ítes bloquÈ contre le bord latÈral gauche du plateau de jeu"
-												+ ", veuillez rÈessayer\n");
+										affiche("Player 2 : Vous ne pouvez pas faire ce d√©placement, vous √™tes bloqu√© contre le bord lat√©ral gauche du plateau de jeu"
+												+ ", veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 4 : 
-										affiche("Player 2 : Une barriËre vous empÍche de vous dÈplacer d'une case ‡ gauche, veuillez rÈessayer\n");
+										affiche("Player 2 : Une barri√®re vous emp√™che de vous d√©placer d'une case √† gauche, veuillez r√©essayer\n");
 										printHelp();
 										break;
 									default : //Mouvement correct
@@ -226,21 +295,21 @@ public class BoardVueConsole extends BoardVue {
 									int right = board.moveRight();
 									switch(right) {
 									case 1 :
-										affiche("Player 1 : Vous ne pouvez pas faire ce dÈplacement, vous Ítes bloquÈ contre le bord latÈral droit du plateau de jeu"
-												+ ", veuillez rÈessayer\n");
+										affiche("Player 1 : Vous ne pouvez pas faire ce d√©placement, vous √™tes bloqu√© contre le bord lat√©ral droit du plateau de jeu"
+												+ ", veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 2 : 
-										affiche("Player 1 : Une barriËre vous empÍche de vous dÈplacer d'une case ‡ droite, veuillez rÈessayer\n");
+										affiche("Player 1 : Une barri√®re vous emp√™che de vous d√©placer d'une case √† droite, veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 3 : 
-										affiche("Player 2 : Vous ne pouvez pas faire ce dÈplacement, vous Ítes bloquÈ contre le bord latÈral droit du plateau de jeu"
-												+ ", veuillez rÈessayer\n");
+										affiche("Player 2 : Vous ne pouvez pas faire ce d√©placement, vous √™tes bloqu√© contre le bord lat√©ral droit du plateau de jeu"
+												+ ", veuillez r√©essayer\n");
 										printHelp();
 										break;
 									case 4 : 
-										affiche("Player 2 : Une barriËre vous empÍche de vous dÈplacer d'une case ‡ droite, veuillez rÈessayer\n");
+										affiche("Player 2 : Une barri√®re vous emp√™che de vous d√©placer d'une case √† droite, veuillez r√©essayer\n");
 										printHelp();
 										break;
 									default : //Mouvement correct 
@@ -248,14 +317,14 @@ public class BoardVueConsole extends BoardVue {
 									}
 									break;
 								default :
-									affiche("Mouvement incorrect, Vous avez entrÈ autre chose que \"U\" \"D\" \"L\" ou \"R\" comme 2Ëme charactËre"
-											+ ",  veuillez rÈessayer\n");
+									affiche("Mouvement incorrect, Vous avez entr√© autre chose que \"U\" \"D\" \"L\" ou \"R\" comme 2√®me charact√®re"
+											+ ",  veuillez r√©essayer\n");
 									printHelp();
 									break;
 							}
 							break;
 						default : 
-							affiche("Mouvement incorrect : Vous avez entrÈ autre chose que \"B\" ou \"P\" comme 1er charactËre, veuillez rÈessayer\n");
+							affiche("Mouvement incorrect : Vous avez entr√© autre chose que \"B\" ou \"P\" comme 1er charact√®re, veuillez r√©essayer\n");
 							printHelp();
 							break;
 					}

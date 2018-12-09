@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 
 
@@ -8,10 +10,13 @@ public class Board extends Observable {
 	private Player turn;
 	private Player player1;
 	private Player player2;
+	private ArrayList<Barrier> barriersOnBoard;
+	private int numberBarriersOnBoard = 0;
 	
-	public Board() {
+	public Board(){
 		super();
 		initiateBoardConsole();
+		barriersOnBoard = new ArrayList<Barrier>();
 	}
 	
 	public Board(String[][] board, Player turn, Player player1, Player player2) {
@@ -20,6 +25,8 @@ public class Board extends Observable {
 		this.turn = turn;
 		this.player1 = player1;
 		this.player2 = player2;
+		initiateBoardConsole();
+		barriersOnBoard = new ArrayList<Barrier>();
 	}
 	
 	
@@ -80,8 +87,6 @@ public class Board extends Observable {
 		board[posY][posX] = "P1";
 		setP1Y(posY);
 		setP1X(posX);
-		setChanged();
-		notifyObservers();
 	}
 	
 	/*
@@ -94,8 +99,6 @@ public class Board extends Observable {
 		board[posY][posX] = "P2";
 		setP2Y(posY);
 		setP2X(posX);
-		setChanged();
-		notifyObservers();
 	}
 	
 	/*
@@ -109,6 +112,8 @@ public class Board extends Observable {
 			if(turn.equals(player1)) {
 				player1.addBarrier(barrier);
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
+				barriersOnBoard.add(barrier);
+				numberBarriersOnBoard++;
 				turn = player2;
 				setChanged();
 				notifyObservers();
@@ -116,6 +121,8 @@ public class Board extends Observable {
 			else {
 				player2.addBarrier(barrier);
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
+				barriersOnBoard.add(barrier);
+				numberBarriersOnBoard++;
 				turn = player1;
 				setChanged();
 				notifyObservers();
@@ -133,6 +140,8 @@ public class Board extends Observable {
 			if(turn.equals(player1)) {
 				player1.addBarrier(barrier);
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
+				barriersOnBoard.add(barrier);
+				numberBarriersOnBoard++;
 				turn = player2;
 				setChanged();
 				notifyObservers();
@@ -140,6 +149,8 @@ public class Board extends Observable {
 			else {
 				player2.addBarrier(barrier);
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
+				barriersOnBoard.add(barrier);
+				numberBarriersOnBoard++;
 				turn = player1;
 				setChanged();
 				notifyObservers();
@@ -378,5 +389,21 @@ public class Board extends Observable {
 		player2.getPawn().setPosX(x);
 	}
 	
+	/*
+	 * @pre : prend les 2 positions d'une barriere en parametre
+	 * @post : Si les positions passees en parametre correspondent a une barriere sur le plateau de jeu, return true. Sinon, 
+	 * 		   return false.
+	 */
+	public boolean isBarrierOnBoard(int posY1,int posX1, int posY2,int posX2) {
+		Iterator<Barrier> it = barriersOnBoard.iterator();
+		 
+		while (it.hasNext()) {
+		       Barrier b = it.next();
+		       if(b.getPosY1() == posY1 && b.getPosX1() == posX1 && b.getPosY2() == posY2 && b.getPosX2() == posX2) {
+		    	   return true;
+		       }
+		}
+		return false; 
+	}
 	
 }
