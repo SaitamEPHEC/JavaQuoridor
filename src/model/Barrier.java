@@ -20,11 +20,11 @@ public class Barrier {
 	 * @param posY1
 	 * @param posY2
 	 */
-	public Barrier(int posX1, int posX2, int posY1, int posY2) {
-		this.posX1 = posX1;
-		this.posX2 = posX2;
+	public Barrier(int posY1, int posX1, int posY2, int posX2) {
 		this.posY1 = posY1;
+		this.posX1 = posX1;
 		this.posY2 = posY2;
+		this.posX2 = posX2;
 		//TODO : dessiner directement la barrière aux bonnes positions dans le board
 	}
 

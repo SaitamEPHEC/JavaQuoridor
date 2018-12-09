@@ -67,7 +67,7 @@ public class Board extends Observable {
 		//le joueur 1 commence
 		turn = player1;
 	}
-
+	
 	/*
 	 * @pre : Les positions Y et X precedentes du pion, les nouvelles positions Y et X du pion
 	 * 		  et une string p qui sera la representation du pion du joueur 1.
@@ -90,6 +90,46 @@ public class Board extends Observable {
 		board[posY][posX] = "P2";
 		setP2Y(posY);
 		setP2X(posX);
+	}
+	
+	/*
+	 * @pre : Les 2 positions Y et X representant une barriere horizontale. 
+	 * @post : Modifie le board en ajoutant une barriere horizontale sur 2 positions adjacentes du board. Le symbole est "――". 
+	 */
+	public void drawBarrierH(int posY1, int posX1, int posY2, int posX2) {
+			Barrier barrier = new Barrier(posY1, posX1, posY2, posX2);
+			board[posY1][posX1] = "――";
+			board[posY2][posX2] = "――";
+			if(turn.equals(player1)) {
+				player1.addBarrier(barrier);
+				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
+				turn = player2;
+			}
+			else {
+				player2.addBarrier(barrier);
+				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
+				turn = player1;
+			}
+	}
+	
+	/*
+	 * @pre : Les 2 positions Y et X representant une barriere verticale. 
+	 * @post : Modifie le board en ajoutant une barriere verticale sur 2 positions adjacentes du board. Le symbole est  " | ". 
+	 */
+	public void drawBarrierV(int posY1, int posX1, int posY2, int posX2) {
+			Barrier barrier = new Barrier(posY1, posX1, posY2, posX2);
+			board[posY1][posX1] = " | ";
+			board[posY2][posX2] = " | ";
+			if(turn.equals(player1)) {
+				player1.addBarrier(barrier);
+				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
+				turn = player2;
+			}
+			else {
+				player2.addBarrier(barrier);
+				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
+				turn = player1;
+			}
 	}
 	
 	/*

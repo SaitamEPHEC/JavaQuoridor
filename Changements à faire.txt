@@ -1,7 +1,5 @@
 - Actualiser l'UML 
 
-- S'occuper de pouvoir ajouter des barrières sur le board
-
 - Un cas qui coince pour le déplacement des pions : lorsque 2 pions se font face à face, il faut qu'un pion puisse sauter au-dessus de l'autre.
 
-- Un cas qui coincera :  lorsque 2 pions se font face à face si une barrière est derrière un des pion, il doit être possible de sauter en diagonale pour l'autre.
+- Un cas qui coince :  lorsque 2 pions se font face à face si une barrière est derrière un des pion, il doit être possible de sauter en diagonale pour l'autre.
