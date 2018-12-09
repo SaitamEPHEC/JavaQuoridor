@@ -104,7 +104,7 @@ public class BoardVueConsole extends BoardVue {
 											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière horizontale "
 													+ "sur la ligne I (Hors des limites du plateau de jeu)\n");
 											printHelp();
-											isBarrierHOrV = false; 
+											isBarrierHOrV = false;
 										}
 										else {
 											posY1 = translateLetterToBoardH(c1);
@@ -266,7 +266,7 @@ public class BoardVueConsole extends BoardVue {
 										break;
 									}
 									break;
-								default : //On ne rentre normalement jamais dedans
+								default :
 									affiche("Mouvement incorrect, Vous avez entré autre chose que \"U\" \"D\" \"L\" ou \"R\" comme 2ème charactère"
 											+ ",  veuillez réessayer\n");
 									printHelp();

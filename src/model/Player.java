@@ -13,16 +13,17 @@ public class Player {
 	private int nbrBarrierLeft;
 	private ArrayList<Barrier> barriersOnField;
 	private Pawn myPawn;
-	private static int genericNickname = 10000;
 	private Scanner sc = new Scanner(System.in);
+	private static int playerCounter = 1;
 	
 	/*
 	 * 
-	 * Constructeur par default
+	 * Constructeur par defaut
 	 */
 	public Player(){
-		/*System.out.println("Quel est le pseudo du joueur ?");
-		this.nickname = sc.nextLine();*/
+		System.out.println("Quel est le pseudo du joueur " + playerCounter + " ?\n");
+		this.nickname = sc.nextLine();
+		playerCounter++;
 		nbrBarrierLeft = NBR_BARRIER_TOT;
 		barriersOnField = new ArrayList<Barrier>();
 		myPawn = new Pawn();
@@ -124,4 +125,10 @@ public class Player {
 	public void setNbrBarrierLeft(int nbr) {
 		nbrBarrierLeft = nbr;
 	}
+	
+	@Override
+	public String toString() {
+		return "Joueur " + playerCounter + " : " + nickname;
+	}
+	
 }
