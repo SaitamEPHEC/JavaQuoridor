@@ -101,8 +101,8 @@ public class BoardVueConsole extends BoardVue {
 									//cas de barriere horizontale
 									if(c1.equals(c2)) {
 										if(c1.equals("I") || c2.equals("I")) {
-											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière horizontale"
-													+ "sur la ligne I (Hors des limites du plateau de jeu)");
+											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière horizontale "
+													+ "sur la ligne I (Hors des limites du plateau de jeu)\n");
 											printHelp();
 											isBarrierHOrV = false; 
 										}
@@ -117,8 +117,8 @@ public class BoardVueConsole extends BoardVue {
 									//cas de barriere verticale
 									if(i1 == i2) {
 										if(i1 == 9 || i2 == 9) {
-											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière verticale"
-													+ "sur la colonne 9 (Hors des limites du plateau de jeu)");
+											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière verticale "
+													+ "sur la colonne 9 (Hors des limites du plateau de jeu)\n");
 											printHelp();
 											isBarrierHOrV = false; 
 										}
