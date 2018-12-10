@@ -101,7 +101,7 @@ public class Board extends Observable {
 				}
 				
 				else if(i == contours.length-1 && j == 0 ) {
-					contours[i][j] = "A";
+					contours[i][j] = "A" + "  ";
 				}
 				
 				else if(i == 0 && j%2 == 0) {
@@ -109,7 +109,7 @@ public class Board extends Observable {
 				}
 				
 				else if(j == 0) {//1ere colonne	
-					contours[i][j] = (Character.toString(lettreContours.charAt(k)));
+					contours[i][j] = (Character.toString(lettreContours.charAt(k)) + "  ");
 					k++;
 				}
 				

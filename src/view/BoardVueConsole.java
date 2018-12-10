@@ -44,7 +44,7 @@ public class BoardVueConsole extends BoardVue {
 					}
 					System.out.println(temp[i][temp.length-1]); // affiche 9 + \n
 					//System.out.println("");
-					System.out.print("I");
+					System.out.print("I    ");
 				}
 				else { // board normal plus contour
 					if(j == 0 && (i%2 == 0)){ // premiere colonne contour
