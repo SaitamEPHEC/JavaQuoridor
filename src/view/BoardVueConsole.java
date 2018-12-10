@@ -8,14 +8,12 @@ import controller.BoardController;
 import model.Board;
 
 public class BoardVueConsole extends BoardVue {
-	
 	protected Scanner sc;
 
 	public BoardVueConsole(Board model,
-			BoardController controller) {
+			BoardController controller){
 		super(model, controller);
 		this.model = model;
-		model = new Board();
 		update(null, null);
 		sc = new Scanner(System.in);
 		new Thread (new ReadInput()).start();	

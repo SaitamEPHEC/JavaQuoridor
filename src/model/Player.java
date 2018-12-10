@@ -13,14 +13,15 @@ public class Player {
 	private int nbrBarrierLeft;
 	private ArrayList<Barrier> barriersOfThePlayer;
 	private Pawn myPawn;
-	private Scanner sc = new Scanner(System.in);
 	private static int playerCounter = 1;
+	private Scanner sc;
 	
 	/*
 	 * 
 	 * Constructeur par defaut
 	 */
 	public Player(){
+		sc = new Scanner(System.in);
 		System.out.println("Quel est le pseudo du joueur " + playerCounter + " ?\n");
 		this.nickname = sc.nextLine();
 		playerCounter++;
