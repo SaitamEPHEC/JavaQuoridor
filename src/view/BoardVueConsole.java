@@ -10,12 +10,12 @@ import model.Board;
 public class BoardVueConsole extends BoardVue {
 	
 	protected Scanner sc;
-	private Board board = new Board();
 
 	public BoardVueConsole(Board model,
 			BoardController controller) {
 		super(model, controller);
-		this.board = model;
+		this.model = model;
+		model = new Board();
 		update(null, null);
 		sc = new Scanner(System.in);
 		new Thread (new ReadInput()).start();	
@@ -23,7 +23,7 @@ public class BoardVueConsole extends BoardVue {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		String[][] temp = this.board.getContours();
+		String[][] temp = this.model.getContours();
 		printHelp();
 /*		for(int i = 0;i<this.board.getLength();i++) {
 	*		for(int j = 0;j<this.board.getLength();j++) {
@@ -36,8 +36,8 @@ public class BoardVueConsole extends BoardVue {
 	*		}
 	*	}	
 	*/
-		for(int i = 0;i<this.board.getLength();i++) {
-			for(int j = 0;j<this.board.getLength();j++) {
+		for(int i = 0;i<this.model.getLength();i++) {
+			for(int j = 0;j<this.model.getLength();j++) {
 				if(i == 0 && j == 0) { // premiere case
 					for(int l = 0;l<temp.length-1;l++) { // premiere ligne de contour
 						System.out.print(temp[i][l]); // affiche 1 a 8
@@ -54,11 +54,11 @@ public class BoardVueConsole extends BoardVue {
 						System.out.print("   ");
 					}
 						
-					if(j == (this.board.getLength()-1)) {
-						System.out.println(this.board.getBoard()[i][j]); // board
+					if(j == (this.model.getLength()-1)) {
+						System.out.println(this.model.getBoard()[i][j]); // board
 					}
 					else {
-						System.out.print(this.board.getBoard()[i][j]); // board
+						System.out.print(this.model.getBoard()[i][j]); // board
 					}
 				}
 			}
@@ -85,7 +85,7 @@ public class BoardVueConsole extends BoardVue {
 					switch(c){
 						case "B" : 	//Barriere
 							
-								boolean isBarrier = true; //si reste true, les chiffres et lettres sont valides par rapport au board
+								boolean isValid = true; //si reste true, les chiffres et lettres sont valides par rapport aux limites du board
 								
 								int posY1 = 0; //Position Y1 de la barriere dans le board qui sera remplie si l'utilisateur entre une lettre valide
 								int posX1 = 0; //Position X1 de la barriere dans le board qui sera remplie si l'utilisateur entre un chiffre valide
@@ -95,30 +95,32 @@ public class BoardVueConsole extends BoardVue {
 								String c1 = sc.next().toUpperCase();
 								if((c1.length()!=1) || (listeLettres.indexOf(c1) == -1)) {
 									affiche("Première lettre incorrecte, entrez une seule lettre entre A et I\n");
-									isBarrier = false; 
+									isValid = false; 
 								}
 								
 								int i1 = sc.nextInt();
 								if(i1<1 || i1> 9){
 									affiche("Premier numero de case incorrecte, entrez un chiffre entre 1 et 9\n");
-									isBarrier = false;
+									isValid = false;
 								}
 								
 								String c2 = sc.next().toUpperCase();
 								if((c2.length()!=1) || (listeLettres.indexOf(c2) == -1)){
 									affiche("Seconde lettre incorrecte, entrez une seule lettre entre A et I\n");
-									isBarrier = false;
+									isValid = false;
 								}
 								
 								int i2 = sc.nextInt();
 								if(i2<1 || i2> 9){
 									affiche("Second numero de case incorrect, entrez un chiffre entre 1 et 9\n");
-									isBarrier = false;
+									isValid = false;
 								}
 								
-								if(isBarrier) {
+								if(isValid) {
 									
-									boolean isBarrierHOrV= true;
+									//est mis a false si l'utilisateur a essaye de placer une barriere horizontale sur la ligne I
+									//ou une barriere verticale sur la colonne 9 (hors des limites du plateau de jeu). Sinon, reste a true.
+									boolean caseNotOutOfBounds= true;
 									
 									//cas de barriere horizontale
 									if(c1.equals(c2)) {
@@ -126,7 +128,7 @@ public class BoardVueConsole extends BoardVue {
 											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière horizontale "
 													+ "sur la ligne I (Hors des limites du plateau de jeu)\n");
 											printHelp();
-											isBarrierHOrV = false;
+											caseNotOutOfBounds = false;
 										}
 										else {
 											posY1 = translateLetterToBoardH(c1);
@@ -142,7 +144,7 @@ public class BoardVueConsole extends BoardVue {
 											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière verticale "
 													+ "sur la colonne 9 (Hors des limites du plateau de jeu)\n");
 											printHelp();
-											isBarrierHOrV = false; 
+											caseNotOutOfBounds = false; 
 										}
 										else {
 											posY1 = translateLetterToBoardV(c1);
@@ -152,7 +154,7 @@ public class BoardVueConsole extends BoardVue {
 										}
 									}
 
-									if(isBarrierHOrV) {
+									if(caseNotOutOfBounds) {
 										//test que les positions donnees sont bien celles d'une barriere horizontale OU verticale
 										if (!(((posY1 == posY2) && Math.abs(posX1 - posX2) == 2) || ((posX1 == posX2) && Math.abs(posY1 - posY2) == 2))) {
 											affiche("Position de la barrière incorrecte.\nExemple de barrière horizontale : A 1 B 1\nExemple de barrière verticale : A 5 A 6\n");
@@ -163,7 +165,7 @@ public class BoardVueConsole extends BoardVue {
 											if(posY1 == posY2) {
 												//test si aucun symbole de barriere horizontale "――" n'existe deja aux positions donnees pour placer
 												//la barriere horizontale
-												if(board.getBoard()[posY1][posX1] == "――" || board.getBoard()[posY2][posX2] == "――") {
+												if(model.getBoard()[posY1][posX1] == "――" || model.getBoard()[posY2][posX2] == "――") {
 													affiche("Position de la barrière incorrecte : Vous ne pouvez pas placer une barrière sur une"
 															+ " barrière déjà existante.\n");
 													printHelp();
@@ -179,20 +181,20 @@ public class BoardVueConsole extends BoardVue {
 													}
 													
 													//test si la barriere horizontale entree est entre 2 symboles de barriere verticales
-													if (board.getBoard()[posY1+1][posX1+1] == " | " && board.getBoard()[posY1-1][posX1+1] == " | "){
+													if (model.getBoard()[posY1+1][posX1+1] == " | " && model.getBoard()[posY1-1][posX1+1] == " | "){
 														//test si la barriere horizontale entree passe a travers une barriere verticale existante
-														if(board.isBarrierOnBoard(posY1+1, posX1+1,posY1-1,posX1+1)){
+														if(model.isBarrierOnBoard(posY1+1, posX1+1,posY1-1,posX1+1)){
 															affiche("Position de la barrière incorrecte : Vous ne pouvez pas croiser votre barrière horizontale avec "
 																	+ "une barrière verticale déjà existante.\n");
 															printHelp();
 														}
 														//la barriere horizontale entree est entre 2 barrieres verticales existantes et peut donc etre placee
 														else{
-															board.drawBarrierH(posY1, posX1, posY2, posX2);
+															model.drawBarrierH(posY1, posX1, posY2, posX2);
 														}
 													}
 													else {
-														board.drawBarrierH(posY1, posX1, posY2, posX2);
+														model.drawBarrierH(posY1, posX1, posY2, posX2);
 													}
 												}
 											}
@@ -200,7 +202,7 @@ public class BoardVueConsole extends BoardVue {
 											if(posX1 == posX2) {
 												//test si aucun symbole de barriere verticale " | " n'existe deja aux positions donnees pour placer
 												//la barriere verticale
-												if(board.getBoard()[posY1][posX1] == " | " || board.getBoard()[posY2][posX2] == " | ") {
+												if(model.getBoard()[posY1][posX1] == " | " || model.getBoard()[posY2][posX2] == " | ") {
 													affiche("Position de la barrière incorrecte : Vous ne pouvez pas placer une barrière sur une"
 															+ " barrière déjà existante.\n");
 													printHelp();
@@ -216,20 +218,20 @@ public class BoardVueConsole extends BoardVue {
 													}
 													
 													//test si la barriere verticale entree est entre 2 symboles de barriere horizontales
-													if (board.getBoard()[posY1-1][posX1-1] == "――" && board.getBoard()[posY1-1][posX1+1] == "――"){
+													if (model.getBoard()[posY1-1][posX1-1] == "――" && model.getBoard()[posY1-1][posX1+1] == "――"){
 														//test si la barriere verticale entree passe a travers une barriere horizontale existante
-														if(board.isBarrierOnBoard(posY1-1, posX1-1,posY1-1,posX1+1)){
+														if(model.isBarrierOnBoard(posY1-1, posX1-1,posY1-1,posX1+1)){
 															affiche("Position de la barrière incorrecte : Vous ne pouvez pas croiser votre barrière verticale avec "
 																	+ "une barrière horizontale déjà existante.\n");
 															printHelp();
 														}
 														//la barriere verticale entree est entre 2 barrieres horizontales existantes et peut donc etre placee
 														else{
-															board.drawBarrierV(posY1, posX1, posY2, posX2);
+															model.drawBarrierV(posY1, posX1, posY2, posX2);
 														}
 													}
 													else {
-														board.drawBarrierV(posY1, posX1, posY2, posX2);
+														model.drawBarrierV(posY1, posX1, posY2, posX2);
 													}
 												}
 												
@@ -246,7 +248,7 @@ public class BoardVueConsole extends BoardVue {
 							String m = sc.next().toUpperCase();
 							switch(m) {
 								case "U" : 
-									int up = board.moveUp();
+									int up = model.moveUp();
 									switch(up) {
 									case 1 :
 										affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
@@ -271,7 +273,7 @@ public class BoardVueConsole extends BoardVue {
 									}
 									break;
 								case "D" : 
-									int down = board.moveDown();
+									int down = model.moveDown();
 									switch(down) {
 									case 1 :
 										affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
@@ -296,7 +298,7 @@ public class BoardVueConsole extends BoardVue {
 									}
 									break;
 								case "L" : 
-									int left = board.moveLeft();
+									int left = model.moveLeft();
 									switch(left) {
 									case 1 :
 										affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
@@ -321,7 +323,7 @@ public class BoardVueConsole extends BoardVue {
 									}
 									break;
 								case "R" : 
-									int right = board.moveRight();
+									int right = model.moveRight();
 									switch(right) {
 									case 1 :
 										affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
