@@ -129,10 +129,10 @@ public class Board extends Observable {
 		return contours;
 	}
 	
-	/*
+	/**
 	 * @pre : Les positions Y et X precedentes du pion, les nouvelles positions Y et X du pion
 	 * 		  et une string p qui sera la representation du pion du joueur 1.
-	 * @post : Modifie le board en retirant le pion de sa position YX precedente et en le mettant a sa nouvelle position YX
+	 * @return : Modifie le board en retirant le pion de sa position YX precedente et en le mettant a sa nouvelle position YX
 	 */
 	public void drawP1(int prevPosY, int prevPosX, int posY, int posX) {
 		board[prevPosY][prevPosX] = "  ";
@@ -141,10 +141,10 @@ public class Board extends Observable {
 		setP1X(posX);
 	}
 	
-	/*
+	/**
 	 * @pre : Les positions Y et X precedentes du pion, les nouvelles positions Y et X du pion
 	 * 		  et une string p qui sera la representation du pion du joueur 2..
-	 * @post : Modifie le board en retirant le pion de sa position YX precedente et en le mettant a sa nouvelle position YX
+	 * @return : Modifie le board en retirant le pion de sa position YX precedente et en le mettant a sa nouvelle position YX
 	 */
 	public void drawP2(int prevPosY, int prevPosX, int posY, int posX) {
 		board[prevPosY][prevPosX] = "  ";
@@ -153,9 +153,9 @@ public class Board extends Observable {
 		setP2X(posX);
 	}
 	
-	/*
+	/**
 	 * @pre : Les 2 positions Y et X representant une barriere horizontale. 
-	 * @post : Modifie le board en ajoutant une barriere horizontale sur 2 positions adjacentes du board. Le symbole est "――". 
+	 * @return : Modifie le board en ajoutant une barriere horizontale sur 2 positions adjacentes du board. Le symbole est "――". 
 	 */
 	public void drawBarrierH(int posY1, int posX1, int posY2, int posX2) {
 			Barrier barrier = new Barrier(posY1, posX1, posY2, posX2);
@@ -181,9 +181,9 @@ public class Board extends Observable {
 			}
 	}
 	
-	/*
+	/**
 	 * @pre : Les 2 positions Y et X representant une barriere verticale. 
-	 * @post : Modifie le board en ajoutant une barriere verticale sur 2 positions adjacentes du board. Le symbole est  " | ". 
+	 * @return : Modifie le board en ajoutant une barriere verticale sur 2 positions adjacentes du board. Le symbole est  " | ". 
 	 */
 	public void drawBarrierV(int posY1, int posX1, int posY2, int posX2) {
 			Barrier barrier = new Barrier(posY1, posX1, posY2, posX2);
@@ -209,9 +209,9 @@ public class Board extends Observable {
 			}
 	}
 	
-	/*
+	/**
 	 * 
-	 * post : le pion bouge graphiquement d'une case vers le haut, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 * @return : le pion bouge graphiquement d'une case vers le haut, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
 	public int moveUp() {
 		if(turn.equals(player1)){
@@ -245,14 +245,14 @@ public class Board extends Observable {
 				turn = player1;
 				setChanged();
 				notifyObservers();
-				return 0;
+				return 5;
 			}
 		}
 	}
 	
-	/*
+	/**
 	 * 
-	 * post : le pion bouge graphiquement d'une case vers le bas, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 * @return : le pion bouge graphiquement d'une case vers le bas, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
 	public int moveDown() {
 		if(turn.equals(player1)) {
@@ -269,7 +269,7 @@ public class Board extends Observable {
 				turn = player2;
 				setChanged();
 				notifyObservers();
-				return 0;
+				return 5;
 			}
 		}
 		else{
@@ -291,9 +291,9 @@ public class Board extends Observable {
 		}
 	}
 	
-	/*
+	/**
 	 * 
-	 * post : le pion bouge graphiquement d'une case vers la gauche, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 * @return : le pion bouge graphiquement d'une case vers la gauche, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
 	public int moveLeft() {
 		if(turn.equals(player1)) {
@@ -332,9 +332,9 @@ public class Board extends Observable {
 		}
 	}
 	
-	/*
+	/**
 	 * 
-	 * post : le pion bouge graphiquement d'une case vers la droite, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 * @return : le pion bouge graphiquement d'une case vers la droite, retour true si pas d'erreur, false si erreur (rentre dans un mur)
 	 */
 	public int moveRight() {
 		if(turn.equals(player1)) {
@@ -373,6 +373,10 @@ public class Board extends Observable {
 		}
 	}	
 	
+	/**
+	 * 
+	 * @return : Retourne le plateau de jeu
+	 */
 	public String[][] getBoard() {
 		return board;
 	}
@@ -381,69 +385,76 @@ public class Board extends Observable {
 		return this.board.length;
 	}
 	
-	/*
-	 * @post : Retourne la position Y du pion du joueur 1
+	/**
+	 * @return : Retourne le joueur a qui est le tour
+	 */
+	public Player getTurn() {
+		return turn;
+	}
+	
+	/**
+	 * @return : Retourne la position Y du pion du joueur 1
 	 */
 	public int getP1Y() {
 		return player1.getPawn().getPosY();
 	}
 	
-	/*
-	 * @post : Retourne la position X du pion du joueur 1
+	/**
+	 * @return : Retourne la position X du pion du joueur 1
 	 */
 	public int getP1X() {
 		return player1.getPawn().getPosX();
 	}
 	
-	/*
-	 * @post : Retourne la position Y du pion du joueur 2
+	/**
+	 * @return : Retourne la position Y du pion du joueur 2
 	 */
 	public int getP2Y() {
 		return player2.getPawn().getPosY();
 	}
 	
-	/*
-	 * @post : Retourne la position Y du pion du joueur 1
+	/**
+	 * @return : Retourne la position Y du pion du joueur 1
 	 */
 	public int getP2X() {
 		return player2.getPawn().getPosX();
 	}
 	
-	/*
+	/**
 	 * @pre : Un entier y representant la nouvelle position y du pion du joueur 1
-	 * @post : Modifie la position Y du pion du joueur 1
+	 * @return : Modifie la position Y du pion du joueur 1
 	 */
 	public void setP1Y(int y) {
 		player1.getPawn().setPosY(y);
 	}
 	
-	/*
+	/**
 	 * @pre : Un entier x representant la nouvelle position x du pion du joueur 1
-	 * @post : Modifie la position X du pion du joueur 1
+	 * @return : Modifie la position X du pion du joueur 1
 	 */
 	public void setP1X(int x) {
 		player1.getPawn().setPosX(x);
 	}
 	
-	/*
+	/**
 	 * @pre : Un entier y representant la nouvelle position y du pion du joueur 2
-	 * @post : Modifie la position Y du pion du joueur 2
+	 * @return : Modifie la position Y du pion du joueur 2
 	 */
 	public void setP2Y(int y) {
 		player2.getPawn().setPosY(y);
 	}
 	
-	/*
+	/**
 	 * @pre : Un entier x representant la nouvelle position x du pion du joueur 2
-	 * @post : Modifie la position X du pion du joueur 2
+	 * @return : Modifie la position X du pion du joueur 2
 	 */
 	public void setP2X(int x) {
 		player2.getPawn().setPosX(x);
 	}
 	
-	/*
+	/**
 	 * @pre : prend les 2 positions d'une barriere en parametre
-	 * @post : Si les positions passees en parametre correspondent a une barriere sur le plateau de jeu, return true. Sinon, 
+	 * @return : Si les positions passees en parametre correspondent a une barriere sur le plateau de jeu, return true. Sinon, 
 	 * 		   return false.
 	 */
 	public boolean isBarrierOnBoard(int posY1,int posX1, int posY2,int posX2) {

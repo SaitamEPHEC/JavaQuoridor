@@ -22,12 +22,10 @@ public class BoardMVC {
 		//Chaque vue doit connaitre son controleur et avoir une reference vers le modele pour pouvoir l'observer
 		BoardVueConsole vueConsole = new BoardVueConsole(modele, controleurConsole);
 		//BoardVueGUI vueGui = new BoardVueGUI(modele, controleurGui, 200, 200);
-		//TODO
 		
 		//On donne la reference �  la vue pour chaque contrôleur
 		controleurConsole.addView(vueConsole);
 		//controleurGui.addView(vueGui);
-		//TODO
 		
 		
 	}

@@ -16,13 +16,13 @@ public class Player {
 	private static int playerCounter = 1;
 	private Scanner sc;
 	
-	/*
+	/**
 	 * 
 	 * Constructeur par defaut
 	 */
 	public Player(){
 		sc = new Scanner(System.in);
-		System.out.println("Quel est le pseudo du joueur " + playerCounter + " ?\n");
+		System.out.println("\nQuel est le pseudo du joueur " + playerCounter + " ?\n");
 		this.nickname = sc.nextLine();
 		playerCounter++;
 		nbrBarrierLeft = NBR_BARRIER_TOT;
@@ -30,7 +30,7 @@ public class Player {
 		myPawn = new Pawn();
 	}
 
-	/*
+	/**
 	 * 
 	 * Constructeur avec pseudo
 	 */
@@ -41,7 +41,7 @@ public class Player {
 		myPawn = new Pawn();
 	}	
 
-	/*
+	/**
 	 * 
 	 * Constructeur avec tout configurable
 	 */
@@ -57,27 +57,27 @@ public class Player {
 		return false;
 	}
 
-	/*
+	/**
 	 *  a faire
-	 * post :
+	 * @return :
 	 */
 	public boolean putBarrierOnField(int x1, int x2, int y1, int y2) {
 		
 		return true;
 	}	
 
-	/*
+	/**
 	 * a faire
-	 * post :
+	 * @return :
 	 */
 	public static boolean pathFinder(){
 		// algorithm verifiant coup valable / qu'il existe tjs au moins 1 path possible
 		return true;
 	}
 	
-	/*
+	/**
 	 * a faire
-	 * post :
+	 * @return :
 	 */
 	public static void treatBonusCase(){
 

@@ -64,7 +64,7 @@ public class BoardVueConsole extends BoardVue {
 	}
 	
 	private void printHelp(){
-		affiche("Pour déplacer votre pion, Entrez \"P\" puis appuyez sur Enter.\n"
+		affiche("\nPour déplacer votre pion, Entrez \"P\" puis appuyez sur Enter.\n"
 				+ "Ensuite, tapez \"U\" pour déplacer votre pion d'une case en haut, \"D\" pour déplacer votre pion d'une case en bas,\n"
 				+ "\"L\" pour déplacer votre pion d'une case à gauche et \"R\" pour déplacer votre pion d'une case à droite \n");
 		affiche("Pour placer une barrière, Entrez \"B\" puis appuyez sur Enter.\n"
@@ -73,11 +73,11 @@ public class BoardVueConsole extends BoardVue {
 	}
 
 	
-	//TODO : à MODIFIER avec notre projet
 	private class ReadInput implements Runnable{
 		public void run() {
+			boolean endOfGame = false;
 			String listeLettres = "ABCDEFGHI";
-			while(true){
+			while(!endOfGame){
 				try {
 					String c = sc.next().toUpperCase();
 					switch(c){
@@ -266,7 +266,13 @@ public class BoardVueConsole extends BoardVue {
 										affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
 										printHelp();
 										break;
-									default : //Mouvement correct 
+									case 5 : //mouvement correct du joueur 2 + check si victoire
+										if(model.getP2Y() == 0) {
+											affiche("Bravo joueur 2, vous avez gagné! Félicitations !");
+											endOfGame = true;
+										}
+										break;
+									default : //mouvement correct du joueur 1
 										break;
 									}
 									break;
@@ -291,7 +297,13 @@ public class BoardVueConsole extends BoardVue {
 										affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
 										printHelp();
 										break;
-									default : //Mouvement correct 
+									case 5 : //mouvement correct du joueur 1 + check si victoire
+										if(model.getP1Y() == 16) {
+											affiche("Bravo joueur 1, vous avez gagné! Félicitations !");
+											endOfGame = true;
+										}
+										break;
+									default : //Mouvement correct du joueur 2
 										break;
 									}
 									break;
@@ -366,15 +378,15 @@ public class BoardVueConsole extends BoardVue {
 		}
 	}
 
-	@Override // TODO A modifier
+	@Override
 	public void affiche(String string) {
 		System.out.println(string);
 		
 	}
 	
-	/*
+	/**
 	 * @pre : Prend une lettre du board en parametre qui correspond a une position Y d'une barriere HORIZONTALE
-	 * @post : L'utilisateur entre une lettre comme etant une position Y d'une des 2 positions d'une barriere HORIZONTALE. Cette fonction 
+	 * @return : L'utilisateur entre une lettre comme etant une position Y d'une des 2 positions d'une barriere HORIZONTALE. Cette fonction 
 	 * 		   traduit la lettre entree dans sa position en entier dans le board. 
 	 */
 	public int translateLetterToBoardH(String c) {
@@ -400,9 +412,9 @@ public class BoardVueConsole extends BoardVue {
 		}
 	} 
 	
-	/*
+	/**
 	 * @pre : Prend une lettre du board en parametre qui correspond a une position Y d'une barriere VERTICALE
-	 * @post : L'utilisateur entre une lettre comme etant une position Y d'une des 2 positions d'une barriere VERTICALE. Cette fonction 
+	 * @return : L'utilisateur entre une lettre comme etant une position Y d'une des 2 positions d'une barriere VERTICALE. Cette fonction 
 	 * 		   traduit la lettre entree dans sa position en entier dans le board. 
 	 */
 	public int translateLetterToBoardV(String c) {
@@ -431,9 +443,9 @@ public class BoardVueConsole extends BoardVue {
 	} 
 	
 	
-	/*
+	/**
 	 * @pre : Prend un chiffre du board en parametre qui correspond a une position X d'une barriere HORIZONTALE
-	 * @post : L'utilisateur entre un chiffre comme etant une position X d'une des 2 positions d'une barriere HORIZONTALE. Cette fonction 
+	 * @return : L'utilisateur entre un chiffre comme etant une position X d'une des 2 positions d'une barriere HORIZONTALE. Cette fonction 
 	 * 		   traduit le chiffre entree dans sa position en entier dans le board. 
 	 */
 	public int translateNumberToBoardH(int i) {
@@ -461,9 +473,9 @@ public class BoardVueConsole extends BoardVue {
 		}
 	}
 	
-	/*
+	/**
 	 * @pre : Prend un chiffre du board en parametre qui correspond a une position X d'une barriere VERTICALE
-	 * @post : L'utilisateur entre un chiffre comme etant une position X d'une des 2 positions d'une barriere VERTICALE. Cette fonction 
+	 * @return : L'utilisateur entre un chiffre comme etant une position X d'une des 2 positions d'une barriere VERTICALE. Cette fonction 
 	 * 		   traduit le chiffre entree dans sa position en entier dans le board. 
 	 */
 	public int translateNumberToBoardV(int i) {
