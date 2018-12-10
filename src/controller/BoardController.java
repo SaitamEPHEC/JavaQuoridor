@@ -2,6 +2,7 @@ package controller;
 
 import model.Board;
 import view.BoardVue;
+import view.BoardVueConsole;
 
 public class BoardController {
 	Board model;
@@ -12,6 +13,7 @@ public class BoardController {
 	public BoardController(Board model) {
 		this.model = model;
 	}
+	
 	
 	public void addView(BoardVue vue) {
 		this.vue = vue;
