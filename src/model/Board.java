@@ -393,6 +393,34 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * @return : Retourne le nom du joueur 1
+	 */
+	public String getPlayer1Nickname() {
+		return player1.getNickname();
+	}
+	
+	/**
+	 * @return : Retourne le nom du joueur 2
+	 */
+	public String getPlayer2Nickname() {
+		return player2.getNickname();
+	}
+	
+	/**
+	 * @return : Retourne le nombre de barrieres restantes du joueur 1
+	 */
+	public int getPlayer1BarrierLeft() {
+		return player1.getNbrBarrierLeft();
+	}
+	
+	/**
+	 * @return : Retourne le nombre de barrieres restantes du joueur 2
+	 */
+	public int getPlayer2BarrierLeft() {
+		return player2.getNbrBarrierLeft();
+	}
+	
+	/**
 	 * @return : Retourne la position Y du pion du joueur 1
 	 */
 	public int getP1Y() {
