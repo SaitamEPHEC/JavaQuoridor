@@ -42,8 +42,8 @@ public class BoardVueConsole extends BoardVue {
 						System.out.print(temp[i][l]); // affiche 1 a 8
 					}
 					System.out.print(temp[i][temp.length-1]); // affiche 9 + \n
-					System.out.print("| Tour de : " + this.model.getTurn().getNickname()); // tour de :
-					System.out.println("  | Barrieres restantes de " + this.model.getPlayer1Nickname() + " : " + this.model.getPlayer1BarrierLeft()); // nombre barriere left du joueur du haut
+//					System.out.print("| Tour de : " + this.model.getTurn().getNickname()); // tour de :
+					System.out.println("| Barrieres restantes de " + this.model.getPlayer1Nickname() + " : " + this.model.getPlayer1BarrierLeft()); // nombre barriere left du joueur du haut
 					System.out.print("  I    ");
 				}
 				else { // board normal plus contour
@@ -53,8 +53,11 @@ public class BoardVueConsole extends BoardVue {
 					if(j == 0 && (i%2 != 0)) { // allignement des lignes sans lettres
 						System.out.print("   ");
 					}
+					if(j == (this.model.getLength()-1) && i == 8) {
+						System.out.println(this.model.getBoard()[i][j] + ("| Tour de : " + this.model.getTurn().getNickname()) );
+					}
 						
-					if(j == (this.model.getLength()-1) && i != (this.model.getLength()-1)) {
+					if(j == (this.model.getLength()-1) && i != (this.model.getLength()-1) && i != 8) { //dernier char de chaque ligne
 						System.out.println(this.model.getBoard()[i][j]); // board
 					}
 					if(j == (this.model.getLength()-1) && i == (this.model.getLength()-1)) {
