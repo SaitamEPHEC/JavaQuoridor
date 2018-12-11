@@ -75,8 +75,8 @@ public class BoardVueConsole extends BoardVue {
 				+ "\"L\" pour déplacer votre pion d'une case à gauche et \"R\" pour déplacer votre pion d'une case à droite \n");
 		affiche("Pour placer une barrière, Entrez \"B\" puis appuyez sur Enter.\n"
 				+ "Ensuite, tapez les 4 coordonnées de la barrière suivant les coordonnées possible sur le plateau de jeu.\n"
-				+ "Si vous placez une barrière horizontale, elle sera placée au-dessus des coordonnées indiquées, si vous"
-				+ " placez une barrière verticale, elle sera placée à droite des coordonnées indiquées.\n"
+				+ "Si vous placez une barrière horizontale, elle sera placée au-dessus des coordonnées indiquées, si vous\n"
+				+ "placez une barrière verticale, elle sera placée à droite des coordonnées indiquées.\n"
 				+ "Exemple : A 1 B 1 ou G 8 G 9\n");
 	}
 
@@ -100,25 +100,25 @@ public class BoardVueConsole extends BoardVue {
 								
 								String c1 = sc.next().toUpperCase();
 								if((c1.length()!=1) || (listeLettres.indexOf(c1) == -1)) {
-									affiche("Première lettre incorrecte, entrez une seule lettre entre A et I\n");
+									affiche("Première coordonnée de barrière incorrecte, entrez une seule lettre entre A et I\n");
 									isValid = false; 
 								}
 								
 								int i1 = sc.nextInt();
 								if(i1<1 || i1> 9){
-									affiche("Premier numero de case incorrecte, entrez un chiffre entre 1 et 9\n");
+									affiche("Deuxième coordonnée de barrière incorrecte, entrez un chiffre entre 1 et 9\n");
 									isValid = false;
 								}
 								
 								String c2 = sc.next().toUpperCase();
 								if((c2.length()!=1) || (listeLettres.indexOf(c2) == -1)){
-									affiche("Seconde lettre incorrecte, entrez une seule lettre entre A et I\n");
+									affiche("Troisième coordonnée de barrière incorrecte, entrez une seule lettre entre A et I\n");
 									isValid = false;
 								}
 								
 								int i2 = sc.nextInt();
 								if(i2<1 || i2> 9){
-									affiche("Second numero de case incorrect, entrez un chiffre entre 1 et 9\n");
+									affiche("Quatrième coordonnée de barrière incorrect, entrez un chiffre entre 1 et 9\n");
 									isValid = false;
 								}
 								
@@ -196,11 +196,25 @@ public class BoardVueConsole extends BoardVue {
 														}
 														//la barriere horizontale entree est entre 2 barrieres verticales existantes et peut donc etre placee
 														else{
-															model.drawBarrierH(posY1, posX1, posY2, posX2);
+															//test si le nombre de barriere restante du joueur a qui est le tour est superieur a 0
+															if(model.getTurn().getNbrBarrierLeft() > 0) {
+																model.drawBarrierH(posY1, posX1, posY2, posX2);
+															}
+															else {
+																affiche("/nVous n'avez plus de barrières, vous n'avez pas d'autres choix que de déplacer "
+																		+ "votre pion.");
+															}
 														}
 													}
 													else {
-														model.drawBarrierH(posY1, posX1, posY2, posX2);
+														//test si le nombre de barriere restante du joueur a qui est le tour est superieur a 0
+														if(model.getTurn().getNbrBarrierLeft() > 0) {
+															model.drawBarrierH(posY1, posX1, posY2, posX2);
+														}
+														else {
+															affiche("/nVous n'avez plus de barrières, vous n'avez pas d'autres choix que de déplacer "
+																	+ "votre pion.");
+														}
 													}
 												}
 											}
@@ -233,11 +247,25 @@ public class BoardVueConsole extends BoardVue {
 														}
 														//la barriere verticale entree est entre 2 barrieres horizontales existantes et peut donc etre placee
 														else{
-															model.drawBarrierV(posY1, posX1, posY2, posX2);
+															//test si le nombre de barriere restante du joueur a qui est le tour est superieur a 0
+															if(model.getTurn().getNbrBarrierLeft() > 0) {
+																model.drawBarrierV(posY1, posX1, posY2, posX2);
+															}
+															else {
+																affiche("/nVous n'avez plus de barrières, vous n'avez pas d'autres choix que de déplacer "
+																		+ "votre pion.");
+															}
 														}
 													}
 													else {
-														model.drawBarrierV(posY1, posX1, posY2, posX2);
+														//test si le nombre de barriere restante du joueur a qui est le tour est superieur a 0
+														if(model.getTurn().getNbrBarrierLeft() > 0) {
+															model.drawBarrierV(posY1, posX1, posY2, posX2);
+														}
+														else {
+															affiche("/nVous n'avez plus de barrières, vous n'avez pas d'autres choix que de déplacer "
+																	+ "votre pion.");
+														}
 													}
 												}
 												
@@ -276,7 +304,7 @@ public class BoardVueConsole extends BoardVue {
 										break;
 									case 5 : //mouvement correct du joueur 2 + check si victoire
 										if(model.getP2Y() == 0) {
-											affiche("Bravo joueur 2, vous avez gagné! Félicitations !");
+											affiche("\nBravo joueur 2, vous avez gagné! Félicitations !");
 											endOfGame = true;
 										}
 										break;
@@ -307,7 +335,7 @@ public class BoardVueConsole extends BoardVue {
 										break;
 									case 5 : //mouvement correct du joueur 1 + check si victoire
 										if(model.getP1Y() == 16) {
-											affiche("Bravo joueur 1, vous avez gagné! Félicitations !");
+											affiche("\nBravo joueur 1, vous avez gagné! Félicitations !");
 											endOfGame = true;
 										}
 										break;
