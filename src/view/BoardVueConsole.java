@@ -44,7 +44,7 @@ public class BoardVueConsole extends BoardVue {
 					System.out.print(temp[i][temp.length-1]); // affiche 9 + \n
 					System.out.print("| Tour de : " + this.model.getTurn().getNickname()); // tour de :
 					System.out.println("  | Barrieres restantes de " + this.model.getPlayer1Nickname() + " : " + this.model.getPlayer1BarrierLeft()); // nombre barriere left du joueur du haut
-					System.out.print("I      ");
+					System.out.print("  I    ");
 				}
 				else { // board normal plus contour
 					if(j == 0 && (i%2 == 0)){ // premiere colonne contour
