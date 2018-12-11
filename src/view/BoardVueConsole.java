@@ -68,8 +68,10 @@ public class BoardVueConsole extends BoardVue {
 				+ "Ensuite, tapez \"U\" pour déplacer votre pion d'une case en haut, \"D\" pour déplacer votre pion d'une case en bas,\n"
 				+ "\"L\" pour déplacer votre pion d'une case à gauche et \"R\" pour déplacer votre pion d'une case à droite \n");
 		affiche("Pour placer une barrière, Entrez \"B\" puis appuyez sur Enter.\n"
-				+ "Ensuite, tapez les 4 coordonnées de la barrière suivant les coordonnées possible sur le plateau de jeu"
-				+ ". Exemple : A 1 B 1 ou A 5 A 6\n");
+				+ "Ensuite, tapez les 4 coordonnées de la barrière suivant les coordonnées possible sur le plateau de jeu.\n"
+				+ "Si vous placez une barrière horizontale, elle sera placée au-dessus des coordonnées indiquées, si vous"
+				+ " placez une barrière verticale, elle sera placée à droite des coordonnées indiquées.\n"
+				+ "Exemple : A 1 B 1 ou G 8 G 9\n");
 	}
 
 	
