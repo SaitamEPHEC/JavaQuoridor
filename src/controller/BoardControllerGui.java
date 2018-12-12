@@ -10,12 +10,6 @@ public class BoardControllerGui extends BoardController{
 	}
 
 	@Override
-	public boolean isValidBarrier(Barrier b) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void putBarrier() {
 		// TODO Auto-generated method stub
 		

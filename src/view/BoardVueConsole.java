@@ -79,7 +79,6 @@ public class BoardVueConsole extends BoardVue {
 	
 	private class ReadInput implements Runnable{
 		public void run() {
-			boolean endOfGame = false;
 			while(!endOfGame){
 				try {
 					String c = sc.next().toUpperCase();
@@ -88,126 +87,7 @@ public class BoardVueConsole extends BoardVue {
 							controller.putBarrier();	
 							break;
 						case "P" : //Pion
-							String m = sc.next().toUpperCase();
-							switch(m) {
-								case "U" : 
-									int up = model.moveUp();
-									switch(up) {
-									case 1 :
-										affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
-												+ ", veuillez réessayer\n");
-										printHelp();
-										break;
-									case 2 : 
-										affiche("Player 1 : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
-										printHelp();
-										break;
-									case 3 : 
-										affiche("Player 2 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
-												+ ", veuillez réessayer\n");
-										printHelp();
-										break;
-									case 4 : 
-										affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
-										printHelp();
-										break;
-									case 5 : //mouvement correct du joueur 2 + check si victoire
-										if(model.getP2Y() == 0) {
-											affiche("Bravo joueur 2, vous avez gagné! Félicitations !");
-											endOfGame = true;
-										}
-										break;
-									default : //mouvement correct du joueur 1
-										break;
-									}
-									break;
-								case "D" : 
-									int down = model.moveDown();
-									switch(down) {
-									case 1 :
-										affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
-												+ ", veuillez réessayer\n");
-										printHelp();
-										break;
-									case 2 : 
-										affiche("Player 1 : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
-										printHelp();
-										break;
-									case 3 : 
-										affiche("Player 2 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
-												+ ", veuillez réessayer\n");
-										printHelp();
-										break;
-									case 4 : 
-										affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
-										printHelp();
-										break;
-									case 5 : //mouvement correct du joueur 1 + check si victoire
-										if(model.getP1Y() == 16) {
-											affiche("Bravo joueur 1, vous avez gagné! Félicitations !");
-											endOfGame = true;
-										}
-										break;
-									default : //Mouvement correct du joueur 2
-										break;
-									}
-									break;
-								case "L" : 
-									int left = model.moveLeft();
-									switch(left) {
-									case 1 :
-										affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
-												+ ", veuillez réessayer\n");
-										printHelp();
-										break;
-									case 2 : 
-										affiche("Player 1 : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
-										printHelp();
-										break;
-									case 3 : 
-										affiche("Player 2 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
-												+ ", veuillez réessayer\n");
-										printHelp();
-										break;
-									case 4 : 
-										affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
-										printHelp();
-										break;
-									default : //Mouvement correct
-										break;
-									}
-									break;
-								case "R" : 
-									int right = model.moveRight();
-									switch(right) {
-									case 1 :
-										affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
-												+ ", veuillez réessayer\n");
-										printHelp();
-										break;
-									case 2 : 
-										affiche("Player 1 : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
-										printHelp();
-										break;
-									case 3 : 
-										affiche("Player 2 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
-												+ ", veuillez réessayer\n");
-										printHelp();
-										break;
-									case 4 : 
-										affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
-										printHelp();
-										break;
-									default : //Mouvement correct 
-										break;
-									}
-									break;
-								default :
-									affiche("Mouvement incorrect, Vous avez entré autre chose que \"U\" \"D\" \"L\" ou \"R\" comme 2ème charactère"
-											+ ",  veuillez réessayer\n");
-									printHelp();
-									break;
-							}
+							controller.movePawn();
 							break;
 						default : 
 							affiche("Mouvement incorrect : Vous avez entré autre chose que \"B\" ou \"P\" comme 1er charactère, veuillez réessayer\n");
@@ -227,5 +107,7 @@ public class BoardVueConsole extends BoardVue {
 		System.out.println(string);
 		
 	}
+	
+	
 	
 }

@@ -75,8 +75,8 @@ public class Board extends Observable {
 		setP2X(8);
 		
 		//dessine les pions aux cases initiales
-		drawP1(0,0,getP1Y(),getP1X());
-		drawP2(0,0,getP2Y(),getP2X());
+		drawP1(new Pawn(0,0),new Pawn(getP1Y(),getP1X()));
+		drawP2(new Pawn(0,0),new Pawn(getP1Y(),getP1X()));
 		
 		//le joueur 1 commence
 		turn = player1;
@@ -130,27 +130,27 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * @pre : Les positions Y et X precedentes du pion, les nouvelles positions Y et X du pion
-	 * 		  et une string p qui sera la representation du pion du joueur 1.
-	 * @return : Modifie le board en retirant le pion de sa position YX precedente et en le mettant a sa nouvelle position YX
+	 * Place le pion du joueur 1 a sa nouvelle position sur le board et le retire de sa position precedente
+	 * @param prevPawn position precedente du pion
+	 * @param currentPawn nouvelle position du pion
 	 */
-	public void drawP1(int prevPosY, int prevPosX, int posY, int posX) {
-		board[prevPosY][prevPosX] = "  ";
-		board[posY][posX] = "P1";
-		setP1Y(posY);
-		setP1X(posX);
+	public void drawP1(Pawn prevPawn, Pawn currentPawn) {
+		board[prevPawn.getPosY()][prevPawn.getPosX()] = "  ";
+		board[currentPawn.getPosY()][currentPawn.getPosX()] = "P1";
+		setP1Y(currentPawn.getPosY());
+		setP1X(currentPawn.getPosX());
 	}
 	
 	/**
-	 * @pre : Les positions Y et X precedentes du pion, les nouvelles positions Y et X du pion
-	 * 		  et une string p qui sera la representation du pion du joueur 2..
-	 * @return : Modifie le board en retirant le pion de sa position YX precedente et en le mettant a sa nouvelle position YX
+	 * Place le pion du joueur 2 a sa nouvelle position sur le board et le retire de sa position precedente
+	 * @param prevPawn position precedente du pion
+	 * @param currentPawn nouvelle position du pion
 	 */
-	public void drawP2(int prevPosY, int prevPosX, int posY, int posX) {
-		board[prevPosY][prevPosX] = "  ";
-		board[posY][posX] = "P2";
-		setP2Y(posY);
-		setP2X(posX);
+	public void drawP2(Pawn prevPawn, Pawn currentPawn) {
+		board[prevPawn.getPosY()][prevPawn.getPosX()] = "  ";
+		board[currentPawn.getPosY()][currentPawn.getPosX()] = "P2";
+		setP2Y(currentPawn.getPosY());
+		setP2X(currentPawn.getPosX());
 	}
 	
 	/**
@@ -208,8 +208,10 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * 
-	 * @return : le pion bouge graphiquement d'une case vers le haut, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 * Déplace le pion d'une case au-dessus dans le board si cela est possible, sinon renvoie un entier symbolisant
+	 * un cas d'erreur (cet entier peut ensuite etre utilisé en fonction de ce que l'on veut afficher comme erreur)
+	 * @return 0 si P1 a été déplacé d'une case au-dessus, 5 si P2 a été déplacé d'une case au-dessus, 
+	 * 1,2,3 ou 4 si une erreur s'est produite et que le pion n'a pas pu être déplacé d'une case au-dessus.
 	 */
 	public int moveUp() {
 		if(turn.equals(player1)){
@@ -218,11 +220,11 @@ public class Board extends Observable {
 				return 1;
 			}
 			//P1 est bloque par une barriere au-dessus
-			else if(board[getP1Y()-1][getP1X()] == "――") {
+			else if(isPositionOfBarrierOnBoard(new Barrier(getP1Y()-1,getP1X(),0,0))) {
 				return 2;
 			}
 			else{
-				drawP1(getP1Y(),getP1X(),getP1Y()-2,getP1X());
+				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()-2,getP1X()));
 				turn = player2;
 				setChanged();
 				notifyObservers();
@@ -235,11 +237,11 @@ public class Board extends Observable {
 				return 3;
 			}
 			//P2 est bloque par une barriere au-dessus
-			else if(board[getP2Y()-1][getP2X()] == "――") {
+			else if(isPositionOfBarrierOnBoard(new Barrier(getP2Y()-1,getP2X(),0,0))) {
 				return 4;
 			}
 			else{
-				drawP2(getP2Y(),getP2X(),getP2Y()-2,getP2X());
+				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()-2,getP2X()));
 				turn = player1;
 				setChanged();
 				notifyObservers();
@@ -249,8 +251,10 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * 
-	 * @return : le pion bouge graphiquement d'une case vers le bas, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 * Déplace le pion d'une case en-dessous dans le board si cela est possible, sinon renvoie un entier symbolisant
+	 * un cas d'erreur (cet entier peut ensuite etre utilisé en fonction de ce que l'on veut afficher comme erreur)
+	 * @return 0 si P2 a été déplacé d'une case en-dessous, 5 si P1 a été déplacé d'une case en-dessous, 
+	 * 1,2,3 ou 4 si une erreur s'est produite et que le pion n'a pas pu être déplacé d'une case en-dessous.
 	 */
 	public int moveDown() {
 		if(turn.equals(player1)) {
@@ -263,7 +267,7 @@ public class Board extends Observable {
 				return 2;
 			}
 			else{
-				drawP1(getP1Y(),getP1X(),getP1Y()+2,getP1X());
+				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()+2,getP1X()));
 				turn = player2;
 				setChanged();
 				notifyObservers();
@@ -280,7 +284,7 @@ public class Board extends Observable {
 				return 4;
 			}
 			else{
-				drawP2(getP2Y(),getP2X(),getP2Y()+2,getP2X());
+				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()+2,getP2X()));
 				turn = player1;
 				setChanged();
 				notifyObservers();
@@ -290,8 +294,10 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * 
-	 * @return : le pion bouge graphiquement d'une case vers la gauche, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 * Déplace le pion d'une case a gauche dans le board si cela est possible, sinon renvoie un entier symbolisant
+	 * un cas d'erreur (cet entier peut ensuite etre utilisé en fonction de ce que l'on veut afficher comme erreur)
+	 * @return 0 si P1 ou P2 a été déplacé d'une case a gauche, 1,2,3 ou 4 si une erreur s'est produite 
+	 * et que le pion n'a pas pu être déplacé d'une case a gauche.
 	 */
 	public int moveLeft() {
 		if(turn.equals(player1)) {
@@ -304,7 +310,7 @@ public class Board extends Observable {
 				return 2;
 			}
 			else{
-				drawP1(getP1Y(),getP1X(),getP1Y(),getP1X()-2);
+				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()-2));
 				turn = player2;
 				setChanged();
 				notifyObservers();
@@ -321,7 +327,7 @@ public class Board extends Observable {
 				return 4;
 			}
 			else{
-				drawP2(getP2Y(),getP2X(),getP2Y(),getP2X()-2);
+				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()-2));
 				turn = player1;
 				setChanged();
 				notifyObservers();
@@ -331,8 +337,10 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * 
-	 * @return : le pion bouge graphiquement d'une case vers la droite, retour true si pas d'erreur, false si erreur (rentre dans un mur)
+	 * Déplace le pion d'une case a droite dans le board si cela est possible, sinon renvoie un entier symbolisant
+	 * un cas d'erreur (cet entier peut ensuite etre utilisé en fonction de ce que l'on veut afficher comme erreur)
+	 * @return 0 si P1 ou P2 a été déplacé d'une case a droite, 1,2,3 ou 4 si une erreur s'est produite 
+	 * et que le pion n'a pas pu être déplacé d'une case a droite.
 	 */
 	public int moveRight() {
 		if(turn.equals(player1)) {
@@ -345,7 +353,7 @@ public class Board extends Observable {
 				return 2;
 			}
 			else{
-				drawP1(getP1Y(),getP1X(),getP1Y(),getP1X()+2);
+				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()+2));
 				turn = player2;
 				setChanged();
 				notifyObservers();
@@ -362,7 +370,7 @@ public class Board extends Observable {
 				return 4;
 			}
 			else{
-				drawP2(getP2Y(),getP2X(),getP2Y(),getP2X()+2);
+				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()+2));
 				turn = player1;
 				setChanged();
 				notifyObservers();
@@ -379,6 +387,10 @@ public class Board extends Observable {
 		return board;
 	}
 	
+	/**
+	 * 
+	 * @return la longueur du plateau de jeu
+	 */
 	public int getLength() {
 		return this.board.length;
 	}
@@ -405,6 +417,7 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * Permet d'obtenir le nombre de barrieres restantes du joueur 1
 	 * @return le nombre de barrieres restantes du joueur 1
 	 */
 	public int getPlayer1BarrierLeft() {
@@ -412,6 +425,7 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * Permet d'obtenir le nombre de barrieres restantes du joueur 2
 	 * @return le nombre de barrieres restantes du joueur 2
 	 */
 	public int getPlayer2BarrierLeft() {
@@ -419,6 +433,7 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * Permet d'obtenir la position du pion du joueur 1 sur l'axe des ordonnees (Y)
 	 * @return la position Y du pion du joueur 1
 	 */
 	public int getP1Y() {
@@ -426,6 +441,7 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * Permet d'obtenir la position du pion du joueur 1 sur l'axe des abscisses (X))
 	 * @return la position X du pion du joueur 1
 	 */
 	public int getP1X() {
@@ -433,6 +449,7 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * Permet d'obtenir la position du pion du joueur 2 sur l'axe des ordonnees (Y)
 	 * @return la position Y du pion du joueur 2
 	 */
 	public int getP2Y() {
@@ -440,7 +457,8 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * @return la position Y du pion du joueur 1
+	 * Permet d'obtenir la position du pion du joueur 2 sur l'axe des abscisses (X)
+	 * @return la position X du pion du joueur 2
 	 */
 	public int getP2X() {
 		return player2.getPawn().getPosX();
@@ -513,4 +531,29 @@ public class Board extends Observable {
 		return false; 
 	}
 	
+	/**
+	 * 
+	 * @return true si le joueur 1 a gagne la partie, false sinon
+	 */
+	public boolean player1HasWon() {
+		if(getP1Y() == 16) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * 
+	 * @return true si le joueur 2 a gagne la partie, false sinon
+	 */
+	public boolean player2HasWon() {
+		if(getP2Y() == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
