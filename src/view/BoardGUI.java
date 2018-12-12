@@ -1,36 +1,29 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
 
 public class BoardGUI extends JFrame {
 
-	public JFrame frame;
 	public JPanel gameView;
-	public JTextField textFieldChat;
-	public JTextField textFieldBarrier;
+	public JPanel boardView;
+	public JTextField chatTextField;
+	public JScrollPane chatScrollPane;
+	public JTextPane chatTextPane;
 	public JButton onlineButton;
 	public JButton upButton;
 	public JButton downButton;
 	public JButton leftButton;
 	public JButton rightButton;
+	public JTextField textFieldBarrier;
 	public JButton setBarrierButton;
-	public JTextArea chatTextArea;
-	public JTextArea connectionTextArea;
-	
 
 	/**
 	 * Launch the application.
@@ -53,65 +46,57 @@ public class BoardGUI extends JFrame {
 	 */
 	public BoardGUI() {
 		setResizable(false);
-		
-		frame =  new JFrame();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 650);
+		setBounds(100, 100, 937, 760);
 		gameView = new JPanel();
 		gameView.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(gameView);
 		gameView.setLayout(null);
 		
-		JLabel label = new JLabel("");
-		label.setBounds(5, 5, 171, 152);
-		gameView.add(label);
+		boardView = new JPanel();
+		boardView.setBounds(10, 10, 700, 600);
+		gameView.add(boardView);
 		
-		JLabel label_1 = new JLabel("");
-		label_1.setBounds(347, 5, 171, 152);
-		gameView.add(label_1);
+		chatTextField = new JTextField();
+		chatTextField.setBounds(720, 690, 191, 20);
+		gameView.add(chatTextField);
+		chatTextField.setColumns(10);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(15, 15, 700, 500);
-		gameView.add(panel);
-		
-		textFieldChat = new JTextField();
-		textFieldChat.setBounds(725, 580, 149, 20);
-		gameView.add(textFieldChat);
-		textFieldChat.setColumns(10);
-		
-		chatTextArea = new JTextArea();
-		JScrollPane chatScrollPane = new JScrollPane(chatTextArea);
-		chatScrollPane.setBounds(725, 367, 149, 202);
+		chatTextPane = new JTextPane();
+		JScrollPane chatScrollPane = new JScrollPane(chatTextPane);
+		chatScrollPane.setBounds(720, 279, 191, 400);
 		gameView.add(chatScrollPane);
+		chatTextPane.setEditable(false);
 		
-		
-		onlineButton = new JButton("ONLINE");
-		onlineButton.setBounds(725, 333, 149, 23);
+		onlineButton = new JButton("Online");
+		onlineButton.setBounds(720, 245, 191, 23);
 		gameView.add(onlineButton);
 		
 		upButton = new JButton("UP");
-		upButton.setBounds(515, 525, 90, 25);
+		upButton.setBounds(450, 620, 90, 25);
 		gameView.add(upButton);
 		
 		downButton = new JButton("DOWN");
-		downButton.setBounds(515, 560, 90, 25);
+		downButton.setBounds(450, 655, 90, 25);
 		gameView.add(downButton);
 		
 		rightButton = new JButton("RIGHT");
-		rightButton.setBounds(615, 560, 90, 25);
+		rightButton.setBounds(550, 655, 90, 25);
 		gameView.add(rightButton);
 		
 		leftButton = new JButton("LEFT");
-		leftButton.setBounds(415, 560, 90, 25);
+		leftButton.setBounds(350, 655, 90, 25);
 		gameView.add(leftButton);
 		
 		textFieldBarrier = new JTextField();
-		textFieldBarrier.setBounds(50, 560, 90, 25);
+		textFieldBarrier.setBounds(50, 655, 90, 25);
 		gameView.add(textFieldBarrier);
 		textFieldBarrier.setColumns(10);
 		
-		setBarrierButton = new JButton("SET");
-		setBarrierButton.setBounds(50, 525, 90, 25);
+		setBarrierButton = new JButton("PLACE");
+		setBarrierButton.setBounds(145, 655, 90, 25);
 		gameView.add(setBarrierButton);
+		
+		
 	}
 }
