@@ -10,11 +10,74 @@ import view.BoardVueConsole;
 public class BoardControllerConsole extends BoardController{
 	private BoardVueConsole vueConsole;
 	private Scanner sc; 
+	private static final String LETTRES_AXE_Y = "ABCDEFGHI";
+	private static final String CHIFFRES_AXE_X = "123456789";
 	
 	public BoardControllerConsole(Board model) {
 		super(model);
 	}
 
+	@Override
+	public boolean isValidBarrier(Barrier b) {
+		
+		return false;
+	}
+
+	@Override
+	public void movePawn() {
+		
+		
+	}
+	
+	@Override
+	public void putBarrier() {
+		Barrier b;
+		String[] inputs = askBarrier();
+		
+		if(checkInputs(inputs)) {
+			if(isBarrierH(inputs)){
+				//Barriere Horizontale
+				b = translateH(inputs);
+				if(model.isPositionOfBarrierOnBoard(b)) {
+					this.vue.affiche("Position de la barri√®re incorrecte : Vous ne pouvez pas placer une barri√®re sur une"
+							+ " barri√®re d√©j√† existante.\n");
+				}
+				else {
+					if(crossBarrierV(b)) {
+						this.vue.affiche("Position de la barri√®re incorrecte : Vous ne pouvez pas croiser votre barri√®re horizontale avec "
+								+ "une barri√®re verticale d√©j√† existante.\n");
+					}
+					else {
+						model.drawBarrierH(b);
+					}
+				}
+			}
+			else if(isBarrierV(inputs)) {
+				//Barriere Verticale
+				b = translateV(inputs);
+				if(model.isPositionOfBarrierOnBoard(b)) {
+					this.vue.affiche("Position de la barri√®re incorrecte : Vous ne pouvez pas placer une barri√®re sur une"
+							+ " barri√®re d√©j√† existante.\n");
+				}
+				else {
+					if(crossBarrierH(b)) {
+						this.vue.affiche("Position de la barri√®re incorrecte : Vous ne pouvez pas croiser votre barri√®re verticale avec "
+								+ "une barri√®re horizontale d√©j√† existante.\n");
+					}
+					else {
+						model.drawBarrierV(b);
+					}
+				}
+			}
+			else {
+				this.vue.affiche("Les coordonn√©es entr√©es ne correspondent pas √† une barri√®re horizontale ou verticale.\nExemple de "
+						+ "barri√®re horizontale : A 1 A 2\nExemple de barri√®re verticale : G 8 H 8\n");
+			}
+		}
+		else {
+		}
+	}
+	
 	/**
 	 * 
 	 * @return les 4 coordonnees de la barriere entrees par l'utilisateur. 
@@ -42,147 +105,144 @@ public class BoardControllerConsole extends BoardController{
 	 * @return true si le format d'input de la barriere est correcte, c'est a dire que les coordonnees entrees sont dans
 	 * l'ensemble des coordonnees du plateau de jeu, false sinon.
 	 */
-	public boolean checkFormatBarrier(String[] c) {
-		String listeLettres = "ABCDEFGHI";
+	public boolean checkInputs(String[] c) {
 		boolean isValid = true; //si reste true, les chiffres et lettres sont valides par rapport aux limites du board
 		
-		if((c[0].length()!=1) || (listeLettres.indexOf(c[0]) == -1)) {
-			this.vue.affiche("1Ëre coordonnÈe de barriËre incorrecte, la 1Ëre coordonnÈe doit Ítre une lettre entre A et I\n");
+		if((c[0].length()!=1) || (LETTRES_AXE_Y.indexOf(c[0]) == -1)) {
+			this.vue.affiche("1√®re coordonn√©e de barri√®re incorrecte, la 1√®re coordonn√©e doit √™tre une lettre entre A et I\n");
 			isValid = false; 
 		}
 		
-		if((c[1].length()!=1) || (listeLettres.indexOf(c[1]) == -1)) {
-			this.vue.affiche("2Ëme coordonnÈe de barriËre incorrecte, la 2Ëme coordonnÈe doit Ítre une un chiffre entre 1 et 9\n");
+		if((c[1].length()!=1) || (CHIFFRES_AXE_X.indexOf(c[1]) == -1)) {
+			this.vue.affiche("2√®me coordonn√©e de barri√®re incorrecte, la 2√®me coordonn√©e doit √™tre une un chiffre entre 1 et 9\n");
 			isValid = false; 
 		}
 		
-		if((c[2].length()!=1) || (listeLettres.indexOf(c[2]) == -1)) {
-			this.vue.affiche("3Ëme coordonnÈe de barriËre incorrecte, la 3Ëme coordonnÈe doit Ítre une lettre entre A et I\n");
+		if((c[2].length()!=1) || (LETTRES_AXE_Y.indexOf(c[2]) == -1)) {
+			this.vue.affiche("3√®me coordonn√©e de barri√®re incorrecte, la 3√®me coordonn√©e doit √™tre une lettre entre A et I\n");
 			isValid = false; 
 		}
 		
-		if((c[3].length()!=1) || (listeLettres.indexOf(c[3]) == -1)) {
-			this.vue.affiche("4Ëme coordonnÈe de barriËre incorrecte, la 4Ëme coordonnÈe doit Ítre une un chiffre entre 1 et 9\n");
+		if((c[3].length()!=1) || (CHIFFRES_AXE_X.indexOf(c[3]) == -1)) {
+			this.vue.affiche("4√®me coordonn√©e de barri√®re incorrecte, la 4√®me coordonn√©e doit √™tre une un chiffre entre 1 et 9\n");
 			isValid = false;
 		}
 		
 		return isValid;
 	}
 	
-	@Override
-	public void putBarrier() {
-		String[] coordonnees = askBarrier();
-		
-		if(checkFormatBarrier(coordonnees)) {
-			//est mis a false si l'utilisateur a essaye de placer une barriere horizontale sur la ligne I
-			//ou une barriere verticale sur la colonne 9 (hors des limites du plateau de jeu). Sinon, reste a true.
-			boolean caseNotOutOfBounds= true;
-			
-			//cas de barriere horizontale
-			if(c1.equals(c2)) {
-				if(c1.equals("I") || c2.equals("I")) {
-					affiche("Position de la barriËre incorrecte. Vous ne pouvez pas placer une barriËre horizontale "
-							+ "sur la ligne I (Hors des limites du plateau de jeu)\n");
-					printHelp();
-					caseNotOutOfBounds = false;
-				}
-				else {
-					posY1 = translateLetterToBoardH(c1);
-					posX1 = translateNumberToBoardH(i1);
-					posY2 = translateLetterToBoardH(c2);
-					posX2 = translateNumberToBoardH(i2);
-				}
-			}
-			
-			//cas de barriere verticale
-			if(i1 == i2) {
-				if(i1 == 9 || i2 == 9) {
-					affiche("Position de la barriËre incorrecte. Vous ne pouvez pas placer une barriËre verticale "
-							+ "sur la colonne 9 (Hors des limites du plateau de jeu)\n");
-					printHelp();
-					caseNotOutOfBounds = false; 
-				}
-				else {
-					posY1 = translateLetterToBoardV(c1);
-					posX1 = translateNumberToBoardV(i1);
-					posY2 = translateLetterToBoardV(c2);
-					posX2 = translateNumberToBoardV(i2);
-				}
-			}
-		}
-	}
-	
 	/**
-	 * @param un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
-	 * @return true si l'utilisateur a essaye de placer une barriere horizontale sur la ligne I
-	 * ou une barriere verticale sur la colonne 9 (hors des limites du plateau de jeu) et affiche l'erreur en console. Sinon, return false.
-	 */
-	
-	public boolean SpecificBarrierCase(String[] c) {
-		
-		//cas de barriere horizontale
-		if(c[0].equals(c[2])) {
-			if(c[0].equals("I") || c[2].equals("I")) {
-				this.vue.affiche("Position de la barriËre incorrecte. Vous ne pouvez pas placer une barriËre horizontale "
-							+ "sur la ligne I (Hors des limites du plateau de jeu)\n");
-				this.vueConsole.printHelp();
-				return true;
-			}
-			else {
+	 * 
+	 * @param c un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
+	 * @return true si les coordonnees entree correspondent a une barriere horizontale, false sinon.
+	 */ 
+	public boolean isBarrierH(String[] c) {
+		if(c[0].equals(c[2]) && Math.abs(CHIFFRES_AXE_X.indexOf(c[1]) - CHIFFRES_AXE_X.indexOf(c[3])) == 1) {
+			if(c[0].equals("I")) {
 				return false;
 			}
-		}
-		//cas de barriere verticale
-		else if(c[1].equals(c[3])) {
-			if(c[1].equals("9") || c[3].equals("9")) {
-				this.vue.affiche("Position de la barriËre incorrecte. Vous ne pouvez pas placer une barriËre verticale "
-						+ "sur la colonne 9 (Hors des limites du plateau de jeu)\n");
-				this.vueConsole.printHelp();
+			else {
 				return true;
 			}
-			else {
-				return false;
-			}
 		}
-		else {
-			
-		}
-	}
-
-	/**
-	 * @param un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
-	 * @return true si les coordonnees de la barriere entrees en parametre correspondent bien a celles d'une barriere verticale ou horizontale, c'est a dire
-	 * que soit les 2 positions Y sont les memes et les 2 positions X sont adjacentes, soit les 2 positions X sont les memes et les 2 positions Y sont
-	 * adjacentes.
-	 */
-	public boolean isBarrierHOrV(String[] c) {
-		//test que les positions donnees sont bien celles d'une barriere horizontale OU verticale
-		if (!(((posY1 == posY2) && Math.abs(posX1 - posX2) == 2) || ((posX1 == posX2) && Math.abs(posY1 - posY2) == 2))) {
-			affiche("Position de la barriËre incorrecte.\nExemple de barriËre horizontale : A 1 B 1\nExemple de barriËre verticale : A 5 A 6\n");
-			printHelp();
-		}
-	}
-	
-	@Override
-	public boolean isValidBarrier(Barrier b) {
-		
 		return false;
 	}
-
-	@Override
-	public void movePawn() {
-		
-		
-	}
-	
-	
 	
 	/**
-	 * @pre : Prend une lettre du board en parametre qui correspond a une position Y d'une barriere HORIZONTALE
-	 * @return : L'utilisateur entre une lettre comme etant une position Y d'une des 2 positions d'une barriere HORIZONTALE. Cette fonction 
-	 * 		   traduit la lettre entree dans sa position en entier dans le board. 
+	 * 
+	 * @param c un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
+	 * @return true si les coordonnees entree correspondent a une barriere verticale, false sinon.
 	 */
-	public int translateLetterToBoardH(String c) {
+	public boolean isBarrierV(String[] c) {
+		if(c[1].equals(c[3]) && Math.abs(LETTRES_AXE_Y.indexOf(c[0]) - LETTRES_AXE_Y.indexOf(c[2])) == 1) {
+			if(c[1].equals("9")) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Permet de savoir si la barriere horizontale b croise une barriere verticale.
+	 * @param b une barriere
+	 * @return true si la barriere horizontale b croise une barriere verticale, false sinon.
+	 */
+	public boolean crossBarrierV(Barrier b) {
+		Barrier dummyBarrier = new Barrier(b.getPosY1()+1,b.getPosX1()+1,b.getPosY1()-1,b.getPosX1()+1);
+		if(model.isBarrierOnBoard(dummyBarrier)) {
+			return true; 
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Permet de savoir si la barriere verticale b croise une barriere horizontale.
+	 * @param b une barriere
+	 * @return true si la barriere verticale b croise une barriere horizontale, false sinon.
+	 */
+	public boolean crossBarrierH(Barrier b) {
+		Barrier dummyBarrier = new Barrier(b.getPosY1()-1,b.getPosX1()-1,b.getPosY1()-1,b.getPosX1()+1);
+		if(model.isBarrierOnBoard(dummyBarrier)) {
+			return true; 
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Traduit les coordonnees de la barriere HORIZONTALE entrees par l'utilisateur en leur coordonnees correspondantes dans le board 
+	 * et comprehensibles par celui-ci. Instancie ensuite une barriere en lui assignant ses coordonnees dans le board.
+	 * 
+	 * @param c	un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
+	 * @return une barriere HORIZONTALE avec ses 4 coordonnees dans le board.
+	 * 
+	 */
+	public Barrier translateH(String[] c) {
+		int posY1 = translateLetterH(c[0]);
+		int posX1 = translateNumberH(c[1]);
+		int posY2 = translateLetterH(c[2]);
+		int posX2 = translateNumberH(c[3]);
+		
+		Barrier b = new Barrier(posY1, posX1, posY2, posX2);
+		
+		b.reordering();
+		
+		return b;		
+	}
+	
+	/**
+	 * Traduit les coordonnees de la barriere VERTICALE entrees par l'utilisateur en leur coordonnees correspondantes dans le board 
+	 * et comprehensibles par celui-ci. Instancie ensuite une barriere en lui assignant ses coordonnees dans le board.
+	 * 
+	 * @param c un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
+	 * @return une barriere VERTICALE avec ses 4 coordonnees dans le board.
+	 */
+	public Barrier translateV(String[] c) {
+		int posY1 = translateLetterV(c[0]);
+		int posX1 = translateNumberV(c[1]);
+		int posY2 = translateLetterV(c[2]);
+		int posX2 = translateNumberV(c[3]);
+		
+		Barrier b = new Barrier(posY1, posX1, posY2, posX2);
+		
+		b.reordering();
+		
+		return b;
+		
+	
+	}
+	
+	/**
+	 * @param c Une lettre entree par l'utilisateur et correspondant a la coordonnee Y d'une des 2 positions d'une barriere HORIZONTALE.
+	 * @return : Cette fonction traduit la lettre entree dans sa coordonnee Y correspondante dans le board et comprehensible par celui-ci. 
+	 */
+	public int translateLetterH(String c) {
 		switch(c) {
 			case "A" :
 				return 15;
@@ -206,11 +266,10 @@ public class BoardControllerConsole extends BoardController{
 	} 
 	
 	/**
-	 * @pre : Prend une lettre du board en parametre qui correspond a une position Y d'une barriere VERTICALE
-	 * @return : L'utilisateur entre une lettre comme etant une position Y d'une des 2 positions d'une barriere VERTICALE. Cette fonction 
-	 * 		   traduit la lettre entree dans sa position en entier dans le board. 
+	 * @param c Une lettre entree par l'utilisateur et correspondant a la coordonnee Y d'une des 2 positions d'une barriere VERTICALE.
+	 * @return : Cette fonction traduit la lettre entree dans sa coordonnee Y correspondante dans le board et comprehensible par celui-ci. 
 	 */
-	public int translateLetterToBoardV(String c) {
+	public int translateLetterV(String c) {
 		switch(c) {
 			case "A" :
 				return 16;
@@ -237,29 +296,28 @@ public class BoardControllerConsole extends BoardController{
 	
 	
 	/**
-	 * @pre : Prend un chiffre du board en parametre qui correspond a une position X d'une barriere HORIZONTALE
-	 * @return : L'utilisateur entre un chiffre comme etant une position X d'une des 2 positions d'une barriere HORIZONTALE. Cette fonction 
-	 * 		   traduit le chiffre entree dans sa position en entier dans le board. 
+	 * @param i Un chiffre entre par l'utilisateur et correspondant a la coordonnee X d'une des 2 positions d'une barriere HORIZONTALE.
+	 * @return : Cette fonction traduit le chiffre entre dans sa coordonnee X correspondante dans le board et comprehensible par celui-ci. 
 	 */
-	public int translateNumberToBoardH(int i) {
+	public int translateNumberH(String i) {
 		switch(i) {
-			case 1 :
+			case "1" :
 				return 0;
-			case 2 : 
+			case "2" : 
 				return 2;
-			case 3 :
+			case "3" :
 				return 4;
-			case 4 : 
+			case "4" : 
 				return 6;
-			case 5 : 
+			case "5" : 
 				return 8;
-			case 6 :
+			case "6" :
 				return 10;
-			case 7 : 
+			case "7" : 
 				return 12; 
-			case 8 : 
+			case "8" : 
 				return 14;
-			case 9 : 
+			case "9" : 
 				return 16;
 			default :
 				return -1;
@@ -267,27 +325,26 @@ public class BoardControllerConsole extends BoardController{
 	}
 	
 	/**
-	 * @pre : Prend un chiffre du board en parametre qui correspond a une position X d'une barriere VERTICALE
-	 * @return : L'utilisateur entre un chiffre comme etant une position X d'une des 2 positions d'une barriere VERTICALE. Cette fonction 
-	 * 		   traduit le chiffre entree dans sa position en entier dans le board. 
+	 * @param i Un chiffre entre par l'utilisateur et correspondant a la coordonnee X d'une des 2 positions d'une barriere VERTICALE.
+	 * @return : Cette fonction traduit le chiffre entre dans sa coordonnee X correspondante dans le board et comprehensible par celui-ci. 
 	 */
-	public int translateNumberToBoardV(int i) {
+	public int translateNumberV(String i) {
 		switch(i) {
-			case 1 :
+			case "1" :
 				return 1;
-			case 2 : 
+			case "2" : 
 				return 3;
-			case 3 :
+			case "3" :
 				return 5;
-			case 4 : 
+			case "4" : 
 				return 7;
-			case 5 : 
+			case "5" : 
 				return 9;
-			case 6 :
+			case "6" :
 				return 11;
-			case 7 : 
+			case "7" : 
 				return 13; 
-			case 8 : 
+			case "8" : 
 				return 15;
 			default :
 				return -1;

@@ -80,140 +80,12 @@ public class BoardVueConsole extends BoardVue {
 	private class ReadInput implements Runnable{
 		public void run() {
 			boolean endOfGame = false;
-			String listeLettres = "ABCDEFGHI";
 			while(!endOfGame){
 				try {
 					String c = sc.next().toUpperCase();
 					switch(c){
 						case "B" : 	//Barriere
-								
-								if(isValid) {
-									
-									//est mis a false si l'utilisateur a essaye de placer une barriere horizontale sur la ligne I
-									//ou une barriere verticale sur la colonne 9 (hors des limites du plateau de jeu). Sinon, reste a true.
-									boolean caseNotOutOfBounds= true;
-									
-									//cas de barriere horizontale
-									if(c1.equals(c2)) {
-										if(c1.equals("I") || c2.equals("I")) {
-											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière horizontale "
-													+ "sur la ligne I (Hors des limites du plateau de jeu)\n");
-											printHelp();
-											caseNotOutOfBounds = false;
-										}
-										else {
-											posY1 = translateLetterToBoardH(c1);
-											posX1 = translateNumberToBoardH(i1);
-											posY2 = translateLetterToBoardH(c2);
-											posX2 = translateNumberToBoardH(i2);
-										}
-									}
-									
-									//cas de barriere verticale
-									if(i1 == i2) {
-										if(i1 == 9 || i2 == 9) {
-											affiche("Position de la barrière incorrecte. Vous ne pouvez pas placer une barrière verticale "
-													+ "sur la colonne 9 (Hors des limites du plateau de jeu)\n");
-											printHelp();
-											caseNotOutOfBounds = false; 
-										}
-										else {
-											posY1 = translateLetterToBoardV(c1);
-											posX1 = translateNumberToBoardV(i1);
-											posY2 = translateLetterToBoardV(c2);
-											posX2 = translateNumberToBoardV(i2);
-										}
-									}
-
-									if(caseNotOutOfBounds) {
-										//test que les positions donnees sont bien celles d'une barriere horizontale OU verticale
-										if (!(((posY1 == posY2) && Math.abs(posX1 - posX2) == 2) || ((posX1 == posX2) && Math.abs(posY1 - posY2) == 2))) {
-											affiche("Position de la barrière incorrecte.\nExemple de barrière horizontale : A 1 B 1\nExemple de barrière verticale : A 5 A 6\n");
-											printHelp();
-										}
-										else {
-											//barriere horizontale
-											if(posY1 == posY2) {
-												//test si aucun symbole de barriere horizontale "――" n'existe deja aux positions donnees pour placer
-												//la barriere horizontale
-												if(model.getBoard()[posY1][posX1] == "――" || model.getBoard()[posY2][posX2] == "――") {
-													affiche("Position de la barrière incorrecte : Vous ne pouvez pas placer une barrière sur une"
-															+ " barrière déjà existante.\n");
-													printHelp();
-												}
-												else {
-													//Inverse la premiere coordonnee X entree avec la seconde coordonnee X entree
-													//si la premiere coordonnee X entree par l'utilisateur est plus grande que la seconde.
-													//Cela permet d'avoir toujours en posX1 la coordonnee X la plus petite. 
-													if (posX1 > posX2){
-														int posX = posX1;
-														posX1 = posX2;
-														posX2 = posX;
-													}
-													
-													//test si la barriere horizontale entree est entre 2 symboles de barriere verticales
-													if (model.getBoard()[posY1+1][posX1+1] == " | " && model.getBoard()[posY1-1][posX1+1] == " | "){
-														//test si la barriere horizontale entree passe a travers une barriere verticale existante
-														if(model.isBarrierOnBoard(posY1+1, posX1+1,posY1-1,posX1+1)){
-															affiche("Position de la barrière incorrecte : Vous ne pouvez pas croiser votre barrière horizontale avec "
-																	+ "une barrière verticale déjà existante.\n");
-															printHelp();
-														}
-														//la barriere horizontale entree est entre 2 barrieres verticales existantes et peut donc etre placee
-														else{
-															model.drawBarrierH(posY1, posX1, posY2, posX2);
-														}
-													}
-													else {
-														model.drawBarrierH(posY1, posX1, posY2, posX2);
-													}
-												}
-											}
-											//barriere verticale
-											if(posX1 == posX2) {
-												//test si aucun symbole de barriere verticale " | " n'existe deja aux positions donnees pour placer
-												//la barriere verticale
-												if(model.getBoard()[posY1][posX1] == " | " || model.getBoard()[posY2][posX2] == " | ") {
-													affiche("Position de la barrière incorrecte : Vous ne pouvez pas placer une barrière sur une"
-															+ " barrière déjà existante.\n");
-													printHelp();
-												}
-												else {
-													//Inverse la premiere coordonnee Y entree avec la seconde coordonnee Y entree
-													//si la premiere coordonnee Y entree par l'utilisateur est plus petite que la seconde.
-													//Cela permet d'avoir toujours en posY1 la coordonnee Y la plus grande. 
-													if (posY1 < posY2){
-														int posY = posY1;
-														posY1 = posY2;
-														posY2 = posY;
-													}
-													
-													//test si la barriere verticale entree est entre 2 symboles de barriere horizontales
-													if (model.getBoard()[posY1-1][posX1-1] == "――" && model.getBoard()[posY1-1][posX1+1] == "――"){
-														//test si la barriere verticale entree passe a travers une barriere horizontale existante
-														if(model.isBarrierOnBoard(posY1-1, posX1-1,posY1-1,posX1+1)){
-															affiche("Position de la barrière incorrecte : Vous ne pouvez pas croiser votre barrière verticale avec "
-																	+ "une barrière horizontale déjà existante.\n");
-															printHelp();
-														}
-														//la barriere verticale entree est entre 2 barrieres horizontales existantes et peut donc etre placee
-														else{
-															model.drawBarrierV(posY1, posX1, posY2, posX2);
-														}
-													}
-													else {
-														model.drawBarrierV(posY1, posX1, posY2, posX2);
-													}
-												}
-												
-											}
-										}
-									}
-								}
-								else {
-									printHelp();
-								}
-								
+							controller.putBarrier();	
 							break;
 						case "P" : //Pion
 							String m = sc.next().toUpperCase();
@@ -339,7 +211,6 @@ public class BoardVueConsole extends BoardVue {
 							break;
 						default : 
 							affiche("Mouvement incorrect : Vous avez entré autre chose que \"B\" ou \"P\" comme 1er charactère, veuillez réessayer\n");
-							printHelp();
 							break;
 					}
 				}

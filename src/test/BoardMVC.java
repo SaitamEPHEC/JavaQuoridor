@@ -1,6 +1,8 @@
 package test;
 
 import controller.BoardController;
+import controller.BoardControllerConsole;
+import controller.BoardControllerGui;
 import model.Board;
 import model.Player;
 import view.BoardVueConsole;
@@ -15,8 +17,8 @@ public class BoardMVC {
 
 		//Création des contrôleurs : Un pour chaque vue
 		//Chaque contrôleur doit avoir une référence vers le modèle pour pouvoir le commander
-		BoardController controleurConsole = new BoardController(modele);
-		BoardController controleurGui = new BoardController(modele);
+		BoardController controleurConsole = new BoardControllerConsole(modele);
+		BoardController controleurGui = new BoardControllerGui(modele);
 		
 		//Creation des vues.
 		//Chaque vue doit connaitre son controleur et avoir une reference vers le modele pour pouvoir l'observer

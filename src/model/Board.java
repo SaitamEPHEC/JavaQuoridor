@@ -154,26 +154,25 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * @pre : Les 2 positions Y et X representant une barriere horizontale. 
-	 * @return : Modifie le board en ajoutant une barriere horizontale sur 2 positions adjacentes du board. Le symbole est "――". 
+	 * Modifie le board en ajoutant une barriere HORIZONTALE sur 2 positions adjacentes du board. Le symbole est  "――".
+	 * @param b une barriere 
 	 */
-	public void drawBarrierH(int posY1, int posX1, int posY2, int posX2) {
-			Barrier barrier = new Barrier(posY1, posX1, posY2, posX2);
-			board[posY1][posX1] = "――";
-			board[posY2][posX2] = "――";
+	public void drawBarrierH(Barrier b) {
+			board[b.getPosY1()][b.getPosX1()] = "――";
+			board[b.getPosY2()][b.getPosX2()] = "――";
 			if(turn.equals(player1)) {
-				player1.addBarrier(barrier);
+				player1.addBarrier(b);
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
-				barriersOnBoard.add(barrier);
+				barriersOnBoard.add(b);
 				numberBarriersOnBoard++;
 				turn = player2;
 				setChanged();
 				notifyObservers();
 			}
 			else {
-				player2.addBarrier(barrier);
+				player2.addBarrier(b);
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
-				barriersOnBoard.add(barrier);
+				barriersOnBoard.add(b);
 				numberBarriersOnBoard++;
 				turn = player1;
 				setChanged();
@@ -182,26 +181,25 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * @pre : Les 2 positions Y et X representant une barriere verticale. 
-	 * @return : Modifie le board en ajoutant une barriere verticale sur 2 positions adjacentes du board. Le symbole est  " | ". 
+	 * Modifie le board en ajoutant une barriere VERTICALE sur 2 positions adjacentes du board. Le symbole est  " | ".
+	 * @param b une barriere
 	 */
-	public void drawBarrierV(int posY1, int posX1, int posY2, int posX2) {
-			Barrier barrier = new Barrier(posY1, posX1, posY2, posX2);
-			board[posY1][posX1] = " | ";
-			board[posY2][posX2] = " | ";
+	public void drawBarrierV(Barrier b) {
+			board[b.getPosY1()][b.getPosX1()] = " | ";
+			board[b.getPosY2()][b.getPosX2()] = " | ";
 			if(turn.equals(player1)) {
-				player1.addBarrier(barrier);
+				player1.addBarrier(b);
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
-				barriersOnBoard.add(barrier);
+				barriersOnBoard.add(b);
 				numberBarriersOnBoard++;
 				turn = player2;
 				setChanged();
 				notifyObservers();
 			}
 			else {
-				player2.addBarrier(barrier);
+				player2.addBarrier(b);
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
-				barriersOnBoard.add(barrier);
+				barriersOnBoard.add(b);
 				numberBarriersOnBoard++;
 				turn = player1;
 				setChanged();
@@ -375,7 +373,7 @@ public class Board extends Observable {
 	
 	/**
 	 * 
-	 * @return : Retourne le plateau de jeu
+	 * @return le plateau de jeu
 	 */
 	public String[][] getBoard() {
 		return board;
@@ -386,111 +384,129 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * @return : Retourne le joueur a qui est le tour
+	 * @return le joueur a qui est le tour
 	 */
 	public Player getTurn() {
 		return turn;
 	}
 	
 	/**
-	 * @return : Retourne le nom du joueur 1
+	 * @return le nom du joueur 1
 	 */
 	public String getPlayer1Nickname() {
 		return player1.getNickname();
 	}
 	
 	/**
-	 * @return : Retourne le nom du joueur 2
+	 * @return le nom du joueur 2
 	 */
 	public String getPlayer2Nickname() {
 		return player2.getNickname();
 	}
 	
 	/**
-	 * @return : Retourne le nombre de barrieres restantes du joueur 1
+	 * @return le nombre de barrieres restantes du joueur 1
 	 */
 	public int getPlayer1BarrierLeft() {
 		return player1.getNbrBarrierLeft();
 	}
 	
 	/**
-	 * @return : Retourne le nombre de barrieres restantes du joueur 2
+	 * @return le nombre de barrieres restantes du joueur 2
 	 */
 	public int getPlayer2BarrierLeft() {
 		return player2.getNbrBarrierLeft();
 	}
 	
 	/**
-	 * @return : Retourne la position Y du pion du joueur 1
+	 * @return la position Y du pion du joueur 1
 	 */
 	public int getP1Y() {
 		return player1.getPawn().getPosY();
 	}
 	
 	/**
-	 * @return : Retourne la position X du pion du joueur 1
+	 * @return la position X du pion du joueur 1
 	 */
 	public int getP1X() {
 		return player1.getPawn().getPosX();
 	}
 	
 	/**
-	 * @return : Retourne la position Y du pion du joueur 2
+	 * @return la position Y du pion du joueur 2
 	 */
 	public int getP2Y() {
 		return player2.getPawn().getPosY();
 	}
 	
 	/**
-	 * @return : Retourne la position Y du pion du joueur 1
+	 * @return la position Y du pion du joueur 1
 	 */
 	public int getP2X() {
 		return player2.getPawn().getPosX();
 	}
 	
 	/**
-	 * @pre : Un entier y representant la nouvelle position y du pion du joueur 1
-	 * @return : Modifie la position Y du pion du joueur 1
+	 * Modifie la position Y du pion du joueur 1
+	 * @param y Un entier representant la nouvelle position y du pion du joueur 1
 	 */
 	public void setP1Y(int y) {
 		player1.getPawn().setPosY(y);
 	}
 	
 	/**
-	 * @pre : Un entier x representant la nouvelle position x du pion du joueur 1
-	 * @return : Modifie la position X du pion du joueur 1
+	 * Modifie la position X du pion du joueur 1
+	 * @param x Un entier representant la nouvelle position x du pion du joueur 1
 	 */
 	public void setP1X(int x) {
 		player1.getPawn().setPosX(x);
 	}
 	
 	/**
-	 * @pre : Un entier y representant la nouvelle position y du pion du joueur 2
-	 * @return : Modifie la position Y du pion du joueur 2
+	 * Modifie la position Y du pion du joueur 2
+	 * @param y Un entier representant la nouvelle position y du pion du joueur 2
 	 */
 	public void setP2Y(int y) {
 		player2.getPawn().setPosY(y);
 	}
 	
 	/**
-	 * @pre : Un entier x representant la nouvelle position x du pion du joueur 2
-	 * @return : Modifie la position X du pion du joueur 2
+	 * Modifie la position X du pion du joueur 2
+	 * @param x Un entier representant la nouvelle position x du pion du joueur 2
 	 */
 	public void setP2X(int x) {
 		player2.getPawn().setPosX(x);
 	}
 	
 	/**
-	 * @pre : prend les 2 positions d'une barriere en parametre
-	 * @return : Si les positions passees en parametre correspondent a une barriere sur le plateau de jeu, return true. Sinon, 
-	 * 		   return false.
+	 * @param b une barriere
+	 * @return true si b est une barriere sur le board, false sinon.
 	 */
-	public boolean isBarrierOnBoard(int posY1,int posX1, int posY2,int posX2) {
+	public boolean isBarrierOnBoard(Barrier b) {
 		Iterator<Barrier> it = barriersOnBoard.iterator();
 		 
 		while (it.hasNext()) {
-		       Barrier b = it.next();
-		       if(b.getPosY1() == posY1 && b.getPosX1() == posX1 && b.getPosY2() == posY2 && b.getPosX2() == posX2) {
+		       Barrier bInList= it.next();
+		       if(bInList.equals(b)) {
+		    	   return true;
+		       }
+		}
+		return false; 
+	}
+	
+	/**
+	 * Permet de savoir si l'une des 2 positions de la barriere est deja presente sur le board ou non. Si c'est le cas,
+	 * cela voudra dire qu'une des 2 positions d'une autre barriere occupe deja cette place.
+	 * @param b une barriere
+	 * @return true si l'une des 2 positions de la barriere b est deja sur le board, false sinon.
+	 */
+	public boolean isPositionOfBarrierOnBoard(Barrier b) {
+		Iterator<Barrier> it = barriersOnBoard.iterator();
+		 
+		while (it.hasNext()) {
+		       Barrier bInList= it.next();
+		       if(bInList.getPosY1() == b.getPosY1() && bInList.getPosX1() == b.getPosX1()
+		       || bInList.getPosY2() == b.getPosY2() && bInList.getPosX2() == b.getPosX2()){
 		    	   return true;
 		       }
 		}
