@@ -12,6 +12,8 @@ import model.Board;
 import model.Player;
 
 
-public class BoardVueGUI {
+public class BoardVueGUI  {
+
+	
 
 }

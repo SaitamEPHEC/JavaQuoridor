@@ -1,6 +1,8 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,6 +26,7 @@ public class BoardGUI extends JFrame {
 	public JButton rightButton;
 	public JTextField textFieldBarrier;
 	public JButton setBarrierButton;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -40,7 +43,8 @@ public class BoardGUI extends JFrame {
 			}
 		});
 	}
-
+	
+	
 	/**
 	 * Create the frame.
 	 */
@@ -55,7 +59,29 @@ public class BoardGUI extends JFrame {
 		
 		boardView = new JPanel();
 		boardView.setBounds(10, 10, 700, 600);
+		//boardView.setBackground(Color.WHITE);
 		gameView.add(boardView);
+		boardView.setLayout(new GridLayout(17, 17));
+		
+		
+		for (int i = 1; i<=289; i+=1) {
+			if ((i<=17)  || ((i>35)&&(i<=51)) || ((i>69)&&(i<=85)) || ((i>103)&&(i<=119)) || ((i>137)&&(i<=153))){
+				if (i%2 == 0) {
+					btnNewButton = new JButton("");
+				} else {
+					btnNewButton = new JButton("B");
+				}
+			} else {
+				if (i%2==0) {
+					btnNewButton = new JButton("B");
+				} else {
+					btnNewButton = new JButton("");
+				}
+			}
+			
+			btnNewButton.setPreferredSize(new Dimension(4, 4));
+			boardView.add(btnNewButton);
+		}
 		
 		chatTextField = new JTextField();
 		chatTextField.setBounds(720, 690, 191, 20);
