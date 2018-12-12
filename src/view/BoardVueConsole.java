@@ -5,9 +5,11 @@ import java.util.Observable;
 import java.util.Scanner;
 
 import controller.BoardController;
+import controller.BoardControllerConsole;
 import model.Board;
 
 public class BoardVueConsole extends BoardVue {
+	protected BoardControllerConsole controllerConsole;
 	protected Scanner sc;
 
 	public BoardVueConsole(Board model,
@@ -37,14 +39,12 @@ public class BoardVueConsole extends BoardVue {
 		for(int i = 0;i<this.model.getLength();i++) {
 			for(int j = 0;j<this.model.getLength();j++) {
 				if(i == 0 && j == 0) { // premiere case
-					System.out.print("   "); // alignement
 					for(int l = 0;l<temp.length-1;l++) { // premiere ligne de contour
 						System.out.print(temp[i][l]); // affiche 1 a 8
 					}
-					System.out.print(temp[i][temp.length-1]); // affiche 9 + \n
-//					System.out.print("| Tour de : " + this.model.getTurn().getNickname()); // tour de :
-					System.out.println("   | Barrieres restantes de " + this.model.getPlayer1Nickname() + " : " + this.model.getPlayer1BarrierLeft()); // nombre barriere left du joueur du haut
-					System.out.print("  I    ");
+					System.out.println(temp[i][temp.length-1]); // affiche 9 + \n
+					//System.out.println("");
+					System.out.print("I    ");
 				}
 				else { // board normal plus contour
 					if(j == 0 && (i%2 == 0)){ // premiere colonne contour
@@ -53,33 +53,26 @@ public class BoardVueConsole extends BoardVue {
 					if(j == 0 && (i%2 != 0)) { // allignement des lignes sans lettres
 						System.out.print("   ");
 					}
-					if(j == (this.model.getLength()-1) && i == 8) {
-						System.out.println(this.model.getBoard()[i][j] + ("   | Tour de : " + this.model.getTurn().getNickname()) ); // affiche le nom de la personne qui doit jouer
-					}
 						
-					if(j == (this.model.getLength()-1) && i != (this.model.getLength()-1) && i != 8) { //dernier char de chaque ligne
+					if(j == (this.model.getLength()-1)) {
 						System.out.println(this.model.getBoard()[i][j]); // board
-					}
-					if(j == (this.model.getLength()-1) && i == (this.model.getLength()-1)) {
-						System.out.print(this.model.getBoard()[i][j]);
-						System.out.println("   | Barrieres restantes de " + this.model.getPlayer2Nickname() + " : " + this.model.getPlayer2BarrierLeft()); // nombre barriere left du joueur du bas
 					}
 					else {
 						System.out.print(this.model.getBoard()[i][j]); // board
 					}
 				}
 			}
-		}
+		}	
 	}
 	
-	private void printHelp(){
+	public void printHelp(){
 		affiche("\nPour déplacer votre pion, Entrez \"P\" puis appuyez sur Enter.\n"
 				+ "Ensuite, tapez \"U\" pour déplacer votre pion d'une case en haut, \"D\" pour déplacer votre pion d'une case en bas,\n"
 				+ "\"L\" pour déplacer votre pion d'une case à gauche et \"R\" pour déplacer votre pion d'une case à droite \n");
 		affiche("Pour placer une barrière, Entrez \"B\" puis appuyez sur Enter.\n"
 				+ "Ensuite, tapez les 4 coordonnées de la barrière suivant les coordonnées possible sur le plateau de jeu.\n"
-				+ "Si vous placez une barrière horizontale, elle sera placée au-dessus des coordonnées indiquées, si vous\n"
-				+ "placez une barrière verticale, elle sera placée à droite des coordonnées indiquées.\n"
+				+ "Si vous placez une barrière horizontale, elle sera placée au-dessus des coordonnées indiquées, si vous"
+				+ " placez une barrière verticale, elle sera placée à droite des coordonnées indiquées.\n"
 				+ "Exemple : A 1 B 1 ou G 8 G 9\n");
 	}
 
@@ -93,37 +86,6 @@ public class BoardVueConsole extends BoardVue {
 					String c = sc.next().toUpperCase();
 					switch(c){
 						case "B" : 	//Barriere
-							
-								boolean isValid = true; //si reste true, les chiffres et lettres sont valides par rapport aux limites du board
-								
-								int posY1 = 0; //Position Y1 de la barriere dans le board qui sera remplie si l'utilisateur entre une lettre valide
-								int posX1 = 0; //Position X1 de la barriere dans le board qui sera remplie si l'utilisateur entre un chiffre valide
-								int posY2 = 0; //Position Y2 de la barriere dans le board qui sera remplie si l'utilisateur entre une lettre valide
-								int posX2 = 0; //Position X2 de la barriere dans le board qui sera remplie si l'utilisateur entre un chiffre valide
-								
-								String c1 = sc.next().toUpperCase();
-								if((c1.length()!=1) || (listeLettres.indexOf(c1) == -1)) {
-									affiche("Première coordonnée de barrière incorrecte, entrez une seule lettre entre A et I\n");
-									isValid = false; 
-								}
-								
-								int i1 = sc.nextInt();
-								if(i1<1 || i1> 9){
-									affiche("Deuxième coordonnée de barrière incorrecte, entrez un chiffre entre 1 et 9\n");
-									isValid = false;
-								}
-								
-								String c2 = sc.next().toUpperCase();
-								if((c2.length()!=1) || (listeLettres.indexOf(c2) == -1)){
-									affiche("Troisième coordonnée de barrière incorrecte, entrez une seule lettre entre A et I\n");
-									isValid = false;
-								}
-								
-								int i2 = sc.nextInt();
-								if(i2<1 || i2> 9){
-									affiche("Quatrième coordonnée de barrière incorrect, entrez un chiffre entre 1 et 9\n");
-									isValid = false;
-								}
 								
 								if(isValid) {
 									
@@ -199,25 +161,11 @@ public class BoardVueConsole extends BoardVue {
 														}
 														//la barriere horizontale entree est entre 2 barrieres verticales existantes et peut donc etre placee
 														else{
-															//test si le nombre de barriere restante du joueur a qui est le tour est superieur a 0
-															if(model.getTurn().getNbrBarrierLeft() > 0) {
-																model.drawBarrierH(posY1, posX1, posY2, posX2);
-															}
-															else {
-																affiche("/nVous n'avez plus de barrières, vous n'avez pas d'autres choix que de déplacer "
-																		+ "votre pion.");
-															}
+															model.drawBarrierH(posY1, posX1, posY2, posX2);
 														}
 													}
 													else {
-														//test si le nombre de barriere restante du joueur a qui est le tour est superieur a 0
-														if(model.getTurn().getNbrBarrierLeft() > 0) {
-															model.drawBarrierH(posY1, posX1, posY2, posX2);
-														}
-														else {
-															affiche("/nVous n'avez plus de barrières, vous n'avez pas d'autres choix que de déplacer "
-																	+ "votre pion.");
-														}
+														model.drawBarrierH(posY1, posX1, posY2, posX2);
 													}
 												}
 											}
@@ -250,25 +198,11 @@ public class BoardVueConsole extends BoardVue {
 														}
 														//la barriere verticale entree est entre 2 barrieres horizontales existantes et peut donc etre placee
 														else{
-															//test si le nombre de barriere restante du joueur a qui est le tour est superieur a 0
-															if(model.getTurn().getNbrBarrierLeft() > 0) {
-																model.drawBarrierV(posY1, posX1, posY2, posX2);
-															}
-															else {
-																affiche("/nVous n'avez plus de barrières, vous n'avez pas d'autres choix que de déplacer "
-																		+ "votre pion.");
-															}
+															model.drawBarrierV(posY1, posX1, posY2, posX2);
 														}
 													}
 													else {
-														//test si le nombre de barriere restante du joueur a qui est le tour est superieur a 0
-														if(model.getTurn().getNbrBarrierLeft() > 0) {
-															model.drawBarrierV(posY1, posX1, posY2, posX2);
-														}
-														else {
-															affiche("/nVous n'avez plus de barrières, vous n'avez pas d'autres choix que de déplacer "
-																	+ "votre pion.");
-														}
+														model.drawBarrierV(posY1, posX1, posY2, posX2);
 													}
 												}
 												
@@ -307,7 +241,7 @@ public class BoardVueConsole extends BoardVue {
 										break;
 									case 5 : //mouvement correct du joueur 2 + check si victoire
 										if(model.getP2Y() == 0) {
-											affiche("\nBravo joueur 2, vous avez gagné! Félicitations !");
+											affiche("Bravo joueur 2, vous avez gagné! Félicitations !");
 											endOfGame = true;
 										}
 										break;
@@ -338,7 +272,7 @@ public class BoardVueConsole extends BoardVue {
 										break;
 									case 5 : //mouvement correct du joueur 1 + check si victoire
 										if(model.getP1Y() == 16) {
-											affiche("\nBravo joueur 1, vous avez gagné! Félicitations !");
+											affiche("Bravo joueur 1, vous avez gagné! Félicitations !");
 											endOfGame = true;
 										}
 										break;
@@ -421,123 +355,6 @@ public class BoardVueConsole extends BoardVue {
 	public void affiche(String string) {
 		System.out.println(string);
 		
-	}
-	
-	/**
-	 * @pre : Prend une lettre du board en parametre qui correspond a une position Y d'une barriere HORIZONTALE
-	 * @return : L'utilisateur entre une lettre comme etant une position Y d'une des 2 positions d'une barriere HORIZONTALE. Cette fonction 
-	 * 		   traduit la lettre entree dans sa position en entier dans le board. 
-	 */
-	public int translateLetterToBoardH(String c) {
-		switch(c) {
-			case "A" :
-				return 15;
-			case "B" : 
-				return 13;
-			case "C" :
-				return 11;
-			case "D" : 
-				return 9;
-			case "E" : 
-				return 7;
-			case "F" :
-				return 5;
-			case "G" : 
-				return 3; 
-			case "H" : 
-				return 1;
-			default :
-				return -1;
-		}
-	} 
-	
-	/**
-	 * @pre : Prend une lettre du board en parametre qui correspond a une position Y d'une barriere VERTICALE
-	 * @return : L'utilisateur entre une lettre comme etant une position Y d'une des 2 positions d'une barriere VERTICALE. Cette fonction 
-	 * 		   traduit la lettre entree dans sa position en entier dans le board. 
-	 */
-	public int translateLetterToBoardV(String c) {
-		switch(c) {
-			case "A" :
-				return 16;
-			case "B" : 
-				return 14;
-			case "C" :
-				return 12;
-			case "D" : 
-				return 10;
-			case "E" : 
-				return 8;
-			case "F" :
-				return 6;
-			case "G" : 
-				return 4; 
-			case "H" : 
-				return 2;
-			case "I" : 
-				return 0;
-			default :
-				return -1;
-		}
-	} 
-	
-	
-	/**
-	 * @pre : Prend un chiffre du board en parametre qui correspond a une position X d'une barriere HORIZONTALE
-	 * @return : L'utilisateur entre un chiffre comme etant une position X d'une des 2 positions d'une barriere HORIZONTALE. Cette fonction 
-	 * 		   traduit le chiffre entree dans sa position en entier dans le board. 
-	 */
-	public int translateNumberToBoardH(int i) {
-		switch(i) {
-			case 1 :
-				return 0;
-			case 2 : 
-				return 2;
-			case 3 :
-				return 4;
-			case 4 : 
-				return 6;
-			case 5 : 
-				return 8;
-			case 6 :
-				return 10;
-			case 7 : 
-				return 12; 
-			case 8 : 
-				return 14;
-			case 9 : 
-				return 16;
-			default :
-				return -1;
-		}
-	}
-	
-	/**
-	 * @pre : Prend un chiffre du board en parametre qui correspond a une position X d'une barriere VERTICALE
-	 * @return : L'utilisateur entre un chiffre comme etant une position X d'une des 2 positions d'une barriere VERTICALE. Cette fonction 
-	 * 		   traduit le chiffre entree dans sa position en entier dans le board. 
-	 */
-	public int translateNumberToBoardV(int i) {
-		switch(i) {
-			case 1 :
-				return 1;
-			case 2 : 
-				return 3;
-			case 3 :
-				return 5;
-			case 4 : 
-				return 7;
-			case 5 : 
-				return 9;
-			case 6 :
-				return 11;
-			case 7 : 
-				return 13; 
-			case 8 : 
-				return 15;
-			default :
-				return -1;
-		}
 	}
 	
 }
