@@ -76,7 +76,7 @@ public class Board extends Observable {
 		
 		//dessine les pions aux cases initiales
 		drawP1(new Pawn(0,0),new Pawn(getP1Y(),getP1X()));
-		drawP2(new Pawn(0,0),new Pawn(getP1Y(),getP1X()));
+		drawP2(new Pawn(0,0),new Pawn(getP2Y(),getP2X()));
 		
 		//le joueur 1 commence
 		turn = player1;

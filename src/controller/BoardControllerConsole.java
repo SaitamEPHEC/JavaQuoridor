@@ -4,38 +4,37 @@ import java.util.Scanner;
 
 import model.Barrier;
 import model.Board;
-import view.BoardVue;
-import view.BoardVueConsole;
 
 public class BoardControllerConsole extends BoardController{
 	private Scanner sc; 
 	
 	public BoardControllerConsole(Board model) {
 		super(model);
+		sc = new Scanner(System.in);
 	}
 
 
 	@Override
 	public void movePawn() {
-		String m = sc.next().toUpperCase();
-		switch(m) {
-		case "U" : 
-			moveUpAffichage();
-			break;
-		case "D" : 
-			moveDownAffichage();
-			break;
-		case "L" : 
-			moveLeftAffichage();
-			break;
-		case "R" : 
-			moveRightAffichage();
-			break;
-		default :
-			this.vue.affiche("Mouvement incorrect, Vous avez entré autre chose que \"U\" \"D\" \"L\" ou \"R\" comme 2ème charactère"
-					+ ",  veuillez réessayer\n");
-			break;
-		}
+			String m = sc.next().toUpperCase();
+			switch(m) {
+			case "U" : 
+				moveUpAffichage();
+				break;
+			case "D" : 
+				moveDownAffichage();
+				break;
+			case "L" : 
+				moveLeftAffichage();
+				break;
+			case "R" : 
+				moveRightAffichage();
+				break;
+			default :
+				this.vue.affiche("Mouvement incorrect, Vous avez entré autre chose que \"U\" \"D\" \"L\" ou \"R\" comme 2ème charactère"
+						+ ",  veuillez réessayer\n");
+				break;
+			}
 	}
 	
 	@Override
@@ -79,8 +78,9 @@ public class BoardControllerConsole extends BoardController{
 				}
 			}
 			else {
-				this.vue.affiche("Les coordonnées entrées ne correspondent pas à une barrière horizontale ou verticale.\nExemple de "
-						+ "barrière horizontale : A 1 A 2\nExemple de barrière verticale : G 8 H 8\n");
+				this.vue.affiche("Les coordonnées entrées ne correspondent pas à une barrière horizontale ou verticale.\n"
+						+ "Exemple debarrière horizontale : A 1 A 2 => Attention : pas de barriere horizontale sur la ligne I (hors du plateau de jeu)!\n"
+						+ "Exemple de barrière verticale : G 8 H 8 => Attention : pas de barriere verticale sur la colonne 9 (hors du plateau de jeu)!\n");
 			}
 		}
 		else {
@@ -193,8 +193,6 @@ public class BoardControllerConsole extends BoardController{
 	 * @return les 4 coordonnees de la barriere entrees par l'utilisateur. 
 	 */
 	public String[] askBarrier() {
-		
-		sc = new Scanner(System.in);
 		
 		String c1 = sc.next().toUpperCase();
 		

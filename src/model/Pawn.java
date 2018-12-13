@@ -8,9 +8,9 @@ public class Pawn {
 		super();
 	}
 
-	public Pawn(int posX, int posY) {
-		this.posX = posX;
+	public Pawn(int posY, int posX) {
 		this.posY = posY;
+		this.posX = posX;
 	}
 
 	public int getPosX() {

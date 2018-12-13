@@ -90,12 +90,15 @@ public class BoardVueConsole extends BoardVue {
 		public void run() {
 			while(!endOfGame){
 				try {
+					affiche("\nOptions possibles : b|p\n");
 					String c = sc.next().toUpperCase();
 					switch(c){
 						case "B" : 	//Barriere
+							affiche("\nOptions possibles (4 coordonnées séparées par des espaces) : a-i 1-9 a-i 1-9\n");
 							controller.putBarrier();	
 							break;
 						case "P" : //Pion
+							affiche("\nOptions possibles : u|d|l|r\n");
 							controller.movePawn();
 							break;
 						default : 
