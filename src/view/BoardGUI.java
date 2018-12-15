@@ -30,7 +30,7 @@ public class BoardGUI extends JFrame {
 	public JButton rightButton;
 	public JTextField textFieldBarrier;
 	public JButton setBarrierButton;
-	private JButton btnNewButton;
+	
 
 	/**
 	 * Launch the application.
