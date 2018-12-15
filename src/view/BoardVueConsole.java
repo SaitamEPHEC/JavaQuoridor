@@ -45,7 +45,7 @@ public class BoardVueConsole extends BoardVue {
 					}
 					System.out.print(temp[i][temp.length-1]); // affiche 9 + \n
 //					System.out.print("| Tour de : " + this.model.getTurn().getNickname()); // tour de :
-					System.out.println("   | Barrieres restantes de " + this.model.getPlayer1Nickname() + " : " + this.model.getPlayer1BarrierLeft()); // nombre barriere left du joueur du haut
+					System.out.println("   | Barrieres restantes de " + this.model.getPlayer1Nickname() + " (P1) : " + this.model.getPlayer1BarrierLeft()); // nombre barriere left du joueur du haut
 					System.out.print("  I    ");
 				}
 				else { // board normal plus contour
@@ -64,7 +64,7 @@ public class BoardVueConsole extends BoardVue {
 					}
 					if(j == (this.model.getLength()-1) && i == (this.model.getLength()-1)) {
 						System.out.print(this.model.getBoard()[i][j]);
-						System.out.println("   | Barrieres restantes de " + this.model.getPlayer2Nickname() + " : " + this.model.getPlayer2BarrierLeft()); // nombre barriere left du joueur du bas
+						System.out.println("   | Barrieres restantes de " + this.model.getPlayer2Nickname() + " (P2) : " + this.model.getPlayer2BarrierLeft()); // nombre barriere left du joueur du bas
 					}
 					else {
 						System.out.print(this.model.getBoard()[i][j]); // board

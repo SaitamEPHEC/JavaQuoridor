@@ -157,7 +157,5 @@ public class BoardGUI extends JFrame {
 		setBarrierButton = new JButton("PLACE");
 		setBarrierButton.setBounds(145, 655, 90, 25);
 		gameView.add(setBarrierButton);
-		
-		
 	}
 }

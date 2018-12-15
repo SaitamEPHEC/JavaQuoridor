@@ -208,22 +208,47 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * Déplace le pion d'une case au-dessus dans le board si cela est possible, sinon renvoie un entier symbolisant
-	 * un cas d'erreur (cet entier peut ensuite etre utilisé en fonction de ce que l'on veut afficher comme erreur)
-	 * @return 0 si P1 a été déplacé d'une case au-dessus, 5 si P2 a été déplacé d'une case au-dessus, 
-	 * 1,2,3 ou 4 si une erreur s'est produite et que le pion n'a pas pu être déplacé d'une case au-dessus.
+	 * Déplace le pion d'une case au-dessus dans le board si cela est possible, sinon renvoie un entier representant
+	 * un cas specifique (certains entiers peuvent etre reutilises afin d'afficher un message d'erreur).
+	 * @return 0 si P1 a été déplacé d'une ou deux cases au-dessus, 1 si P2 a été déplacé d'une ou deux cases 
+	 * au-dessus, 2,3,4,5,6,7,8 ou 9 si une erreur s'est produite et que le pion n'a pas pu être déplacé.
 	 */
 	public int moveUp() {
 		if(turn.equals(player1)){
 			//P1 est bloque contre le bord superieur du board
 			if(getP1Y() == 0){
-				return 1;
+				return 2;
 			}
 			//P1 est bloque par une barriere au-dessus
 			else if(isPositionOfBarrierOnBoard(getP1Y()-1,getP1X())) {
-				return 2;
+				return 3;
 			}
-			
+			//P1 est en-dessous de P2 et ne peux pas sauter au-dessus de lui a cause du bord superieur du board
+			else if(player1.isJustBelow(player2) && getP1Y() == 2) {
+				return 4;
+			}
+			//P1 est a plus d'une case du bord superieur du board
+			else if(getP1Y() > 2) {
+				//P1 est en-dessous de P2 et ne peut pas sauter au-dessus de P2 a cause d'une barriere
+				if(player1.isJustBelow(player2) && isPositionOfBarrierOnBoard(getP1Y()-3, getP1X())) {
+					return 5;
+				}
+				//P1 est en-dessous de P2 et peut sauter au-dessus de lui
+				else if(player1.isJustBelow(player2)) {
+					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()-4,getP1X()));
+					turn = player2;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
+				else{
+					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()-2,getP1X()));
+					turn = player2;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
+			}
 			else{
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()-2,getP1X()));
 				turn = player2;
@@ -235,54 +260,132 @@ public class Board extends Observable {
 		else{
 			//P2 est bloque contre le bord superieur du board
 			if(getP2Y() == 0) {
-				return 3;
+				return 6;
 			}
 			//P2 est bloque par une barriere au-dessus
 			else if(isPositionOfBarrierOnBoard(getP2Y()-1,getP2X())) {
-				return 4;
+				return 7;
+			}
+			//P2 est en-dessous de P1 et ne peux pas sauter au-dessus de lui a cause du bord superieur du board
+			else if(player2.isJustBelow(player1) && getP2Y() == 2) {
+				return 8;
+			}
+			//P2 est a plus d'une case du bord superieur du board
+			else if(getP2Y() > 2) {
+				//P2 est en-dessous de P1 et ne peut pas sauter au-dessus de P1 a cause d'une barriere
+				if(player2.isJustBelow(player1) && isPositionOfBarrierOnBoard(getP2Y()-3, getP2X())) {
+					return 9;
+				}
+				//P2 est en-dessous de P1 et peut sauter au-dessus de lui
+				else if(player2.isJustBelow(player1)) {
+					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()-4,getP2X()));
+					turn = player1;
+					setChanged();
+					notifyObservers();
+					return 1;
+				}
+				else{
+					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()-2,getP2X()));
+					turn = player1;
+					setChanged();
+					notifyObservers();
+					return 1;
+				}
 			}
 			else{
 				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()-2,getP2X()));
 				turn = player1;
 				setChanged();
 				notifyObservers();
-				return 5;
+				return 1;
 			}
 		}
 	}
 	
 	/**
-	 * Déplace le pion d'une case en-dessous dans le board si cela est possible, sinon renvoie un entier symbolisant
-	 * un cas d'erreur (cet entier peut ensuite etre utilisé en fonction de ce que l'on veut afficher comme erreur)
-	 * @return 0 si P2 a été déplacé d'une case en-dessous, 5 si P1 a été déplacé d'une case en-dessous, 
-	 * 1,2,3 ou 4 si une erreur s'est produite et que le pion n'a pas pu être déplacé d'une case en-dessous.
+	 * Déplace le pion d'une case en-dessous dans le board si cela est possible, sinon renvoie un entier representant
+	 * un cas specifique (certains entiers peuvent etre reutilises afin d'afficher un message d'erreur).
+	 * @return 0 si P2 a été déplacé d'une ou deux cases en-dessous, 1 si P1 a été déplacé d'une case ou deux cases
+	 * en-dessous, 2,3,4,5,6,7,8 ou 9 si une erreur s'est produite et que le pion n'a pas pu être déplacé.
 	 */
 	public int moveDown() {
 		if(turn.equals(player1)) {
 			//P1 est bloque contre le bord inferieur du board
 			if(getP1Y() == 16) {
-				return 1;
+				return 2;
 			}
 			//P1 est bloque par une barriere en-dessous
 			else if(isPositionOfBarrierOnBoard(getP1Y()+1,getP1X())) {
-				return 2;
+				return 3;
+			}
+			//P1 est au-dessus de P2 et ne peux pas sauter en-dessous de lui a cause du bord inferieur du board
+			else if(player1.isJustAbove(player2) && getP1Y() == 14) {
+				return 4;
+			}
+			//P1 est a plus d'une case du bord inferieur du board
+			else if(getP1Y() < 14) {
+				//P1 est au-dessus de P2 et ne peut pas sauter en-dessous de P2 a cause d'une barriere
+				if(player1.isJustAbove(player2) && isPositionOfBarrierOnBoard(getP1Y()+3, getP1X())) {
+					return 5;
+				}
+				//P1 est au-dessus de P2 et peut sauter en-dessous de lui
+				else if(player1.isJustAbove(player2)) {
+					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()+4,getP1X()));
+					turn = player2;
+					setChanged();
+					notifyObservers();
+					return 1;
+				}
+				else{
+					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()+2,getP1X()));
+					turn = player2;
+					setChanged();
+					notifyObservers();
+					return 1;
+				}
 			}
 			else{
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()+2,getP1X()));
 				turn = player2;
 				setChanged();
 				notifyObservers();
-				return 5;
+				return 1;
 			}
 		}
 		else{
 			//P2 est bloque contre le bord inferieur du board
 			if(getP2Y() == 16) {
-				return 3;
+				return 6;
 			}
 			//P2 est bloque par une barriere en-dessous
 			else if(isPositionOfBarrierOnBoard(getP2Y()+1,getP2X())) {
-				return 4;
+				return 7;
+			}
+			//P2 est au-dessus de P1 et ne peux pas sauter en-dessous de lui a cause du bord inferieur du board
+			else if(player2.isJustAbove(player1) && getP2Y() == 14) {
+				return 8;
+			}
+			//P2 est a plus d'une case du bord inferieur du board
+			else if(getP2Y() < 14) {
+				//P2 est au-dessus de P1 et ne peut pas sauter en-dessous de P1 a cause d'une barriere
+				if(player2.isJustAbove(player1) && isPositionOfBarrierOnBoard(getP1Y()+3, getP2X())) {
+					return 9;
+				}
+				//P2 est au-dessus de P1 et peut sauter en-dessous de lui
+				else if(player2.isJustAbove(player1)) {
+					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()+4,getP2X()));
+					turn = player1;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
+				else{
+					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()+2,getP2X()));
+					turn = player1;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
 			}
 			else{
 				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()+2,getP2X()));
@@ -295,10 +398,10 @@ public class Board extends Observable {
 	}
 	
 	/**
-	 * Déplace le pion d'une case a gauche dans le board si cela est possible, sinon renvoie un entier symbolisant
-	 * un cas d'erreur (cet entier peut ensuite etre utilisé en fonction de ce que l'on veut afficher comme erreur)
-	 * @return 0 si P1 ou P2 a été déplacé d'une case a gauche, 1,2,3 ou 4 si une erreur s'est produite 
-	 * et que le pion n'a pas pu être déplacé d'une case a gauche.
+	 * Déplace le pion d'une case a gauche dans le board si cela est possible, sinon renvoie un entier representant
+	 * un cas specifique (certains entiers peuvent etre reutilises afin d'afficher un message d'erreur).
+	 * @return 0 si P1 ou P2 a été déplacé d'une ou deux cases a gauche, 1,2,3,4,5,6,7 ou 8 si une erreur s'est produite 
+	 * et que le pion n'a pas pu être déplacé.
 	 */
 	public int moveLeft() {
 		if(turn.equals(player1)) {
@@ -309,6 +412,32 @@ public class Board extends Observable {
 			//P1 est bloque par une barriere a gauche
 			else if(isPositionOfBarrierOnBoard(getP1Y(),getP1X()-1)) {
 				return 2;
+			}
+			//P1 est a droite de P2 et ne peux pas sauter a gauche de lui a cause du bord lateral gauche du board
+			else if(player1.isJustToTheRightOf(player2) && getP1X() == 2) {
+				return 3;
+			}
+			//P1 est a plus d'une case du bord lateral gauche du board
+			else if(getP1X() > 2) {
+				//P1 est a droite de P2 et ne peut pas sauter a gauche de P2 a cause d'une barriere
+				if(player1.isJustToTheRightOf(player2) && isPositionOfBarrierOnBoard(getP1Y(), getP1X()-3)) {
+					return 4;
+				}
+				//P1 est a droite de P2 et peut sauter a gauche de lui
+				else if(player1.isJustToTheRightOf(player2)) {
+					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()-4));
+					turn = player2;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
+				else{
+					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()-2));
+					turn = player2;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
 			}
 			else{
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()-2));
@@ -321,11 +450,37 @@ public class Board extends Observable {
 		else{
 			//P2 est bloque contre le bord gauche du board
 			if(getP2X() == 0) {
-				return 3;
+				return 5;
 			}
 			//P2 est bloque par une barriere a gauche
 			else if(isPositionOfBarrierOnBoard(getP2Y(),getP2X()-1)) {
-				return 4;
+				return 6;
+			}
+			//P2 est a droite de P1 et ne peux pas sauter a gauche de lui a cause du bord lateral gauche du board
+			else if(player2.isJustToTheRightOf(player1) && getP2X() == 2) {
+				return 7;
+			}
+			//P2 est a plus d'une case du bord lateral gauche du board
+			else if(getP2X() > 2) {
+				//P2 est a droite de P1 et ne peut pas sauter a gauche de P1 a cause d'une barriere
+				if(player2.isJustToTheRightOf(player1) && isPositionOfBarrierOnBoard(getP2Y(), getP2X()-3)) {
+					return 8;
+				}
+				//P2 est a droite de P1 et peut sauter a gauche de lui
+				else if(player2.isJustToTheRightOf(player1)) {
+					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()-4));
+					turn = player1;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
+				else{
+					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()-2));
+					turn = player1;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
 			}
 			else{
 				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()-2));
@@ -337,11 +492,12 @@ public class Board extends Observable {
 		}
 	}
 	
+	
 	/**
-	 * Déplace le pion d'une case a droite dans le board si cela est possible, sinon renvoie un entier symbolisant
-	 * un cas d'erreur (cet entier peut ensuite etre utilisé en fonction de ce que l'on veut afficher comme erreur)
-	 * @return 0 si P1 ou P2 a été déplacé d'une case a droite, 1,2,3 ou 4 si une erreur s'est produite 
-	 * et que le pion n'a pas pu être déplacé d'une case a droite.
+	 * Déplace le pion d'une case a droite dans le board si cela est possible, sinon renvoie un entier representant
+	 * un cas specifique (certains entiers peuvent etre reutilises afin d'afficher un message d'erreur).
+	 * @return 0 si P1 ou P2 a été déplacé d'une ou deux cases a droite, 1,2,3,4,5,6,7 ou 8 si une erreur s'est produite 
+	 * et que le pion n'a pas pu être déplacé.
 	 */
 	public int moveRight() {
 		if(turn.equals(player1)) {
@@ -352,6 +508,32 @@ public class Board extends Observable {
 			//P1 est bloque par une barriere a droite
 			else if(isPositionOfBarrierOnBoard(getP1Y(),getP1X()+1)) {
 				return 2;
+			}
+			//P1 est a gauche de P2 et ne peux pas sauter a droite de lui a cause du bord lateral droit du board
+			else if(player1.isJustToTheLeftOf(player2) && getP1X() == 14) {
+				return 3;
+			}
+			//P1 est a plus d'une case du bord lateral droit du board
+			else if(getP1X() < 14) {
+				//P1 est a gauche de P2 et ne peut pas sauter a droite de P2 a cause d'une barriere
+				if(player1.isJustToTheLeftOf(player2) && isPositionOfBarrierOnBoard(getP1Y(), getP1X()+3)) {
+					return 4;
+				}
+				//P1 est a gauche de P2 et peut sauter a droite de lui
+				else if(player1.isJustToTheLeftOf(player2)) {
+					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()+4));
+					turn = player2;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
+				else{
+					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()+2));
+					turn = player2;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
 			}
 			else{
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()+2));
@@ -364,11 +546,37 @@ public class Board extends Observable {
 		else{
 			//P2 est bloque contre le bord droit du board
 			if(getP2X() == 16) {
-				return 3;
+				return 5;
 			}
 			//P2 est bloque par une barriere a droite
 			else if(isPositionOfBarrierOnBoard(getP2Y(),getP2X()+1)) {
-				return 4;
+				return 6;
+			}
+			//P2 est a gauche de P1 et ne peux pas sauter a droite de lui a cause du bord lateral droit du board
+			else if(player2.isJustToTheLeftOf(player1) && getP2X() == 14) {
+				return 7;
+			}
+			//P2 est a plus d'une case du bord lateral droit du board
+			else if(getP2X() < 14) {
+				//P2 est a gauche de P1 et ne peut pas sauter a droite de P1 a cause d'une barriere
+				if(player2.isJustToTheLeftOf(player1) && isPositionOfBarrierOnBoard(getP2Y(), getP2X()+3)) {
+					return 8;
+				}
+				//P2 est a gauche de P1 et peut sauter a droite de lui
+				else if(player2.isJustToTheLeftOf(player1)) {
+					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()+4));
+					turn = player1;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
+				else{
+					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()+2));
+					turn = player1;
+					setChanged();
+					notifyObservers();
+					return 0;
+				}
 			}
 			else{
 				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()+2));

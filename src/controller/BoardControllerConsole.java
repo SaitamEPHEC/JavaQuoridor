@@ -7,16 +7,18 @@ import model.Board;
 
 public class BoardControllerConsole extends BoardController{
 	private Scanner sc; 
+	private Scanner sc1;
 	
 	public BoardControllerConsole(Board model) {
 		super(model);
 		sc = new Scanner(System.in);
+		sc1 = new Scanner(System.in);
 	}
 
 
 	@Override
 	public void movePawn() {
-			String m = sc.nextLine().toUpperCase();
+			String m = sc1.nextLine().toUpperCase();
 			switch(m) {
 			case "U" : 
 				moveUpAffichage();
@@ -90,27 +92,46 @@ public class BoardControllerConsole extends BoardController{
 	public void moveUpAffichage() {
 		int up = model.moveUp();
 		switch(up) {
-		case 1 :
-			this.vue.affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
-					+ ", veuillez réessayer\n");
+		case 0 : 
 			break;
-		case 2 : 
-			this.vue.affiche("Player 1 : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
-			break;
-		case 3 : 
-			this.vue.affiche("Player 2 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
-					+ ", veuillez réessayer\n");
-			break;
-		case 4 : 
-			this.vue.affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
-			break;
-		case 5 : //mouvement correct du joueur 2 + check si victoire
+		case 1 : //mouvement correct du joueur 2 + check si victoire
 			if(model.player2HasWon()) {
-				this.vue.affiche("Bravo joueur 2, vous avez gagné! Félicitations !");
+				this.vue.affiche("Bravo " + model.getPlayer2Nickname() + ", vous avez gagné! Félicitations !");
 				this.vue.setEndOfGame();
 			}
 			break;
-		default : //mouvement correct du joueur 1
+		case 2 :
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 3 : 
+			this.vue.affiche(model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
+			break;
+		case 4 : 
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer2Nickname() + " à cause du bord supérieur du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 5 :
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
+					+ ", veuillez réessayer\n");
+			break;
+		case 6 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 7 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
+			break;
+		case 8 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer1Nickname() + " à cause du bord supérieur du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 9 :
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
+					+ ", veuillez réessayer\n");
+			break;
+		default :
+			this.vue.affiche("Erreur dans le moveUp(), cas imprévu");
 			break;
 		}
 	}
@@ -118,27 +139,46 @@ public class BoardControllerConsole extends BoardController{
 	public void moveDownAffichage() {
 		int down = model.moveDown();
 		switch(down) {
-		case 1 :
-			this.vue.affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
-					+ ", veuillez réessayer\n");
+		case 0 : 
 			break;
-		case 2 : 
-			this.vue.affiche("Player 1 : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
-			break;
-		case 3 : 
-			this.vue.affiche("Player 2 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
-					+ ", veuillez réessayer\n");
-			break;
-		case 4 : 
-			this.vue.affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
-			break;
-		case 5 : //mouvement correct du joueur 1 + check si victoire
+		case 1 : //mouvement correct du joueur 1 + check si victoire
 			if(model.player1HasWon()) {
-				this.vue.affiche("Bravo joueur 1, vous avez gagné! Félicitations !");
+				this.vue.affiche("Bravo " + model.getPlayer1Nickname() + ", vous avez gagné! Félicitations !");
 				this.vue.setEndOfGame();
 			}
 			break;
-		default : //Mouvement correct du joueur 2
+		case 2 :
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 3 : 
+			this.vue.affiche(model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
+			break;
+		case 4 : 
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer2Nickname() + " à cause du bord inférieur du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 5 :
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
+					+ ", veuillez réessayer\n");
+			break;
+		case 6 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 7 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
+			break;
+		case 8 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer1Nickname() + " à cause du bord inférieur du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 9 :
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
+					+ ", veuillez réessayer\n");
+			break;
+		default :
+			this.vue.affiche("Erreur dans le moveDown(), cas imprévu");
 			break;
 		}
 	}
@@ -146,21 +186,40 @@ public class BoardControllerConsole extends BoardController{
 	public void moveLeftAffichage() {
 		int left = model.moveLeft();
 		switch(left) {
+		case 0 : 
+			break;
 		case 1 :
-			this.vue.affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 2 : 
-			this.vue.affiche("Player 1 : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
+			this.vue.affiche(model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
 			break;
 		case 3 : 
-			this.vue.affiche("Player 2 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer2Nickname() + " à cause du bord latéral gauche du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
-		case 4 : 
-			this.vue.affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
+		case 4 :
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
+					+ ", veuillez réessayer\n");
 			break;
-		default : //Mouvement correct
+		case 5 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 6 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
+			break;
+		case 7 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer1Nickname() + " à cause du bord latéral gauche du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 8 :
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
+					+ ", veuillez réessayer\n");
+			break;
+		default :
+			this.vue.affiche("Erreur dans le moveLeft(), cas imprévu");
 			break;
 		}
 	}
@@ -168,21 +227,40 @@ public class BoardControllerConsole extends BoardController{
 	public void moveRightAffichage() {
 		int right = model.moveRight();
 		switch(right) {
+		case 0 : 
+			break;
 		case 1 :
-			this.vue.affiche("Player 1 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
-		case 2 :
-			this.vue.affiche("Player 1 : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
+		case 2 : 
+			this.vue.affiche(model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
 			break;
-		case 3 :
-			this.vue.affiche("Player 2 : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
+		case 3 : 
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer2Nickname() + " à cause du bord latéral droit du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 4 :
-			this.vue.affiche("Player 2 : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
+			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
+					+ ", veuillez réessayer\n");
 			break;
-		default : //Mouvement correct 
+		case 5 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 6 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
+			break;
+		case 7 : 
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer1Nickname() + " à cause du bord latéral droit du plateau de jeu"
+					+ ", veuillez réessayer\n");
+			break;
+		case 8 :
+			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
+					+ ", veuillez réessayer\n");
+			break;
+		default :
+			this.vue.affiche("Erreur dans le moveRight(), cas imprévu");
 			break;
 		}
 	}

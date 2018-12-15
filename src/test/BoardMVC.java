@@ -17,8 +17,8 @@ public class BoardMVC {
 
 		//Création des contrôleurs : Un pour chaque vue
 		//Chaque contrôleur doit avoir une référence vers le modèle pour pouvoir le commander
-		BoardController controleurConsole = new BoardControllerConsole(modele);
-		BoardController controleurGui = new BoardControllerGui(modele);
+		BoardControllerConsole controleurConsole = new BoardControllerConsole(modele);
+		BoardControllerGui controleurGui = new BoardControllerGui(modele);
 		
 		//Creation des vues.
 		//Chaque vue doit connaitre son controleur et avoir une reference vers le modele pour pouvoir l'observer

@@ -123,6 +123,66 @@ public class Player {
 		nbrBarrierLeft = nbr;
 	}
 	
+	/**
+	 * Permet de savoir si le pion d'un joueur est sur la case juste au-dessus du pion d'un autre joueur
+	 * @param player un joueur
+	 * @return true si le pion du joueur courant est juste au-dessus du pion du joueur en parametre, false sinon
+	 */
+	public boolean isJustBelow(Player player) {
+		if(this.getPawn().getPosY() - player.getPawn().getPosY() == 2
+		&& this.getPawn().getPosX() == player.getPawn().getPosX()){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Permet de savoir si le pion d'un joueur est sur la case juste en-dessous du pion d'un autre joueur
+	 * @param player un joueur
+	 * @return true si le pion du joueur courant est juste en-dessous du pion du joueur en parametre, false sinon
+	 */
+	public boolean isJustAbove(Player player) {
+		if(this.getPawn().getPosY() - player.getPawn().getPosY() == -2
+		&& this.getPawn().getPosX() == player.getPawn().getPosX()){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Permet de savoir si le pion d'un joueur est sur la case juste à gauche du pion d'un autre joueur
+	 * @param player un joueur
+	 * @return true si le pion du joueur courant est juste à gauche du pion du joueur en parametre, false sinon
+	 */
+	public boolean isJustToTheLeftOf(Player player) {
+		if(this.getPawn().getPosY() == player.getPawn().getPosY()
+		&& this.getPawn().getPosX() - player.getPawn().getPosX() == -2){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Permet de savoir si le pion d'un joueur est sur la case juste à droite du pion d'un autre joueur
+	 * @param player un joueur
+	 * @return true si le pion du joueur courant est juste à droite du pion du joueur en parametre, false sinon
+	 */
+	public boolean isJustToTheRightOf(Player player) {
+		if(this.getPawn().getPosY() == player.getPawn().getPosY()
+		&& this.getPawn().getPosX() - player.getPawn().getPosX() == 2){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "Joueur " + playerCounter + " : " + nickname;
