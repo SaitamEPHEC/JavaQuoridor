@@ -1,8 +1,11 @@
 package view;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -44,6 +47,55 @@ public class BoardGUI extends JFrame {
 		});
 	}
 	
+	public void initEvents() {
+		onlineButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mouse) {
+				//TODO lien vers la methode qui permet de se connecter
+			}
+		});
+		
+		upButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mouse) {
+				//TODO lien vers la methode qui fait monter le pion
+			}
+		});
+		
+		downButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mouse) {
+				//TODO lien vers la methode qui fait descendre le pion
+			}
+		});
+		
+		leftButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mouse) {
+				//TODO lien vers la methode qui fait aller a gauche le pion
+			}
+		});
+		
+		rightButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent mouse) {
+				//TODO lien vers la methode qui fait aller a droite le pion
+			}
+		});
+		
+		chatTextField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent key) {
+				if (key.getKeyCode()== KeyEvent.VK_ENTER) {
+					chatTextPane.setEditable(true);
+					String message = chatTextField.getText();
+					//lien vers la methode pour se connecter .echoChat(message);
+					chatTextField.setText("");
+					chatTextPane.setEditable(false);
+				}
+			}
+		});
+	}
 	
 	/**
 	 * Create the frame.
@@ -63,25 +115,6 @@ public class BoardGUI extends JFrame {
 		gameView.add(boardView);
 		boardView.setLayout(new GridLayout(17, 17));
 		
-		
-		for (int i = 1; i<=289; i+=1) {
-			if ((i<=17)  || ((i>35)&&(i<=51)) || ((i>69)&&(i<=85)) || ((i>103)&&(i<=119)) || ((i>137)&&(i<=153))){
-				if (i%2 == 0) {
-					btnNewButton = new JButton("");
-				} else {
-					btnNewButton = new JButton("B");
-				}
-			} else {
-				if (i%2==0) {
-					btnNewButton = new JButton("B");
-				} else {
-					btnNewButton = new JButton("");
-				}
-			}
-			
-			btnNewButton.setPreferredSize(new Dimension(4, 4));
-			boardView.add(btnNewButton);
-		}
 		
 		chatTextField = new JTextField();
 		chatTextField.setBounds(720, 690, 191, 20);
