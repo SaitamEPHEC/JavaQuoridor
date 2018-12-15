@@ -91,7 +91,7 @@ public class BoardVueConsole extends BoardVue {
 			while(!endOfGame){
 				try {
 					affiche("\nOptions possibles : b|p\n");
-					String c = sc.next().toUpperCase();
+					String c = sc.nextLine().toUpperCase();
 					switch(c){
 						case "B" : 	//Barriere
 							affiche("\nOptions possibles (4 coordonnées séparées par des espaces) : a-i 1-9 a-i 1-9\n");

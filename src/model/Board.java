@@ -220,9 +220,10 @@ public class Board extends Observable {
 				return 1;
 			}
 			//P1 est bloque par une barriere au-dessus
-			else if(isPositionOfBarrierOnBoard(new Barrier(getP1Y()-1,getP1X(),0,0))) {
+			else if(isPositionOfBarrierOnBoard(getP1Y()-1,getP1X())) {
 				return 2;
 			}
+			
 			else{
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()-2,getP1X()));
 				turn = player2;
@@ -237,7 +238,7 @@ public class Board extends Observable {
 				return 3;
 			}
 			//P2 est bloque par une barriere au-dessus
-			else if(isPositionOfBarrierOnBoard(new Barrier(getP2Y()-1,getP2X(),0,0))) {
+			else if(isPositionOfBarrierOnBoard(getP2Y()-1,getP2X())) {
 				return 4;
 			}
 			else{
@@ -263,7 +264,7 @@ public class Board extends Observable {
 				return 1;
 			}
 			//P1 est bloque par une barriere en-dessous
-			else if(board[getP1Y()+1][getP1X()] == "――"){
+			else if(isPositionOfBarrierOnBoard(getP1Y()+1,getP1X())) {
 				return 2;
 			}
 			else{
@@ -280,7 +281,7 @@ public class Board extends Observable {
 				return 3;
 			}
 			//P2 est bloque par une barriere en-dessous
-			else if(board[getP2Y()+1][getP2X()] == "――") {
+			else if(isPositionOfBarrierOnBoard(getP2Y()+1,getP2X())) {
 				return 4;
 			}
 			else{
@@ -306,7 +307,7 @@ public class Board extends Observable {
 				return 1;
 			}
 			//P1 est bloque par une barriere a gauche
-			else if(board[getP1Y()][getP1X()-1] == " | "){
+			else if(isPositionOfBarrierOnBoard(getP1Y(),getP1X()-1)) {
 				return 2;
 			}
 			else{
@@ -323,7 +324,7 @@ public class Board extends Observable {
 				return 3;
 			}
 			//P2 est bloque par une barriere a gauche
-			else if(board[getP2Y()][getP2X()-1] == " | "){
+			else if(isPositionOfBarrierOnBoard(getP2Y(),getP2X()-1)) {
 				return 4;
 			}
 			else{
@@ -349,7 +350,7 @@ public class Board extends Observable {
 				return 1;
 			}
 			//P1 est bloque par une barriere a droite
-			else if(board[getP1Y()][getP1X()+1] == " | "){
+			else if(isPositionOfBarrierOnBoard(getP1Y(),getP1X()+1)) {
 				return 2;
 			}
 			else{
@@ -366,7 +367,7 @@ public class Board extends Observable {
 				return 3;
 			}
 			//P2 est bloque par une barriere a droite
-			else if(board[getP2Y()][getP2X()+1] == " | "){
+			else if(isPositionOfBarrierOnBoard(getP2Y(),getP2X()+1)) {
 				return 4;
 			}
 			else{
@@ -523,8 +524,29 @@ public class Board extends Observable {
 		 
 		while (it.hasNext()) {
 		       Barrier bInList= it.next();
-		       if(bInList.getPosY1() == b.getPosY1() && bInList.getPosX1() == b.getPosX1()
-		       || bInList.getPosY2() == b.getPosY2() && bInList.getPosX2() == b.getPosX2()){
+		       if(bInList.getPosY2() == b.getPosY1() && bInList.getPosX2() == b.getPosX1()
+		       || bInList.getPosY1() == b.getPosY2() && bInList.getPosX1() == b.getPosX2()){
+		    	   return true;
+		       }
+		}
+		return false; 
+	}
+	
+	/**
+	 * Permet de savoir si une position avec une cordonnee Y et une coordonnee X correspond a une position de barriere
+	 * existante sur le board ou non.
+	 * @param posY entier representant la position Y1 ou Y2 d'une barriere
+	 * @param posX entier representant la position X1 ou X2 d'une barriere
+	 * @return true si la position passee en parametre represente une position de barriere existante dans le board,
+	 * false sinon.
+	 */
+	public boolean isPositionOfBarrierOnBoard(int posY, int posX) {
+		Iterator<Barrier> it = barriersOnBoard.iterator();
+		 
+		while (it.hasNext()) {
+		       Barrier bInList= it.next();
+		       if(bInList.getPosY2() == posY && bInList.getPosX2() == posX
+		       || bInList.getPosY1() == posY && bInList.getPosX1() == posX){
 		    	   return true;
 		       }
 		}

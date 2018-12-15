@@ -16,7 +16,7 @@ public class BoardControllerConsole extends BoardController{
 
 	@Override
 	public void movePawn() {
-			String m = sc.next().toUpperCase();
+			String m = sc.nextLine().toUpperCase();
 			switch(m) {
 			case "U" : 
 				moveUpAffichage();
