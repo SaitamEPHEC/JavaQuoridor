@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
@@ -101,6 +102,7 @@ public class BoardGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public BoardGUI() {
+		setTitle("Quoridor - Java Project");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 937, 760);
@@ -111,7 +113,7 @@ public class BoardGUI extends JFrame {
 		
 		boardView = new JPanel();
 		boardView.setBounds(10, 10, 700, 600);
-		//boardView.setBackground(Color.WHITE);
+		boardView.setBackground(Color.WHITE);
 		gameView.add(boardView);
 		boardView.setLayout(new GridLayout(17, 17));
 		
