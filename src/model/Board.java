@@ -1,8 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Observable;
+import java.util.Set;
+import java.util.Stack;
 
 
 public class Board extends Observable {
@@ -785,5 +788,146 @@ public class Board extends Observable {
 		else {
 			return false;
 		}
+	}
+	
+	public boolean checkUp(int X, int Y, String[][] board) {
+		if(Y+2 > 16) {return false;}
+		else{
+			String temp = board[Y+1][X];
+			return (temp != "――");
+			}	
+	}
+	
+	public Case positionUp(int X, int Y) {
+		Y = Y+2;
+		Case newCase = new Case(X, Y);	
+		return newCase;
+	}
+	
+	public boolean checkDown(int X, int Y, String[][] board) {
+		if(Y-2 < 0) {return false;}
+		else {
+			String temp = board[Y-1][X];
+			return (temp != "――");
+		}
+	}
+	
+	public Case positionDown(int X, int Y) {
+		Y = Y-2;
+		Case newCase = new Case(X, Y);	
+		return newCase;
+	}
+	
+	public boolean checkLeft(int X, int Y, String[][] board) {
+		if(X-2 < 0) {return false;}
+		else {
+			String temp = board[Y][X-1];
+			return (temp != " | ");
+		}
+	}
+	
+	public Case positionLeft(int X, int Y) {
+		X = X-2;
+		Case newCase = new Case(X, Y);	
+		return newCase;
+	}
+
+	public boolean checkRight(int X, int Y, String[][] board) {
+		if(X+2 > 16) {return false;}
+		else {
+			String temp = board[Y][X+1];
+			return (temp != " | ");
+		}
+	}
+	
+	public Case positionRight(int X, int Y) {
+		X = X+2;
+		Case newCase = new Case(X, Y);	
+		return newCase;
+	}
+	
+	public boolean setComparator(Set<Case> set, Case positionCase) {
+		boolean truefalse = false;
+		
+		for(Case caseSet : set){
+			if(caseSet.equals(positionCase)) {
+				truefalse = true;
+			}
+				
+		}
+		return truefalse;
+	}
+	
+	public boolean stackComparator(Stack<Case> stack, Case positionCase) {
+		boolean truefalse = false;
+		
+		for(Case caseStack : stack){
+			if(caseStack.equals(positionCase)) {
+				truefalse = true;
+			}
+				
+		}
+		return truefalse;
+	}
+
+	public boolean pathFinder(String[][] board){
+		Stack<Case> casesAParcourir = new Stack<Case>();
+		Set<Case> casesParcourues = new HashSet();
+		
+		boolean chemin = false;
+
+		if(turn.equals(player1)) { // si tour du joueur 1, a.k.a doit arriver sur la ligne 16
+			int won = 16;
+			Case positionCase = new Case(this.getP1X(), this.getP1Y());
+			if(positionCase.getY() == won) {return true;}
+			
+			casesParcourues.add(positionCase);
+			if(checkUp(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+			if(checkLeft(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+			if(checkRight(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+			if(checkDown(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
+
+			
+			while(!casesAParcourir.empty()){ // tant que notre pile n'est pas vide, a.k.a qu'il nous reste des cases non testees
+				positionCase = casesAParcourir.pop(); // on prend la suivante
+				System.out.println(positionCase);
+				if(positionCase.getY() == won) {chemin = true; break;} // si position qui gagne (0, X) ou (16, X) en fct du joueur
+
+				casesParcourues.add(positionCase); // on ajoute la position que l'on vient de testee a notre set 
+		
+				if( (checkUp(positionCase.getX(), positionCase.getY(), board)) && ((!(stackComparator(casesAParcourir, positionUp(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionUp(positionCase.getX(), positionCase.getY()))))))) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+				if( (checkLeft(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionLeft(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionLeft(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+				if( (checkRight(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionRight(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionRight(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+				if( (checkDown(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionDown(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionDown(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}			
+			}
+		}
+		
+		
+		if(turn.equals(player2)) { // si tour du joueur 1, a.k.a doit arriver sur la ligne 16
+			int won = 0;
+			Case positionCase = new Case(this.getP2X(), this.getP2Y());
+			if(positionCase.getY() == won) {return true;}
+			
+			casesParcourues.add(positionCase);
+			if(checkUp(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+			if(checkDown(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
+			if(checkLeft(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+			if(checkRight(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+
+			while(!casesAParcourir.empty()){ // tant que notre pile n'est pas vide, a.k.a qu'il nous reste des cases non testees
+				positionCase = casesAParcourir.pop(); // on prend la suivante
+				System.out.println(positionCase);
+				if(positionCase.getY() == won) {chemin = true; break;} // si position qui gagne (0, X) ou (16, X) en fct du joueur
+
+				casesParcourues.add(positionCase); // on ajoute la position que l'on vient de testee a notre set 
+		
+				if( (checkUp(positionCase.getX(), positionCase.getY(), board)) && ((!(stackComparator(casesAParcourir, positionUp(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionUp(positionCase.getX(), positionCase.getY()))))))) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+				if( (checkDown(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionDown(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionDown(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
+				if( (checkLeft(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionLeft(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionLeft(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+				if( (checkRight(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionRight(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionRight(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+			}
+		}
+		
+	return chemin;	
 	}
 }
