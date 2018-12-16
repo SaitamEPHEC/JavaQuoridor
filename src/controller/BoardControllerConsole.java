@@ -7,29 +7,29 @@ import model.Board;
 
 public class BoardControllerConsole extends BoardController{
 	private Scanner sc; 
-	private Scanner sc1;
+	//private Scanner sc1;
 	
 	public BoardControllerConsole(Board model) {
 		super(model);
 		sc = new Scanner(System.in);
-		sc1 = new Scanner(System.in);
+		//sc1 = new Scanner(System.in);
 	}
 
 
 	@Override
 	public void movePawn() {
-			String m = sc1.nextLine().toUpperCase();
+			char m = Character.toUpperCase(sc.next().trim().charAt(0));
 			switch(m) {
-			case "U" : 
+			case 'U' : 
 				moveUpAffichage();
 				break;
-			case "D" : 
+			case 'D' : 
 				moveDownAffichage();
 				break;
-			case "L" : 
+			case 'L' : 
 				moveLeftAffichage();
 				break;
-			case "R" : 
+			case 'R' : 
 				moveRightAffichage();
 				break;
 			default :
@@ -42,23 +42,28 @@ public class BoardControllerConsole extends BoardController{
 	@Override
 	public void putBarrier() {
 		Barrier b;
-		String[] inputs = askBarrier();
+		char[] inputs = askBarrier();
 		
 		if(checkInputs(inputs)) {
 			if(isBarrierH(inputs)){
 				//Barriere Horizontale
 				b = translateH(inputs);
 				if(model.isPositionOfBarrierOnBoard(b)) {
-					this.vue.affiche("Position de la barrière incorrecte : Vous ne pouvez pas placer une barrière sur une"
+					this.vue.affiche("\n" + "Position de la barrière incorrecte : Vous ne pouvez pas placer une barrière sur une"
 							+ " barrière déjà existante.\n");
 				}
 				else {
 					if(crossBarrierV(b)) {
-						this.vue.affiche("Position de la barrière incorrecte : Vous ne pouvez pas croiser votre barrière horizontale avec "
+						this.vue.affiche("\n" + "Position de la barrière incorrecte : Vous ne pouvez pas croiser votre barrière horizontale avec "
 								+ "une barrière verticale déjà existante.\n");
 					}
 					else {
-						model.drawBarrierH(b);
+						if(model.getTurn().getNbrBarrierLeft() > 0) {
+							model.drawBarrierH(b);
+						}
+						else {
+							this.vue.affiche("\n" + model.getTurn().getNickname() + " : Vous n'avez plus de barrières disponibles! Il ne vous reste plus qu'à déplacer votre pion.\n");
+						}
 					}
 				}
 			}
@@ -66,22 +71,27 @@ public class BoardControllerConsole extends BoardController{
 				//Barriere Verticale
 				b = translateV(inputs);
 				if(model.isPositionOfBarrierOnBoard(b)) {
-					this.vue.affiche("Position de la barrière incorrecte : Vous ne pouvez pas placer une barrière sur une"
+					this.vue.affiche("\n" + "Position de la barrière incorrecte : Vous ne pouvez pas placer une barrière sur une"
 							+ " barrière déjà existante.\n");
 				}
 				else {
 					if(crossBarrierH(b)) {
-						this.vue.affiche("Position de la barrière incorrecte : Vous ne pouvez pas croiser votre barrière verticale avec "
+						this.vue.affiche("\n" + "Position de la barrière incorrecte : Vous ne pouvez pas croiser votre barrière verticale avec "
 								+ "une barrière horizontale déjà existante.\n");
 					}
 					else {
-						model.drawBarrierV(b);
+						if(model.getTurn().getNbrBarrierLeft() > 0) {
+							model.drawBarrierV(b);
+						}
+						else {
+							this.vue.affiche("\n" + model.getTurn().getNickname() + " : Vous n'avez plus de barrières disponibles! Il ne vous reste plus qu'à déplacer votre pion.\n");
+						}
 					}
 				}
 			}
 			else {
-				this.vue.affiche("Les coordonnées entrées ne correspondent pas à une barrière horizontale ou verticale.\n"
-						+ "Exemple debarrière horizontale : A 1 A 2 => Attention : pas de barriere horizontale sur la ligne I (hors du plateau de jeu)!\n"
+				this.vue.affiche("\n" + "Les coordonnées entrées ne correspondent pas à une barrière horizontale ou verticale.\n"
+						+ "Exemple de barrière horizontale : A 1 A 2 => Attention : pas de barriere horizontale sur la ligne I (hors du plateau de jeu)!\n"
 						+ "Exemple de barrière verticale : G 8 H 8 => Attention : pas de barriere verticale sur la colonne 9 (hors du plateau de jeu)!\n");
 			}
 		}
@@ -96,38 +106,38 @@ public class BoardControllerConsole extends BoardController{
 			break;
 		case 1 : //mouvement correct du joueur 2 + check si victoire
 			if(model.player2HasWon()) {
-				this.vue.affiche("Bravo " + model.getPlayer2Nickname() + ", vous avez gagné! Félicitations !");
+				this.vue.affiche("\n" + "Bravo " + model.getPlayer2Nickname() + ", vous avez gagné! Félicitations !");
 				this.vue.setEndOfGame();
 			}
 			break;
 		case 2 :
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 3 : 
-			this.vue.affiche(model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
 			break;
 		case 4 : 
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer2Nickname() + " à cause du bord supérieur du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer2Nickname() + " à cause du bord supérieur du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 5 :
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
 					+ ", veuillez réessayer\n");
 			break;
 		case 6 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord supérieur du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 7 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en haut, veuillez réessayer\n");
 			break;
 		case 8 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer1Nickname() + " à cause du bord supérieur du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer1Nickname() + " à cause du bord supérieur du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 9 :
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter au-dessus du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
 					+ ", veuillez réessayer\n");
 			break;
 		default :
@@ -143,38 +153,38 @@ public class BoardControllerConsole extends BoardController{
 			break;
 		case 1 : //mouvement correct du joueur 1 + check si victoire
 			if(model.player1HasWon()) {
-				this.vue.affiche("Bravo " + model.getPlayer1Nickname() + ", vous avez gagné! Félicitations !");
+				this.vue.affiche("\n" + "Bravo " + model.getPlayer1Nickname() + ", vous avez gagné! Félicitations !");
 				this.vue.setEndOfGame();
 			}
 			break;
 		case 2 :
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 3 : 
-			this.vue.affiche(model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
 			break;
 		case 4 : 
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer2Nickname() + " à cause du bord inférieur du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer2Nickname() + " à cause du bord inférieur du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 5 :
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
 					+ ", veuillez réessayer\n");
 			break;
 		case 6 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord inférieur du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 7 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case en bas, veuillez réessayer\n");
 			break;
 		case 8 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer1Nickname() + " à cause du bord inférieur du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer1Nickname() + " à cause du bord inférieur du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 9 :
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter en-dessous du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
 					+ ", veuillez réessayer\n");
 			break;
 		default :
@@ -189,33 +199,33 @@ public class BoardControllerConsole extends BoardController{
 		case 0 : 
 			break;
 		case 1 :
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 2 : 
-			this.vue.affiche(model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
 			break;
 		case 3 : 
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer2Nickname() + " à cause du bord latéral gauche du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer2Nickname() + " à cause du bord latéral gauche du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 4 :
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
 					+ ", veuillez réessayer\n");
 			break;
 		case 5 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 6 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à gauche, veuillez réessayer\n");
 			break;
 		case 7 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer1Nickname() + " à cause du bord latéral gauche du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer1Nickname() + " à cause du bord latéral gauche du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 8 :
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à gauche du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
 					+ ", veuillez réessayer\n");
 			break;
 		default :
@@ -230,33 +240,33 @@ public class BoardControllerConsole extends BoardController{
 		case 0 : 
 			break;
 		case 1 :
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 2 : 
-			this.vue.affiche(model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
 			break;
 		case 3 : 
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer2Nickname() + " à cause du bord latéral droit du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer2Nickname() + " à cause du bord latéral droit du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 4 :
-			this.vue.affiche(model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
+			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer2Nickname() + " à cause d'une barrière"
 					+ ", veuillez réessayer\n");
 			break;
 		case 5 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 6 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Une barrière vous empêche de vous déplacer d'une case à droite, veuillez réessayer\n");
 			break;
 		case 7 : 
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer1Nickname() + " à cause du bord latéral droit du plateau de jeu"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer1Nickname() + " à cause du bord latéral droit du plateau de jeu"
 					+ ", veuillez réessayer\n");
 			break;
 		case 8 :
-			this.vue.affiche(model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
+			this.vue.affiche("\n" + model.getPlayer2Nickname() + " : Vous ne pouvez pas sauter à droite du pion de " + model.getPlayer1Nickname() + " à cause d'une barrière"
 					+ ", veuillez réessayer\n");
 			break;
 		default :
@@ -270,17 +280,16 @@ public class BoardControllerConsole extends BoardController{
 	 * 
 	 * @return les 4 coordonnees de la barriere entrees par l'utilisateur. 
 	 */
-	public String[] askBarrier() {
+	public char[] askBarrier() {
+		char c1 = Character.toUpperCase(sc.next().trim().charAt(0));
 		
-		String c1 = sc.next().toUpperCase();
+		char i1 = Character.toUpperCase(sc.next().trim().charAt(0));
 		
-		String i1 = sc.next().toUpperCase();
+		char c2 = Character.toUpperCase(sc.next().trim().charAt(0));
 		
-		String c2 = sc.next().toUpperCase();
+		char i2 = Character.toUpperCase(sc.next().trim().charAt(0));
 		
-		String i2 = sc.next().toUpperCase();
-		
-		String[] coordonnees = {c1,i1,c2,i2};
+		char[] coordonnees = {c1,i1,c2,i2};
 		
 		return coordonnees;
 		
@@ -291,25 +300,25 @@ public class BoardControllerConsole extends BoardController{
 	 * @return true si le format d'input de la barriere est correcte, c'est a dire que les coordonnees entrees sont dans
 	 * l'ensemble des coordonnees du plateau de jeu, false sinon.
 	 */
-	public boolean checkInputs(String[] c) {
+	public boolean checkInputs(char[] c) {
 		boolean isValid = true; //si reste true, les chiffres et lettres sont valides par rapport aux limites du board
 		
-		if((c[0].length()!=1) || (LETTRES_AXE_Y.indexOf(c[0]) == -1)) {
+		if(LETTRES_AXE_Y.indexOf(c[0]) == -1) {
 			this.vue.affiche("1ère coordonnée de barrière incorrecte, la 1ère coordonnée doit être une lettre entre A et I\n");
 			isValid = false; 
 		}
 		
-		if((c[1].length()!=1) || (CHIFFRES_AXE_X.indexOf(c[1]) == -1)) {
+		if(CHIFFRES_AXE_X.indexOf(c[1]) == -1) {
 			this.vue.affiche("2ème coordonnée de barrière incorrecte, la 2ème coordonnée doit être une un chiffre entre 1 et 9\n");
 			isValid = false; 
 		}
 		
-		if((c[2].length()!=1) || (LETTRES_AXE_Y.indexOf(c[2]) == -1)) {
+		if(LETTRES_AXE_Y.indexOf(c[2]) == -1) {
 			this.vue.affiche("3ème coordonnée de barrière incorrecte, la 3ème coordonnée doit être une lettre entre A et I\n");
 			isValid = false; 
 		}
 		
-		if((c[3].length()!=1) || (CHIFFRES_AXE_X.indexOf(c[3]) == -1)) {
+		if(CHIFFRES_AXE_X.indexOf(c[3]) == -1) {
 			this.vue.affiche("4ème coordonnée de barrière incorrecte, la 4ème coordonnée doit être une un chiffre entre 1 et 9\n");
 			isValid = false;
 		}

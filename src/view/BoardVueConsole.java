@@ -90,19 +90,19 @@ public class BoardVueConsole extends BoardVue {
 		public void run() {
 			while(!endOfGame){
 				try {
-					affiche("\nOptions possibles : b|p\n");
-					String c = sc.nextLine().toUpperCase();
+					affiche("\n" + "Options possibles : b|p\n");
+					char c = Character.toUpperCase(sc.next().trim().charAt(0));
 					switch(c){
-						case "B" : 	//Barriere
-							affiche("\nOptions possibles (4 coordonnées séparées par des espaces) : a-i 1-9 a-i 1-9\n");
+						case 'B' : 	//Barriere
+							affiche("\n" + "Options possibles (4 coordonnées séparées par des espaces) : a-i 1-9 a-i 1-9\n");
 							controller.putBarrier();	
 							break;
-						case "P" : //Pion
-							affiche("\nOptions possibles : u|d|l|r\n");
+						case 'P' : //Pion
+							affiche("\n" + "Options possibles : u|d|l|r\n");
 							controller.movePawn();
 							break;
 						default : 
-							affiche("Mouvement incorrect : Vous avez entré autre chose que \"B\" ou \"P\" comme 1er charactère, veuillez réessayer\n");
+							affiche("\n" + "Mouvement incorrect : Vous avez entré autre chose que \"B\" ou \"P\" comme 1er charactère, veuillez réessayer\n");
 							break;
 					}
 				}

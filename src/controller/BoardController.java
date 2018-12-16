@@ -36,9 +36,9 @@ public abstract class BoardController {
 	 * @param c un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
 	 * @return true si les coordonnees entree correspondent a une barriere horizontale, false sinon.
 	 */ 
-	public boolean isBarrierH(String[] c) {
-		if(c[0].equals(c[2]) && Math.abs(CHIFFRES_AXE_X.indexOf(c[1]) - CHIFFRES_AXE_X.indexOf(c[3])) == 1) {
-			if(c[0].equals("I")) {
+	public boolean isBarrierH(char[] c) {
+		if(c[0] == c[2] && Math.abs(CHIFFRES_AXE_X.indexOf(c[1]) - CHIFFRES_AXE_X.indexOf(c[3])) == 1) {
+			if(c[0] == 'I') {
 				return false;
 			}
 			else {
@@ -53,9 +53,9 @@ public abstract class BoardController {
 	 * @param c un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
 	 * @return true si les coordonnees entree correspondent a une barriere verticale, false sinon.
 	 */
-	public boolean isBarrierV(String[] c) {
-		if(c[1].equals(c[3]) && Math.abs(LETTRES_AXE_Y.indexOf(c[0]) - LETTRES_AXE_Y.indexOf(c[2])) == 1) {
-			if(c[1].equals("9")) {
+	public boolean isBarrierV(char[] c) {
+		if(c[1] == c[3] && Math.abs(LETTRES_AXE_Y.indexOf(c[0]) - LETTRES_AXE_Y.indexOf(c[2])) == 1) {
+			if(c[1] == '9'){
 				return false;
 			}
 			else {
@@ -103,7 +103,7 @@ public abstract class BoardController {
 	 * @return une barriere HORIZONTALE avec ses 4 coordonnees dans le board.
 	 * 
 	 */
-	public Barrier translateH(String[] c) {
+	public Barrier translateH(char[] c) {
 		int posY1 = translateLetterH(c[0]);
 		int posX1 = translateNumberH(c[1]);
 		int posY2 = translateLetterH(c[2]);
@@ -123,7 +123,7 @@ public abstract class BoardController {
 	 * @param c un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
 	 * @return une barriere VERTICALE avec ses 4 coordonnees dans le board.
 	 */
-	public Barrier translateV(String[] c) {
+	public Barrier translateV(char[] c) {
 		int posY1 = translateLetterV(c[0]);
 		int posX1 = translateNumberV(c[1]);
 		int posY2 = translateLetterV(c[2]);
@@ -141,23 +141,23 @@ public abstract class BoardController {
 	 * @param c Une lettre entree par l'utilisateur et correspondant a la coordonnee Y d'une des 2 positions d'une barriere HORIZONTALE.
 	 * @return : Cette fonction traduit la lettre entree dans sa coordonnee Y correspondante dans le board et comprehensible par celui-ci. 
 	 */
-	public int translateLetterH(String c) {
+	public int translateLetterH(char c) {
 		switch(c) {
-			case "A" :
+			case 'A' :
 				return 15;
-			case "B" : 
+			case 'B' : 
 				return 13;
-			case "C" :
+			case 'C' :
 				return 11;
-			case "D" : 
+			case 'D' : 
 				return 9;
-			case "E" : 
+			case 'E' : 
 				return 7;
-			case "F" :
+			case 'F' :
 				return 5;
-			case "G" : 
+			case 'G' : 
 				return 3; 
-			case "H" : 
+			case 'H' : 
 				return 1;
 			default :
 				return -1;
@@ -168,25 +168,25 @@ public abstract class BoardController {
 	 * @param c Une lettre entree par l'utilisateur et correspondant a la coordonnee Y d'une des 2 positions d'une barriere VERTICALE.
 	 * @return : Cette fonction traduit la lettre entree dans sa coordonnee Y correspondante dans le board et comprehensible par celui-ci. 
 	 */
-	public int translateLetterV(String c) {
+	public int translateLetterV(char c) {
 		switch(c) {
-			case "A" :
+			case 'A' :
 				return 16;
-			case "B" : 
+			case 'B' : 
 				return 14;
-			case "C" :
+			case 'C' :
 				return 12;
-			case "D" : 
+			case 'D' : 
 				return 10;
-			case "E" : 
+			case 'E' : 
 				return 8;
-			case "F" :
+			case 'F' :
 				return 6;
-			case "G" : 
+			case 'G' : 
 				return 4; 
-			case "H" : 
+			case 'H' : 
 				return 2;
-			case "I" : 
+			case 'I' : 
 				return 0;
 			default :
 				return -1;
@@ -198,25 +198,25 @@ public abstract class BoardController {
 	 * @param i Un chiffre entre par l'utilisateur et correspondant a la coordonnee X d'une des 2 positions d'une barriere HORIZONTALE.
 	 * @return : Cette fonction traduit le chiffre entre dans sa coordonnee X correspondante dans le board et comprehensible par celui-ci. 
 	 */
-	public int translateNumberH(String i) {
+	public int translateNumberH(char i) {
 		switch(i) {
-			case "1" :
+			case '1' :
 				return 0;
-			case "2" : 
+			case '2' : 
 				return 2;
-			case "3" :
+			case '3' :
 				return 4;
-			case "4" : 
+			case '4' : 
 				return 6;
-			case "5" : 
+			case '5' : 
 				return 8;
-			case "6" :
+			case '6' :
 				return 10;
-			case "7" : 
+			case '7' : 
 				return 12; 
-			case "8" : 
+			case '8' : 
 				return 14;
-			case "9" : 
+			case '9' : 
 				return 16;
 			default :
 				return -1;
@@ -227,23 +227,23 @@ public abstract class BoardController {
 	 * @param i Un chiffre entre par l'utilisateur et correspondant a la coordonnee X d'une des 2 positions d'une barriere VERTICALE.
 	 * @return : Cette fonction traduit le chiffre entre dans sa coordonnee X correspondante dans le board et comprehensible par celui-ci. 
 	 */
-	public int translateNumberV(String i) {
+	public int translateNumberV(char i) {
 		switch(i) {
-			case "1" :
+			case '1' :
 				return 1;
-			case "2" : 
+			case '2' : 
 				return 3;
-			case "3" :
+			case '3' :
 				return 5;
-			case "4" : 
+			case '4' : 
 				return 7;
-			case "5" : 
+			case '5' : 
 				return 9;
-			case "6" :
+			case '6' :
 				return 11;
-			case "7" : 
+			case '7' : 
 				return 13; 
-			case "8" : 
+			case '8' : 
 				return 15;
 			default :
 				return -1;
