@@ -24,8 +24,11 @@ class BoardGUI extends JFrame {
     	setTitle("Quoridor - Java Project");
     	setResizable(false);
         initComponents();
+        initEvents();
     }
 
+    
+    // declaration des composants en "public" afin de les reutiliser sur les listeners
     JButton onlineButton = new JButton("Online");
     JTextField chatTextField = new JTextField();
     JTextPane chatTextPane = new JTextPane();
@@ -91,6 +94,7 @@ class BoardGUI extends JFrame {
         });
     }
     
+    // on initialise les listeners
     public void initEvents() {
     	onlineButton.addMouseListener(new MouseAdapter() {
     		@Override
