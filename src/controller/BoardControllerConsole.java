@@ -59,11 +59,11 @@ public class BoardControllerConsole extends BoardController{
 					}
 					else {
 						if(model.getTurn().getNbrBarrierLeft() > 0) {
-							if(model.pathFinder(b)) {
+							if(model.pathFinder(b,'h')) {
 								model.drawBarrierH(b);
 							}
 							else {
-								this.vue.affiche("\n" + "Vous ne pouvez pas placer votre barriere ici : elle bloquerait le chemin d'un des joueurs");
+								this.vue.affiche("\n" + "Vous ne pouvez pas placer votre barrière ici : elle bloquerait le chemin d'un des joueurs\n");
 							}
 						}
 						else {
@@ -86,7 +86,12 @@ public class BoardControllerConsole extends BoardController{
 					}
 					else {
 						if(model.getTurn().getNbrBarrierLeft() > 0) {
-							model.drawBarrierV(b);
+							if(model.pathFinder(b,'v')) {
+								model.drawBarrierV(b);
+							}
+							else {
+								this.vue.affiche("\n" + "Vous ne pouvez pas placer votre barrière ici : elle bloquerait le chemin d'un des joueurs\n");
+							}
 						}
 						else {
 							this.vue.affiche("\n" + model.getTurn().getNickname() + " : Vous n'avez plus de barrières disponibles! Il ne vous reste plus qu'à déplacer votre pion.\n");
