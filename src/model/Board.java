@@ -926,10 +926,14 @@ public class Board extends Observable {
 	 */
 	public boolean pathFinder(Barrier b, char c){
 		String[][] boardTemp = new String[17][17];
-		boardTemp = this.board.clone();
 		Stack<Case> casesAParcourir = new Stack<Case>();
 		Set<Case> casesParcourues = new HashSet();
 		
+		for(int i=0;i<board.length;i++) {
+			for(int j=0;j<board[0].length;j++) {
+				boardTemp[i][j] = this.board[i][j];
+			}
+		}	
 		boolean chemin = false;
 		
 		if(!(c != 'v' || c != 'h')) { // si c n est ni v ni h, on ne saura pas draw barrier et donc on return false
@@ -1014,4 +1018,6 @@ public class Board extends Observable {
 			boardTemp[b.getPosY1()][b.getPosX1()] = " | ";
 			boardTemp[b.getPosY2()][b.getPosX2()] = " | ";
 	}
-}
+}	
+
+
