@@ -35,7 +35,9 @@ public class Board extends Observable {
 		barriersOnBoard = new ArrayList<Barrier>();
 	}
 	
-	
+	/**
+	 * Dessine le plateau de jeu au demarrage de la partie. Instancie les 2 joueurs et place les pions a leurs positions de depart.
+	 */
 	public void initiateBoardConsole() {
 		for(int i=0; i<board.length; i++) {
 			for(int j=0; j<board[0].length; j++) {
