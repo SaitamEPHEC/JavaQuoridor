@@ -25,44 +25,36 @@ public class BoardVueConsole extends BoardVue {
 	public void update(Observable o, Object arg) {
 		String[][] temp = this.model.getContours();
 		printHelp();
-/*		for(int i = 0;i<this.board.getLength();i++) {
-	*		for(int j = 0;j<this.board.getLength();j++) {
-	*			if(j == this.board.getLength()-1) {
-	*				System.out.println(this.board.getBoard()[i][j]);
-	*			}
-	*			else {
-	*				System.out.print(this.board.getBoard()[i][j]);
-	*			}
-	*		}
-	*	}	
-	*/
 		for(int i = 0;i<this.model.getLength();i++) {
 			for(int j = 0;j<this.model.getLength();j++) {
 				if(i == 0 && j == 0) { // premiere case
-					System.out.print("   "); // alignement
+					//System.out.print("   "); // alignement
 					for(int l = 0;l<temp.length-1;l++) { // premiere ligne de contour
 						System.out.print(temp[i][l]); // affiche 1 a 8
 					}
 					System.out.print(temp[i][temp.length-1]); // affiche 9 + \n
 //					System.out.print("| Tour de : " + this.model.getTurn().getNickname()); // tour de :
 					System.out.println("   | Barrieres restantes de " + this.model.getPlayer1Nickname() + " (P1) : " + this.model.getPlayer1BarrierLeft()); // nombre barriere left du joueur du haut
-					System.out.print("  I    ");
+					System.out.print("I " + this.model.getBoard()[i][j]);
 				}
 				else { // board normal plus contour
-					if(j == 0 && (i%2 == 0)){ // premiere colonne contour
-						System.out.print(temp[i][j]); // H - A
+					if(j == 0 && i == (this.model.getLength()-1)) {
+						System.out.print(temp[i][j] + " " + this.model.getBoard()[i][j]);
 					}
-					if(j == 0 && (i%2 != 0)) { // allignement des lignes sans lettres
-						System.out.print("   ");
+					else if(j == 0 && (i%2 == 0)){ // premiere colonne contour
+						System.out.print(temp[i][j] + " " + this.model.getBoard()[i][j]); // H - A
 					}
-					if(j == (this.model.getLength()-1) && i == 8) {
+					else if(j == 0 && (i%2 != 0)) { // allignement des lignes sans lettres
+						System.out.print("  " + this.model.getBoard()[i][j]);
+					}
+					else if(j == (this.model.getLength()-1) && i == 8) {
 						System.out.println(this.model.getBoard()[i][j] + ("   | Tour de : " + this.model.getTurn().getNickname()) ); // affiche le nom de la personne qui doit jouer
 					}
 						
-					if(j == (this.model.getLength()-1) && i != (this.model.getLength()-1) && i != 8) { //dernier char de chaque ligne
+					else if(j == (this.model.getLength()-1) && i != (this.model.getLength()-1) && i != 8) { //dernier char de chaque ligne
 						System.out.println(this.model.getBoard()[i][j]); // board
 					}
-					if(j == (this.model.getLength()-1) && i == (this.model.getLength()-1)) {
+					else if(j == (this.model.getLength()-1) && i == (this.model.getLength()-1)) {
 						System.out.print(this.model.getBoard()[i][j]);
 						System.out.println("   | Barrieres restantes de " + this.model.getPlayer2Nickname() + " (P2) : " + this.model.getPlayer2BarrierLeft()); // nombre barriere left du joueur du bas
 					}
