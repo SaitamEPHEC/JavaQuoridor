@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,20 +26,20 @@ class BoardGUI extends JFrame {
         initComponents();
     }
 
+    JButton onlineButton = new JButton("Online");
+    JTextField chatTextField = new JTextField();
+    JTextPane chatTextPane = new JTextPane();
+    JScrollPane chatScrollPane = new JScrollPane(chatTextPane);
+    JButton upButton = new JButton("UP");
+    JButton downButton = new JButton("DOWN");
+    JButton leftButton = new JButton("LEFT");
+    JButton rightButton = new JButton("RIGHT");
+    JTextField barrierTextField = new JTextField();
+    JButton setBarrierButton = new JButton("PLACE");
+    
     private void initComponents() {
         
         jPanel2 = new Panel2();
-        
-        JButton onlineButton = new JButton("Online");
-        JTextField chatTextField = new JTextField();
-        JTextPane chatTextPane = new JTextPane();
-        JScrollPane chatScrollPane = new JScrollPane(chatTextPane);
-        JButton upButton = new JButton("UP");
-        JButton downButton = new JButton("DOWN");
-        JButton leftButton = new JButton("LEFT");
-        JButton rightButton = new JButton("RIGHT");
-        JTextField barrierTextField = new JTextField();
-        JButton setBarrierButton = new JButton("PLACE");
         
         
         jPanel2.setBackground(new Color(77, 0, 0));
@@ -71,8 +75,6 @@ class BoardGUI extends JFrame {
 		
 		jPanel2.add(setBarrierButton);
 		setBarrierButton.setBounds(145, 735, 90, 25);
-		
-		
         
         // ajouter les composants au frame
         this.setContentPane(jPanel2);
@@ -87,6 +89,56 @@ class BoardGUI extends JFrame {
                 new BoardGUI().setVisible(true);
             }
         });
+    }
+    
+    public void initEvents() {
+    	onlineButton.addMouseListener(new MouseAdapter() {
+    		@Override
+    		public void mouseClicked(MouseEvent mouse) {
+    			//TODO lien vers la methode qui permet de se connecter
+    		}
+    	});
+    	
+    	upButton.addMouseListener(new MouseAdapter() {
+    		@Override
+    		public void mouseClicked(MouseEvent mouse) {
+    			//TODO lien vers la methode qui fait monter le pion
+    		}
+    	});
+    	
+    	downButton.addMouseListener(new MouseAdapter() {
+    		@Override
+    		public void mouseClicked(MouseEvent mouse) {
+    			//TODO lien vers la methode qui fait descendre le pion
+    		}
+    	});
+    	
+    	leftButton.addMouseListener(new MouseAdapter() {
+    		@Override
+    		public void mouseClicked(MouseEvent mouse) {
+    			//TODO lien vers la methode qui fait aller a gauche le pion
+    		}
+    	});
+    	
+    	rightButton.addMouseListener(new MouseAdapter() {
+    		@Override
+    		public void mouseClicked(MouseEvent mouse) {
+    			//TODO lien vers la methode qui fait aller a droite le pion
+    		}
+    	});
+    	
+    	chatTextField.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyPressed(KeyEvent key) {
+    			if (key.getKeyCode()== KeyEvent.VK_ENTER) {
+    				chatTextPane.setEditable(true);
+    				String message = chatTextField.getText();
+    				//lien vers la methode pour se connecter .echoChat(message);
+    				chatTextField.setText("");
+    				chatTextPane.setEditable(false);
+    			}
+    		}
+    	});
     }
 
     // declaration de variable
