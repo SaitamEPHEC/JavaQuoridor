@@ -59,7 +59,12 @@ public class BoardControllerConsole extends BoardController{
 					}
 					else {
 						if(model.getTurn().getNbrBarrierLeft() > 0) {
-							model.drawBarrierH(b);
+							if(model.pathFinder(b)) {
+								model.drawBarrierH(b);
+							}
+							else {
+								this.vue.affiche("\n" + "Vous ne pouvez pas placer votre barriere ici : elle bloquerait le chemin d'un des joueurs");
+							}
 						}
 						else {
 							this.vue.affiche("\n" + model.getTurn().getNickname() + " : Vous n'avez plus de barrières disponibles! Il ne vous reste plus qu'à déplacer votre pion.\n");
