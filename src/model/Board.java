@@ -932,7 +932,7 @@ public class Board extends Observable {
 		
 		boolean chemin = false;
 		
-		if(c != 'v' || c != 'h') { // si c n est ni v ni h, on ne saura pas draw barrier et donc on return false
+		if(!(c != 'v' || c != 'h')) { // si c n est ni v ni h, on ne saura pas draw barrier et donc on return false
 			return false;
 		}
 		
