@@ -18,7 +18,7 @@ public class BoardControllerConsole extends BoardController{
 
 	@Override
 	public void movePawn() {
-			char m = Character.toUpperCase(sc.next().trim().charAt(0));
+			char m = Character.toUpperCase(sc.nextLine().trim().charAt(0));
 			switch(m) {
 			case 'U' : 
 				moveUpAffichage();
@@ -59,7 +59,12 @@ public class BoardControllerConsole extends BoardController{
 					}
 					else {
 						if(model.getTurn().getNbrBarrierLeft() > 0) {
-							model.drawBarrierH(b);
+							if(model.pathFinder(b,'h')) {
+								model.drawBarrierH(b);
+							}
+							else {
+								this.vue.affiche("\n" + "Vous ne pouvez pas placer votre barrière ici : elle bloquerait le chemin d'un des joueurs\n");
+							}
 						}
 						else {
 							this.vue.affiche("\n" + model.getTurn().getNickname() + " : Vous n'avez plus de barrières disponibles! Il ne vous reste plus qu'à déplacer votre pion.\n");
@@ -81,7 +86,12 @@ public class BoardControllerConsole extends BoardController{
 					}
 					else {
 						if(model.getTurn().getNbrBarrierLeft() > 0) {
-							model.drawBarrierV(b);
+							if(model.pathFinder(b,'v')) {
+								model.drawBarrierV(b);
+							}
+							else {
+								this.vue.affiche("\n" + "Vous ne pouvez pas placer votre barrière ici : elle bloquerait le chemin d'un des joueurs\n");
+							}
 						}
 						else {
 							this.vue.affiche("\n" + model.getTurn().getNickname() + " : Vous n'avez plus de barrières disponibles! Il ne vous reste plus qu'à déplacer votre pion.\n");

@@ -790,6 +790,11 @@ public class Board extends Observable {
 		}
 	}
 	
+	/**
+	 * Check si la position au dessus est atteignable, qu'il n'y a pas de barriere
+	 * @param soit X et Y la position dans la matrice Board et Board la matrice
+	 * @return True si case au dessus atteignable, false sinon
+	 */
 	public boolean checkUp(int X, int Y, String[][] board) {
 		if(Y+2 > 16) {return false;}
 		else{
@@ -798,12 +803,22 @@ public class Board extends Observable {
 			}	
 	}
 	
+	/**
+	 * Retourne la position en haut de la position passée en param
+	 * @param soit X et Y la position actuelle
+	 * @return la case en haut de la position initiale passée en param
+	 */
 	public Case positionUp(int X, int Y) {
 		Y = Y+2;
 		Case newCase = new Case(X, Y);	
 		return newCase;
 	}
 	
+	/**
+	 * Check si la position du dessous est atteignable, qu'il n'y a pas de barriere
+	 * @param soit X et Y la position dans la matrice Board et Board la matrice
+	 * @return True si case du dessous atteignable, false sinon
+	 */
 	public boolean checkDown(int X, int Y, String[][] board) {
 		if(Y-2 < 0) {return false;}
 		else {
@@ -812,12 +827,22 @@ public class Board extends Observable {
 		}
 	}
 	
+	/**
+	 * Retourne la position en bas de la position passée en param
+	 * @param soit X et Y la position actuelle
+	 * @return la case en bas de la position initiale passée en param
+	 */
 	public Case positionDown(int X, int Y) {
 		Y = Y-2;
 		Case newCase = new Case(X, Y);	
 		return newCase;
 	}
 	
+	/**
+	 * Check si la position de gauche est atteignable, qu'il n'y a pas de barriere
+	 * @param soit X et Y la position dans la matrice Board et Board la matrice
+	 * @return True si case de gauche est atteignable, false sinon
+	 */
 	public boolean checkLeft(int X, int Y, String[][] board) {
 		if(X-2 < 0) {return false;}
 		else {
@@ -826,12 +851,22 @@ public class Board extends Observable {
 		}
 	}
 	
+	/**
+	 * Retourne la position a gauche de la position passée en param
+	 * @param soit X et Y la position actuelle
+	 * @return la case a gauche de la position initiale passée en param
+	 */
 	public Case positionLeft(int X, int Y) {
 		X = X-2;
 		Case newCase = new Case(X, Y);	
 		return newCase;
 	}
-
+	
+	/**
+	 * Check si la position de droite est atteignable, qu'il n'y a pas de barriere
+	 * @param soit X et Y la position dans la matrice Board et Board la matrice
+	 * @return True si case de droite  atteignable, false sinon
+	 */
 	public boolean checkRight(int X, int Y, String[][] board) {
 		if(X+2 > 16) {return false;}
 		else {
@@ -840,12 +875,22 @@ public class Board extends Observable {
 		}
 	}
 	
+	/**
+	 * Retourne la position a droite de la position passée en param
+	 * @param soit X et Y la position actuelle
+	 * @return la case a droite de la position initiale passée en param
+	 */
 	public Case positionRight(int X, int Y) {
 		X = X+2;
 		Case newCase = new Case(X, Y);	
 		return newCase;
 	}
 	
+	/**
+	 * Compare une case a un set de case
+	 * @param le set composé de case, et la case comparée
+	 * @return retourne true si positionCase se trouve dans le set
+	 */
 	public boolean setComparator(Set<Case> set, Case positionCase) {
 		boolean truefalse = false;
 		
@@ -858,6 +903,11 @@ public class Board extends Observable {
 		return truefalse;
 	}
 	
+	/**
+	 * Compare une case a un stack de case
+	 * @param le stack composé de case, et la case comparée
+	 * @return retourne true si positionCase se trouve dans le stack
+	 */
 	public boolean stackComparator(Stack<Case> stack, Case positionCase) {
 		boolean truefalse = false;
 		
@@ -869,65 +919,105 @@ public class Board extends Observable {
 		}
 		return truefalse;
 	}
-
-	public boolean pathFinder(String[][] board){
+	/**
+	 * check si un chemin existe apres avoir posé la barriere passée en param
+	 * @param la barriere que l'on pose avant de tester si un chemin existe tjs
+	 * @return true si un chemin existe, false si il n'existe plus de chemin, et que le posage de barriere est donc illegal
+	 */
+	public boolean pathFinder(Barrier b, char c){
+		String[][] boardTemp = new String[17][17];
 		Stack<Case> casesAParcourir = new Stack<Case>();
 		Set<Case> casesParcourues = new HashSet();
 		
+		for(int i=0;i<board.length;i++) {
+			for(int j=0;j<board[0].length;j++) {
+				boardTemp[i][j] = this.board[i][j];
+			}
+		}	
 		boolean chemin = false;
+		
+		if(!(c != 'v' || c != 'h')) { // si c n est ni v ni h, on ne saura pas draw barrier et donc on return false
+			return false;
+		}
+		
+		if(c == 'v') { //si barriere verticale
+			drawBarrierVPathFinder(b, boardTemp);
+		}
+		
+		if(c == 'h') { //si barriere verticale
+			drawBarrierHPathFinder(b, boardTemp);
+		}
 
-		if(turn.equals(player1)) { // si tour du joueur 1, a.k.a doit arriver sur la ligne 16
+		 // test par rapport a joueur 1, a.k.a doit arriver sur la ligne 16
 			int won = 16;
 			Case positionCase = new Case(this.getP1X(), this.getP1Y());
 			if(positionCase.getY() == won) {return true;}
 			
 			casesParcourues.add(positionCase);
-			if(checkUp(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
-			if(checkLeft(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
-			if(checkRight(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
-			if(checkDown(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
+			if(checkUp(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+			if(checkLeft(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+			if(checkRight(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+			if(checkDown(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
 
 			
 			while(!casesAParcourir.empty()){ // tant que notre pile n'est pas vide, a.k.a qu'il nous reste des cases non testees
 				positionCase = casesAParcourir.pop(); // on prend la suivante
-				System.out.println(positionCase);
 				if(positionCase.getY() == won) {chemin = true; break;} // si position qui gagne (0, X) ou (16, X) en fct du joueur
 
 				casesParcourues.add(positionCase); // on ajoute la position que l'on vient de testee a notre set 
 		
-				if( (checkUp(positionCase.getX(), positionCase.getY(), board)) && ((!(stackComparator(casesAParcourir, positionUp(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionUp(positionCase.getX(), positionCase.getY()))))))) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
-				if( (checkLeft(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionLeft(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionLeft(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
-				if( (checkRight(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionRight(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionRight(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
-				if( (checkDown(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionDown(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionDown(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}			
+				if( (checkUp(positionCase.getX(), positionCase.getY(), boardTemp)) && ((!(stackComparator(casesAParcourir, positionUp(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionUp(positionCase.getX(), positionCase.getY()))))))) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+				if( (checkLeft(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionLeft(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionLeft(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+				if( (checkRight(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionRight(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionRight(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+				if( (checkDown(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionDown(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionDown(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}			
 			}
-		}
-		
-		
-		if(turn.equals(player2)) { // si tour du joueur 1, a.k.a doit arriver sur la ligne 16
-			int won = 0;
-			Case positionCase = new Case(this.getP2X(), this.getP2Y());
+			if(!chemin) {return chemin;}// si chemin n'existe pas pour le joueur 1, on arrete ici	
+			
+			casesParcourues.clear(); // on clear notre set
+			casesAParcourir.clear(); // on clear le stack
+			won = 0; // le joueur 2 doit arriver ligne 0
+			positionCase = new Case(this.getP2X(), this.getP2Y());
 			if(positionCase.getY() == won) {return true;}
 			
 			casesParcourues.add(positionCase);
-			if(checkUp(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
-			if(checkDown(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
-			if(checkLeft(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
-			if(checkRight(positionCase.getX(), positionCase.getY(), board)) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+			if(checkUp(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+			if(checkDown(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
+			if(checkLeft(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+			if(checkRight(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
 
 			while(!casesAParcourir.empty()){ // tant que notre pile n'est pas vide, a.k.a qu'il nous reste des cases non testees
 				positionCase = casesAParcourir.pop(); // on prend la suivante
-				System.out.println(positionCase);
 				if(positionCase.getY() == won) {chemin = true; break;} // si position qui gagne (0, X) ou (16, X) en fct du joueur
 
 				casesParcourues.add(positionCase); // on ajoute la position que l'on vient de testee a notre set 
 		
-				if( (checkUp(positionCase.getX(), positionCase.getY(), board)) && ((!(stackComparator(casesAParcourir, positionUp(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionUp(positionCase.getX(), positionCase.getY()))))))) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
-				if( (checkDown(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionDown(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionDown(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
-				if( (checkLeft(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionLeft(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionLeft(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
-				if( (checkRight(positionCase.getX(), positionCase.getY(), board)) && (!(stackComparator(casesAParcourir, positionRight(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionRight(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+				if( (checkUp(positionCase.getX(), positionCase.getY(), boardTemp)) && ((!(stackComparator(casesAParcourir, positionUp(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionUp(positionCase.getX(), positionCase.getY()))))))) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+				if( (checkDown(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionDown(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionDown(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
+				if( (checkLeft(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionLeft(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionLeft(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+				if( (checkRight(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionRight(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionRight(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
 			}
-		}
 		
 	return chemin;	
 	}
-}
+	/**
+	 * Modifie le board en ajoutant une barriere HORIZONTALE sur 2 positions adjacentes du board. Le symbole est  "――".
+	 * Methode utilisée par PathFinder seulement
+	 * @param b une barriere 
+	 */
+	public void drawBarrierHPathFinder(Barrier b, String[][] boardTemp) {
+			boardTemp[b.getPosY1()][b.getPosX1()] = "――";
+			boardTemp[b.getPosY2()][b.getPosX2()] = "――";
+	}
+	
+	/**
+	 * Modifie le board en ajoutant une barriere VERTICALE sur 2 positions adjacentes du board. Le symbole est  " | ".
+	 * Methode utilisée par PathFinder seulement
+	 * @param b une barriere
+	 */
+	public void drawBarrierVPathFinder(Barrier b, String[][] boardTemp) {
+			boardTemp[b.getPosY1()][b.getPosX1()] = " | ";
+			boardTemp[b.getPosY2()][b.getPosX2()] = " | ";
+	}
+}	
+
+
