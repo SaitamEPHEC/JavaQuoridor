@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -18,7 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.BevelBorder;
 
-class BoardGUI extends JFrame {
+class BoardGUI extends JFrame implements ActionListener {
     
     public BoardGUI() {
     	setTitle("Quoridor - Java Project");
@@ -143,6 +145,16 @@ class BoardGUI extends JFrame {
     			}
     		}
     	});
+    	
+    	barrierTextField.addKeyListener(new KeyAdapter() {
+    		@Override
+    		public void keyPressed(KeyEvent key) {
+    			if (key.getKeyCode() == KeyEvent.VK_ENTER) {
+    				//lien vers la methode pour placer une barriere
+    				barrierTextField.setText("");
+    			}
+    		}
+    	});
     }
 
     // declaration de variable
@@ -185,4 +197,10 @@ class BoardGUI extends JFrame {
             }
         }
     }
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
