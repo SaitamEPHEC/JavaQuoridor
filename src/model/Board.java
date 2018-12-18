@@ -46,14 +46,14 @@ public class Board extends Observable {
 					if(j%2==0) {
 						board[i][j] = "  ";
 					}
-					//Emplacement Barriere
+					//Emplacement Barriere Verticale
 					else {
 						board[i][j] = "   ";
 					}
 					
 				}
 				else {
-					//Emplacement Barriere
+					//Emplacement Barriere Horizontale
 					if(j%2==0) {
 						board[i][j] = "  ";
 					}
@@ -607,6 +607,14 @@ public class Board extends Observable {
 	 */
 	public int getLength() {
 		return this.board.length;
+	}
+	
+	/**
+	 * 
+	 * @return la longueur d'une ligne du plateau de jeu
+	 */
+	public int getLineLength() {
+		return this.board[0].length;
 	}
 	
 	/**

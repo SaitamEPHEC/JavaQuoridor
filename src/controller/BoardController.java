@@ -118,7 +118,7 @@ public abstract class BoardController {
 	
 	/**
 	 * Traduit les coordonnees de la barriere VERTICALE entrees par l'utilisateur en leur coordonnees correspondantes dans le board 
-	 * et comprehensibles par celui-ci. Instancie ensuite une barriere en lui assignant ses coordonnees dans le board.
+	 * et comprehensibles par celui-ci. Instancie ensuite une barriere en lui assignant ses coordonnees dans  le board.
 	 * 
 	 * @param c un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
 	 * @return une barriere VERTICALE avec ses 4 coordonnees dans le board.
