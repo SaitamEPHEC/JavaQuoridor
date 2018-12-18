@@ -1,6 +1,5 @@
 package controller;
 
-import model.Barrier;
 import model.Board;
 
 public class BoardControllerGui extends BoardController{

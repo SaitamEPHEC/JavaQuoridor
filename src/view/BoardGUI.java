@@ -20,11 +20,14 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.BevelBorder;
 
-class BoardGUI extends JFrame implements ActionListener {
-    
+class BoardGUI implements ActionListener {
+    private JFrame boardJFrame;
+	
     public BoardGUI() {
-    	setTitle("Quoridor - Java Project");
-    	setResizable(false);
+    	boardJFrame = new JFrame("Quoridor - Java Project");
+    	//setTitle("Quoridor - Java Project");
+    	boardJFrame.setResizable(false);
+    	boardJFrame.setVisible(true);
         initComponents();
         initEvents();
     }
@@ -82,16 +85,16 @@ class BoardGUI extends JFrame implements ActionListener {
 		setBarrierButton.setBounds(145, 735, 90, 25);
         
         // ajouter les composants au frame
-        this.setContentPane(jPanel2);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
+        boardJFrame.setContentPane(jPanel2);
+        boardJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        boardJFrame.pack();
     }
     
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BoardGUI().setVisible(true);
+                new BoardGUI();
             }
         });
     }
