@@ -1,8 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /**
  * @author Nicky Riat, Mathias Gassmann, Adrien Chellé
  * Projet EPHEC 2TL1 
@@ -11,7 +8,6 @@ public class Player {
 	private final static int NBR_BARRIER_TOT = 10;
 	private String nickname;
 	private int nbrBarrierLeft;
-	private ArrayList<Barrier> barriersOfThePlayer;
 	private Pawn myPawn;
 	private static int playerCounter = 1;
 	
@@ -21,7 +17,6 @@ public class Player {
 	 */
 	public Player(){
 		nbrBarrierLeft = NBR_BARRIER_TOT;
-		barriersOfThePlayer = new ArrayList<Barrier>();
 		myPawn = new Pawn();
 	}
 	
@@ -46,27 +41,12 @@ public class Player {
 	public int getNbrBarrierLeft() {
 		return nbrBarrierLeft;
 	}
-	
-	/**
-	 * @return the nbrBarrierLeft
-	 */
-	public ArrayList<Barrier> getBarriersOfThePlayer() {
-		return barriersOfThePlayer;
-	}	
 
 	/**
 	 * @return the pawn
 	 */
 	public Pawn getPawn() {
 		return myPawn;
-	}
-	
-	public void addBarrier(Barrier b) {
-		barriersOfThePlayer.add(b);
-	}
-	
-	public void removeBarrier(Barrier b) {
-		barriersOfThePlayer.remove(b);
 	}
 	
 	public void setNbrBarrierLeft(int nbr) {
