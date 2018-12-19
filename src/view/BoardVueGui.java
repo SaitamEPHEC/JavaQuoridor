@@ -224,6 +224,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 			if (source == setBarrierButton) {
 				char[] inputs = toCharArray(barrierTextField.getText());
 				controller.putBarrier(inputs);
+				barrierTextField.setText("");
 			}
 		}
 	}
