@@ -42,23 +42,13 @@ public class BoardVueGui extends BoardVue implements ActionListener {
     	boardJFrame.setResizable(false);
     	boardJFrame.setVisible(true);
         initComponents();
-        JOptionPane jop = new JOptionPane();
-        JOptionPane jop2 = new JOptionPane();
-        String optionPane1 = "";
-        String optionPane2 = "";
-        do {
-	        optionPane1 = JOptionPane.showInputDialog(null, "Quel est le pseudo du joueur 1 ?", null);
-        } while(jop.getOptionType() == JOptionPane.CANCEL_OPTION);
-        do {
+        String optionPane1 = JOptionPane.showInputDialog(null, "Quel est le pseudo du joueur 1 ?", null);
+        while(optionPane1 == null) {
+        	optionPane1 = JOptionPane.showInputDialog(null, "Quel est le pseudo du joueur 1 ?", null);
+        }
+        String optionPane2 = JOptionPane.showInputDialog(null, "Quel est le pseudo du joueur 2 ?", null);
+        while(optionPane2 == null) {
         	optionPane2 = JOptionPane.showInputDialog(null, "Quel est le pseudo du joueur 2 ?", null);
-        } while(jop2.getOptionType() == JOptionPane.CANCEL_OPTION);
-        if (input == null){
-            // Do something
-        } else {
-            try {
-            JOptionPane.showMessageDialog(null, "Thanks for playing.", "Thanks", 1);
-            HighestScoreFile.HighestScoreFile(input, hours, minutes, seconds, click);
-            } catch(IOException ex){}
         }
         model.setPlayerNicknames(optionPane1,optionPane2);
 	}
