@@ -14,10 +14,6 @@ public class BoardControllerGui extends BoardController{
 		
 	}
 
-	@Override
-	public void movePawn() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 }

@@ -5,10 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Observable;
 
 import javax.swing.BorderFactory;
@@ -43,7 +39,6 @@ public class BoardVueGui extends BoardVue implements ActionListener {
     	boardJFrame.setResizable(false);
     	boardJFrame.setVisible(true);
         initComponents();
-        initEvents();
 	}
     
     private void initComponents() {
@@ -89,68 +84,21 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         boardJFrame.setContentPane(jPanel2);
         boardJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         boardJFrame.pack();
+        
+        //Definition des actions sur les elements de la GUI
+        upButton.addActionListener(this);
+        downButton.addActionListener(this);
+        leftButton.addActionListener(this);
+        rightButton.addActionListener(this);
+        //chatTextField.addActionListener(this);
+        onlineButton.addActionListener(this);
+        //barrierTextField.addActionListener(this);
+        setBarrierButton.addActionListener(this);
+        
     }
     
-    //On initialise les listeners
-    public void initEvents() {
-    	onlineButton.addMouseListener(new MouseAdapter() {
-    		@Override
-    		public void mouseClicked(MouseEvent mouse) {
-    			//TODO lien vers la methode qui permet de se connecter
-    		}
-    	});
-    	
-    	upButton.addMouseListener(new MouseAdapter() {
-    		@Override
-    		public void mouseClicked(MouseEvent mouse) {
-    			//TODO lien vers la methode qui fait monter le pion
-    		}
-    	});
-    	
-    	downButton.addMouseListener(new MouseAdapter() {
-    		@Override
-    		public void mouseClicked(MouseEvent mouse) {
-    			//TODO lien vers la methode qui fait descendre le pion
-    		}
-    	});
-    	
-    	leftButton.addMouseListener(new MouseAdapter() {
-    		@Override
-    		public void mouseClicked(MouseEvent mouse) {
-    			//TODO lien vers la methode qui fait aller a gauche le pion
-    		}
-    	});
-    	
-    	rightButton.addMouseListener(new MouseAdapter() {
-    		@Override
-    		public void mouseClicked(MouseEvent mouse) {
-    			//TODO lien vers la methode qui fait aller a droite le pion
-    		}
-    	});
-    	
-    	chatTextField.addKeyListener(new KeyAdapter() {
-    		@Override
-    		public void keyPressed(KeyEvent key) {
-    			if (key.getKeyCode()== KeyEvent.VK_ENTER) {
-    				chatTextPane.setEditable(true);
-    				//String message = chatTextField.getText();
-    				//lien vers la methode pour se connecter .echoChat(message);
-    				chatTextField.setText("");
-    				chatTextPane.setEditable(false);
-    			}
-    		}
-    	});
-    	
-    	barrierTextField.addKeyListener(new KeyAdapter() {
-    		@Override
-    		public void keyPressed(KeyEvent key) {
-    			if (key.getKeyCode() == KeyEvent.VK_ENTER) {
-    				//lien vers la methode pour placer une barriere
-    				barrierTextField.setText("");
-    			}
-    		}
-    	});
-    }
+    
+    
         
     public class Panel2 extends JPanel {
 
@@ -246,15 +194,28 @@ public class BoardVueGui extends BoardVue implements ActionListener {
     }
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		if (source == upButton) {
+			controller.moveUpAffichage();
+		}
+		if (source == downButton) {
+			controller.moveDownAffichage();
+		}
+		if (source == leftButton) {
+			controller.moveLeftAffichage();
+		}
+		if (source == rightButton) {
+			controller.moveRightAffichage();
+		}
 	}
 
 
 	@Override
 	public void affiche(String string) {
-		// TODO Auto-generated method stub
+		chatTextPane.setEditable(true);
+		chatTextPane.setText(string);
+		chatTextPane.setEditable(false);
 		
 	}
 

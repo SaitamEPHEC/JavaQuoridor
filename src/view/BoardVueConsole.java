@@ -91,7 +91,26 @@ public class BoardVueConsole extends BoardVue {
 							break;
 						case 'P' : //Pion
 							affiche("\n" + "Options possibles : u|d|l|r\n");
-							controller.movePawn();
+							char m = Character.toUpperCase(sc.next().trim().charAt(0));
+							switch(m) {
+							case 'U' : 
+								controller.moveUpAffichage();
+								break;
+							case 'D' : 
+								controller.moveDownAffichage();
+								break;
+							case 'L' : 
+								controller.moveLeftAffichage();
+								break;
+							case 'R' : 
+								controller.moveRightAffichage();
+								break;
+							default :
+								affiche("Mouvement incorrect, Vous avez entré autre chose que \"U\" \"D\" \"L\" ou \"R\" comme 2ème charactère"
+										+ ",  veuillez réessayer\n");
+								break;
+							}
+							
 							break;
 						default : 
 							affiche("\n" + "Mouvement incorrect : Vous avez entré autre chose que \"B\" ou \"P\" comme 1er charactère, veuillez réessayer\n");
