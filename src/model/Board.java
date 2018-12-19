@@ -776,6 +776,16 @@ public class Board extends Observable {
 	
 	/**
 	 * 
+	 * @param box une case du board
+	 * @return true si la case est dans une barriere  (entre 2 positions
+	 * d'une barriere)
+	 */
+	public boolean isInBarrier(String box) {
+		if()
+	}
+	
+	/**
+	 * 
 	 * @return true si le joueur 1 a gagne la partie, false sinon
 	 */
 	public boolean player1HasWon() {
