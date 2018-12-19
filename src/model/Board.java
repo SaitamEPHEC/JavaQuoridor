@@ -728,6 +728,8 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * Permet de savoir si une barriere est deja sur le board en parcourant la liste des barrieres existantes
+	 * sur le board
 	 * @param b une barriere
 	 * @return true si b est une barriere sur le board, false sinon.
 	 */
@@ -782,16 +784,6 @@ public class Board extends Observable {
 		       }
 		}
 		return false; 
-	}
-	
-	/**
-	 * 
-	 * @param box une case du board
-	 * @return true si la case est dans une barriere  (entre 2 positions
-	 * d'une barriere)
-	 */
-	public boolean isInBarrier(String box) {
-		return true;
 	}
 	
 	/**

@@ -19,6 +19,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.BevelBorder;
 
 import controller.BoardController;
+import model.Barrier;
 import model.Board;
 
 public class BoardVueGui extends BoardVue implements ActionListener {
@@ -212,6 +213,11 @@ public class BoardVueGui extends BoardVue implements ActionListener {
     					}
     					//Emplacement ni Barriere ni Pion
     					else {
+    						if(model.isBarrierOnBoard(new Barrier(i+1,j,i-1,j))
+    						|| model.isBarrierOnBoard(new Barrier(i,j-1,i,j+1))){
+    							g.setColor(Color.BLACK);
+    							g.fillRect(pixelX, pixelY, 10, 10);
+    						}
     						pixelX += 10;
     					}
     				}
