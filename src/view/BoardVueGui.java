@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -223,6 +222,10 @@ public class BoardVueGui extends BoardVue implements ActionListener {
     				else {
     					//Emplacement Barriere Horizontale
     					if(j%2==0) {
+    						if(model.getBoard()[i][j].equals("――")) {
+    							g.setColor(Color.BLACK);
+    							g.fillRect(pixelX, pixelY, 55, 10);
+    						}
     						pixelX += 55;
     					}
     					//Emplacement ni Barriere ni Pion
@@ -236,7 +239,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
                 	pixelY += 55;
                 }
                 else {
-                	pixelX += 10;
+                	pixelY += 10;
                 }
             }
         }
