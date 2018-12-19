@@ -261,7 +261,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		Panel2 drawPanel = new Panel2();
-		drawPanel.repaint();
+		boardJFrame.repaint();
 	}
+	
 }
