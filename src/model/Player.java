@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+
 /**
  * @author Nicky Riat, Mathias Gassmann, Adrien Chellé
  * Projet EPHEC 2TL1 
@@ -21,7 +23,7 @@ public class Player {
 	}
 	
 	/**
-	 * @return the nickname
+	 * @return le pseudo du joueur
 	 */
 	public String getNickname() {
 		return nickname;
@@ -116,6 +118,22 @@ public class Player {
 	@Override
 	public String toString() {
 		return "Joueur " + playerCounter + " : " + nickname;
+	}
+	
+	/**
+	 * Permet de recuperer la couleur du pion du joueur
+	 * @return la couleur du pion du joueur
+	 */
+	public Color getPawnColor() {
+		return myPawn.getColor();
+	}
+	
+	/**
+	 * Attribue la couleur color comme couleur du pion du joueur
+	 * @param pawnColor la couleur du pion du joueur
+	 */
+	public void setPawnColor(Color pawnColor) {
+		myPawn.setColor(pawnColor);
 	}
 	
 }

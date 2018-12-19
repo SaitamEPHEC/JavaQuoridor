@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,59 +22,27 @@ public class Board extends Observable {
 	
 	public Board(){
 		super();
-		initiateBoardConsole();
-		barriersOnBoard = new ArrayList<Barrier>();
-	}
-	
-	public Board(String[][] board, Player turn, Player player1, Player player2) {
-		super();
-		this.board = board;
-		this.turn = turn;
-		this.player1 = player1;
-		this.player2 = player2;
-		initiateBoardConsole();
+		initiateBoard();
 		barriersOnBoard = new ArrayList<Barrier>();
 	}
 	
 	/**
 	 * Dessine le plateau de jeu au demarrage de la partie. Instancie les 2 joueurs et place les pions a leurs positions de depart.
 	 */
-	public void initiateBoardConsole() {
-		for(int i=0; i<board.length; i++) {
-			for(int j=0; j<board[0].length; j++) {
-				if(i%2 == 0)  {
-					//Emplacement Pion
-					if(j%2==0) {
-						board[i][j] = "  ";
-					}
-					//Emplacement Barriere Verticale
-					else {
-						board[i][j] = "   ";
-					}
-					
-				}
-				else {
-					//Emplacement Barriere Horizontale
-					if(j%2==0) {
-						board[i][j] = "  ";
-					}
-					//Emplacement ni Barriere ni Pion
-					else {
-						board[i][j] = " + ";
-					}
-				}
-			}
-		}
+	public void initiateBoard() {
 		
+		//Initialise le board
+		initiateEmptyBoardConsole();
 		//Initialise le contours "aide" du board 
-		initiateContours();
-		
+		initiateContoursConsole();
 		
 		//Initialise les 2 joueurs
 		player1 = new Player();
 		player2 = new Player();
 		player1.setNickname("joueur 1");
 		player2.setNickname("joueur 2");
+		player1.setPawnColor(Color.BLUE);
+		player2.setPawnColor(Color.RED);
 		
 		//Attribue les positions initiales aux pions
 		setP1Y(0);
@@ -89,7 +58,7 @@ public class Board extends Observable {
 		turn = player1;
 	}
 	
-	public void initiateContours() {
+	public void initiateContoursConsole() {
 		int k = 0;
 		int m = 0;
 		for(int i=0; i<contours.length; i++) {
@@ -621,6 +590,22 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * Permet de recuperer le joueur 1
+	 * @return le joueur 1
+	 */
+	public Player getPlayer1() {
+		return player1;
+	}
+
+	/**
+	 * Permet de recuperer le joueur 2
+	 * @return le joueur 2
+	 */
+	public Player getPlayer2() {
+		return player2;
+	}
+
+	/**
 	 * @return le nom du joueur 1
 	 */
 	public String getPlayer1Nickname() {
@@ -1039,6 +1024,62 @@ public class Board extends Observable {
 	public void drawBarrierVPathFinder(Barrier b, String[][] boardTemp) {
 			boardTemp[b.getPosY1()][b.getPosX1()] = " | ";
 			boardTemp[b.getPosY2()][b.getPosX2()] = " | ";
+	}
+	
+	/**
+	 * Initialise le board a vide dans un format adapte pour la console 
+	 */
+	public void initiateEmptyBoardConsole() {
+		for(int i=0; i<board.length; i++) {
+			for(int j=0; j<board[0].length; j++) {
+				if(i%2 == 0)  {
+					//Emplacement Pion
+					if(j%2==0) {
+						board[i][j] = "  ";
+					}
+					//Emplacement Barriere Verticale
+					else {
+						board[i][j] = "   ";
+					}
+					
+				}
+				else {
+					//Emplacement Barriere Horizontale
+					if(j%2==0) {
+						board[i][j] = "  ";
+					}
+					//Emplacement ni Barriere ni Pion
+					else {
+						board[i][j] = " + ";
+					}
+				}
+			}
+		}
+	}
+	/**
+	 * Reinitialise le board a son etat initiale (debut de partie)
+	 */
+	public void resetBoard() {
+		//initialise le board a vide
+		initiateEmptyBoardConsole();
+		//vide la liste de barrieres sur le board
+		barriersOnBoard.clear();
+		//remet le compteur de barriere des 2 joueurs a 10
+		getPlayer1().setNbrBarrierLeft(10);
+		getPlayer2().setNbrBarrierLeft(10);
+		
+		//Attribue les positions initiales aux pions
+		setP1Y(0);
+		setP1X(8);
+		setP2Y(16);
+		setP2X(8);
+		
+		//dessine les pions aux cases initiales
+		drawP1(new Pawn(0,0),new Pawn(getP1Y(),getP1X()));
+		drawP2(new Pawn(0,0),new Pawn(getP2Y(),getP2X()));
+		turn = player1;
+		setChanged();
+		notifyObservers();
 	}
 }	
 

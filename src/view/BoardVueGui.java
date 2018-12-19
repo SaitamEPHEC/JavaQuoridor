@@ -26,17 +26,18 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	private JFrame boardJFrame;
 	private JTextField chatTextField = new JTextField();
 	private JTextField barrierTextField = new JTextField();
-	private JButton upButton = new JButton("UP");
-	private JButton downButton = new JButton("DOWN");
-	private JButton leftButton = new JButton("LEFT");
-	private JButton rightButton = new JButton("RIGHT");
-	private JButton setBarrierButton = new JButton("PLACE");
-	private JButton onlineButton = new JButton("Online");
-	private JButton newGameButton = new JButton("New Game");
+	private JButton upButton = new JButton("HAUT");
+	private JButton downButton = new JButton("BAS");
+	private JButton leftButton = new JButton("GAUCHE");
+	private JButton rightButton = new JButton("DROITE");
+	private JButton setBarrierButton = new JButton("POSER");
+	private JButton onlineButton = new JButton("EN LIGNE");
+	private JButton newGameButton = new JButton("NOUVELLE PARTIE");
 	private JTextPane chatTextPane = new JTextPane();
 	private JScrollPane chatScrollPane = new JScrollPane(chatTextPane);
-	private JTextPane displayInfoP1 = new JTextPane();
+	private JTextPane displayInfoTurn = new JTextPane();
 	private JTextPane displayInfoP2 = new JTextPane();
+	private JTextPane displayInfoP1 = new JTextPane();
 	private JPanel jPanel2;
 	
     public BoardVueGui(Board model, BoardController controller) {
@@ -106,6 +107,10 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		displayInfoP2.setBounds(720, 128, 191, 23);
 		displayInfoP2.setEditable(false);
 		
+		jPanel2.add(displayInfoTurn);
+		displayInfoTurn.setBounds(720, 184, 191 ,23);
+		displayInfoTurn.setEditable(false);
+		
         
         // ajouter les composants au frame
         boardJFrame.setContentPane(jPanel2);
@@ -117,10 +122,9 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         downButton.addActionListener(this);
         leftButton.addActionListener(this);
         rightButton.addActionListener(this);
-        //chatTextField.addActionListener(this);
         onlineButton.addActionListener(this);
-        //barrierTextField.addActionListener(this);
         setBarrierButton.addActionListener(this);
+        newGameButton.addActionListener(this);
         
     }
     
@@ -147,11 +151,14 @@ public class BoardVueGui extends BoardVue implements ActionListener {
             g.setColor(Color.LIGHT_GRAY);
             g.fillRect(100, 100, 575, 575);
             
-            g.setColor(Color.BLUE);
+            g.setColor(model.getPlayer1().getPawnColor());
             g.fillRoundRect(700, 104, 15, 15, 15, 15);
             
-            g.setColor(Color.RED);
-            g.fillRoundRect(700, 130, 15, 15, 15, 15);
+            g.setColor(model.getPlayer2().getPawnColor());
+            g.fillRoundRect(700, 132, 15, 15, 15, 15);
+            
+            g.setColor(model.getTurn().getPawnColor());
+            g.fillRoundRect(700, 188, 15, 15, 15, 15);
             
             g.setColor(Color.WHITE);
             
@@ -255,7 +262,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 				barrierTextField.setText("");
 			}
 			if (source == newGameButton) {
-				//TODO methode pour nouvelle partie
+				model.resetBoard();
 			}
 		}
 	}
@@ -273,12 +280,16 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	@Override
 	public void update(Observable o, Object arg) {
 		displayInfoP1.setEditable(true);
-		displayInfoP1.setText((model.getPlayer1Nickname())+", barrieres restantes : " + model.getPlayer1BarrierLeft());
+		displayInfoP1.setText(model.getPlayer1Nickname()+", barrières restantes : " + model.getPlayer1BarrierLeft());
 		displayInfoP1.setEditable(false);
 		
 		displayInfoP2.setEditable(false);
-		displayInfoP2.setText(model.getPlayer2Nickname()+", barrieres restantes : " + model.getPlayer2BarrierLeft());
+		displayInfoP2.setText(model.getPlayer2Nickname()+", barrières restantes : " + model.getPlayer2BarrierLeft());
 		displayInfoP2.setEditable(false);
+		
+		displayInfoTurn.setEditable(true);
+		displayInfoTurn.setText("Tour de : " + model.getTurn().getNickname());
+		displayInfoTurn.setEditable(false);
 		boardJFrame.repaint();
 		
 	}
