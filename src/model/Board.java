@@ -166,7 +166,6 @@ public class Board extends Observable {
 			board[b.getPosY1()][b.getPosX1()] = "――";
 			board[b.getPosY2()][b.getPosX2()] = "――";
 			if(turn.equals(player1)) {
-				player1.addBarrier(b);
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
 				barriersOnBoard.add(b);
 				numberBarriersOnBoard++;
@@ -175,7 +174,6 @@ public class Board extends Observable {
 				notifyObservers();
 			}
 			else {
-				player2.addBarrier(b);
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
 				barriersOnBoard.add(b);
 				numberBarriersOnBoard++;
@@ -193,7 +191,6 @@ public class Board extends Observable {
 			board[b.getPosY1()][b.getPosX1()] = " | ";
 			board[b.getPosY2()][b.getPosX2()] = " | ";
 			if(turn.equals(player1)) {
-				player1.addBarrier(b);
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
 				barriersOnBoard.add(b);
 				numberBarriersOnBoard++;
@@ -202,7 +199,6 @@ public class Board extends Observable {
 				notifyObservers();
 			}
 			else {
-				player2.addBarrier(b);
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
 				barriersOnBoard.add(b);
 				numberBarriersOnBoard++;
