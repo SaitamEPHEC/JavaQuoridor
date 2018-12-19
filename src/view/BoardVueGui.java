@@ -208,6 +208,9 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		if (source == rightButton) {
 			controller.moveRightAffichage();
 		}
+		if (source == setBarrierButton) {
+			//controller.putBarrier();
+		}
 	}
 
 

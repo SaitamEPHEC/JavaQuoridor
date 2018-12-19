@@ -11,6 +11,8 @@ import model.Board;
 public class BoardVueConsole extends BoardVue {
 	protected BoardControllerConsole controllerConsole;
 	protected Scanner sc;
+	protected static final String LETTRES_AXE_Y = "ABCDEFGHI";
+	protected static final String CHIFFRES_AXE_X = "123456789";
 
 	public BoardVueConsole(Board model,
 			BoardController controller){
@@ -87,7 +89,11 @@ public class BoardVueConsole extends BoardVue {
 					switch(c){
 						case 'B' : 	//Barriere
 							affiche("\n" + "Options possibles (4 coordonnées séparées par des espaces) : a-i 1-9 a-i 1-9\n");
-							controller.putBarrier();	
+							char[] inputs = askBarrier();
+							if(checkInputs(inputs)) {
+								controller.putBarrier(inputs);
+							}
+													
 							break;
 						case 'P' : //Pion
 							affiche("\n" + "Options possibles : u|d|l|r\n");
@@ -129,6 +135,56 @@ public class BoardVueConsole extends BoardVue {
 	public void affiche(String string) {
 		System.out.println(string);
 		
+	}
+	
+	/**
+	 * 
+	 * @return les 4 coordonnees de la barriere entrees par l'utilisateur. 
+	 */
+	public char[] askBarrier() {
+		char c1 = Character.toUpperCase(sc.next().trim().charAt(0));
+		
+		char i1 = Character.toUpperCase(sc.next().trim().charAt(0));
+		
+		char c2 = Character.toUpperCase(sc.next().trim().charAt(0));
+		
+		char i2 = Character.toUpperCase(sc.next().trim().charAt(0));
+		
+		char[] coordonnees = {c1,i1,c2,i2};
+		
+		return coordonnees;
+		
+	}
+	
+	/**
+	 * @param c un tableau de 4 coordonnees correspondant aux coordonnees de la barriere entrees par l'utilisateur.
+	 * @return true si le format d'input de la barriere est correcte, c'est a dire que les coordonnees entrees sont dans
+	 * l'ensemble des coordonnees du plateau de jeu, false sinon.
+	 */
+	public boolean checkInputs(char[] c) {
+		boolean isValid = true; //si reste true, les chiffres et lettres sont valides par rapport aux limites du board
+		
+		if(LETTRES_AXE_Y.indexOf(c[0]) == -1) {
+			affiche("1ère coordonnée de barrière incorrecte, la 1ère coordonnée doit être une lettre entre A et I\n");
+			isValid = false; 
+		}
+		
+		if(CHIFFRES_AXE_X.indexOf(c[1]) == -1) {
+			affiche("2ème coordonnée de barrière incorrecte, la 2ème coordonnée doit être une un chiffre entre 1 et 9\n");
+			isValid = false; 
+		}
+		
+		if(LETTRES_AXE_Y.indexOf(c[2]) == -1) {
+			affiche("3ème coordonnée de barrière incorrecte, la 3ème coordonnée doit être une lettre entre A et I\n");
+			isValid = false; 
+		}
+		
+		if(CHIFFRES_AXE_X.indexOf(c[3]) == -1) {
+			affiche("4ème coordonnée de barrière incorrecte, la 4ème coordonnée doit être une un chiffre entre 1 et 9\n");
+			isValid = false;
+		}
+		
+		return isValid;
 	}
 	
 	
