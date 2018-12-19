@@ -10,11 +10,14 @@ import java.util.Observable;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.BevelBorder;
+
+import com.sun.xml.internal.ws.util.StringUtils;
 
 import controller.BoardController;
 import model.Board;
@@ -39,6 +42,25 @@ public class BoardVueGui extends BoardVue implements ActionListener {
     	boardJFrame.setResizable(false);
     	boardJFrame.setVisible(true);
         initComponents();
+        JOptionPane jop = new JOptionPane();
+        JOptionPane jop2 = new JOptionPane();
+        String optionPane1 = "";
+        String optionPane2 = "";
+        do {
+	        optionPane1 = JOptionPane.showInputDialog(null, "Quel est le pseudo du joueur 1 ?", null);
+        } while(jop.getOptionType() == JOptionPane.CANCEL_OPTION);
+        do {
+        	optionPane2 = JOptionPane.showInputDialog(null, "Quel est le pseudo du joueur 2 ?", null);
+        } while(jop2.getOptionType() == JOptionPane.CANCEL_OPTION);
+        if (input == null){
+            // Do something
+        } else {
+            try {
+            JOptionPane.showMessageDialog(null, "Thanks for playing.", "Thanks", 1);
+            HighestScoreFile.HighestScoreFile(input, hours, minutes, seconds, click);
+            } catch(IOException ex){}
+        }
+        model.setPlayerNicknames(optionPane1,optionPane2);
 	}
     
     private void initComponents() {
@@ -195,21 +217,24 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
-		if (source == upButton) {
-			controller.moveUpAffichage();
-		}
-		if (source == downButton) {
-			controller.moveDownAffichage();
-		}
-		if (source == leftButton) {
-			controller.moveLeftAffichage();
-		}
-		if (source == rightButton) {
-			controller.moveRightAffichage();
-		}
-		if (source == setBarrierButton) {
-			//controller.putBarrier();
+		if(!endOfGame) {
+			Object source = e.getSource();
+			if (source == upButton) {
+				controller.moveUpAffichage();
+			}
+			if (source == downButton) {
+				controller.moveDownAffichage();
+			}
+			if (source == leftButton) {
+				controller.moveLeftAffichage();
+			}
+			if (source == rightButton) {
+				controller.moveRightAffichage();
+			}
+			if (source == setBarrierButton) {
+				char[] inputs = toCharArray(barrierTextField.getText());
+				controller.putBarrier(inputs);
+			}
 		}
 	}
 
@@ -228,4 +253,21 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		boardJFrame.repaint();
 	}
 	
+	/**
+	 * 
+	 * @param textField la zone texte correspondant aux coordonnees d'une barriere que l'utilisateur veut placer
+	 * @return un tableau caracteres (normalement 4) correspondant aux coordonnees d'une barriere entre par l'utilisateur 
+	 */
+	public char[] toCharArray(String textField) {
+		char[] coordonnees = new char[4];
+		int charCounter = 0;
+		for(int i=0; i<textField.length();i++) {
+			if(textField.charAt(i) != ' ') {
+				coordonnees[charCounter] = Character.toUpperCase(textField.charAt(i));
+				charCounter ++;
+			}
+		}
+		
+		return coordonnees;
+	}
 }

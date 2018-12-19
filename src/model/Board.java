@@ -72,6 +72,8 @@ public class Board extends Observable {
 		//Initialise les 2 joueurs
 		player1 = new Player();
 		player2 = new Player();
+		player1.setNickname("joueur 1");
+		player2.setNickname("joueur 2");
 		
 		//Attribue les positions initiales aux pions
 		setP1Y(0);
@@ -85,8 +87,6 @@ public class Board extends Observable {
 		
 		//le joueur 1 commence
 		turn = player1;
-		setChanged();
-		notifyObservers();
 	}
 	
 	public void initiateContours() {
@@ -639,6 +639,19 @@ public class Board extends Observable {
 	}
 	
 	/**
+	 * Attribue nicknameP1 comme pseudo du joueur 1 et
+	 * nicknameP2 comme pseudo du joueur 2
+	 * @param nicknameP1 pseudo du joueur 1
+	 * @param nicknameP2 pseudo du joueur 2
+	 */
+	public void setPlayerNicknames(String nicknameP1, String nicknameP2) {
+		 player1.setNickname(nicknameP1);
+		 player2.setNickname(nicknameP2);
+		 setChanged();
+		 notifyObservers();
+	}
+	
+	/**
 	 * Permet d'obtenir le nombre de barrieres restantes du joueur 1
 	 * @return le nombre de barrieres restantes du joueur 1
 	 */
@@ -746,7 +759,8 @@ public class Board extends Observable {
 		while (it.hasNext()) {
 		       Barrier bInList= it.next();
 		       if(bInList.getPosY2() == b.getPosY1() && bInList.getPosX2() == b.getPosX1()
-		       || bInList.getPosY1() == b.getPosY2() && bInList.getPosX1() == b.getPosX2()){
+		       || bInList.getPosY1() == b.getPosY2() && bInList.getPosX1() == b.getPosX2()
+		       || bInList.getPosY1() == b.getPosY1() && bInList.getPosX1() == b.getPosX1()){
 		    	   return true;
 		       }
 		}
@@ -781,7 +795,7 @@ public class Board extends Observable {
 	 * d'une barriere)
 	 */
 	public boolean isInBarrier(String box) {
-		if()
+		return true;
 	}
 	
 	/**
