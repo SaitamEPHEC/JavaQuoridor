@@ -41,6 +41,7 @@ public class BoardController {
 				else {
 					if(model.getTurn().getNbrBarrierLeft() > 0) {
 						if(model.pathFinder(b,'h')) {
+							model.save();
 							model.drawBarrierH(b);
 						}
 						else {
@@ -68,6 +69,7 @@ public class BoardController {
 				else {
 					if(model.getTurn().getNbrBarrierLeft() > 0) {
 						if(model.pathFinder(b,'v')) {
+							model.save();
 							model.drawBarrierV(b);
 						}
 						else {
@@ -90,7 +92,8 @@ public class BoardController {
 	public void moveUpAffichage() {
 		int up = model.moveUp();
 		switch(up) {
-		case 0 : 
+		case 0 :
+			model.save();
 			break;
 		case 1 : //mouvement correct du joueur 2 + check si victoire
 			if(model.player2HasWon()) {
@@ -137,7 +140,8 @@ public class BoardController {
 	public void moveDownAffichage() {
 		int down = model.moveDown();
 		switch(down) {
-		case 0 : 
+		case 0 :
+			model.save();
 			break;
 		case 1 : //mouvement correct du joueur 1 + check si victoire
 			if(model.player1HasWon()) {
@@ -184,7 +188,8 @@ public class BoardController {
 	public void moveLeftAffichage() {
 		int left = model.moveLeft();
 		switch(left) {
-		case 0 : 
+		case 0 :
+			model.save();
 			break;
 		case 1 :
 			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
@@ -225,7 +230,8 @@ public class BoardController {
 	public void moveRightAffichage() {
 		int right = model.moveRight();
 		switch(right) {
-		case 0 : 
+		case 0 :
+			model.save();
 			break;
 		case 1 :
 			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
@@ -480,6 +486,10 @@ public class BoardController {
 			default :
 				return -1;
 		}
+	}
+	
+	public boolean rewind() {
+		return model.rewind();
 	}
 }
 
