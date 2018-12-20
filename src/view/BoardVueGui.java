@@ -23,6 +23,8 @@ import model.Barrier;
 import model.Board;
 
 public class BoardVueGui extends BoardVue implements ActionListener {
+	
+	//on cree toutes nos variables d'instances 
 	private JFrame boardJFrame;
 	private JFrame rulesJFrame;
 	private JTextField chatTextField = new JTextField();
@@ -35,6 +37,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	private JButton onlineButton = new JButton("EN LIGNE");
 	private JButton newGameButton = new JButton("NOUVELLE PARTIE");
 	private JButton rulesButton = new JButton("RÈGLES");
+	private JButton rewindButton = new JButton("ANNULER COUP");
 	private JTextPane chatTextPane = new JTextPane();
 	private JScrollPane chatScrollPane = new JScrollPane(chatTextPane);
 	private JTextPane displayInfoTurn = new JTextPane();
@@ -42,9 +45,11 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	private JTextPane displayInfoP1 = new JTextPane();
 	private JTextPane displayInfoBarrier = new JTextPane();
 	private JPanel jPanel2;
-	private JPanel jPanelRules = new Panel2();
+	
 	
     public BoardVueGui(Board model, BoardController controller) {
+    	
+    	//on cree notre JFrame qui contiendra nos composants precedemment instancies
 		super(model, controller);
 		boardJFrame = new JFrame("Quoridor - Java Project");
     	boardJFrame.setResizable(false);
@@ -62,9 +67,14 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	}
     
     private void initComponents() {
-        
+    	
+        /*
+         * on cree un jpanel qui contiendra tous nos composants, car le jframe ne permet pas 
+         * l'utilisation de la methode Graphics
+         */
         jPanel2 = new Panel2();
         
+        // chaque element est place sur le jpanel
         
         jPanel2.setBackground(new Color(77, 0, 0));
         jPanel2.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -126,8 +136,11 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 				+ "Exemple : \"g8g9\" (horizontale) ou \"b3c3\" (verticale)\n");
 		displayInfoBarrier.setEditable(false);
 		
+		jPanel2.add(rewindButton);
+		rewindButton.setBounds(720, 217, 191, 23);
+		
         
-        // ajouter les composants au frame
+        // on ajoute les composants au frame
         boardJFrame.setContentPane(jPanel2);
         boardJFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         boardJFrame.pack();
@@ -141,6 +154,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         setBarrierButton.addActionListener(this);
         newGameButton.addActionListener(this);
         rulesButton.addActionListener(this);
+        rewindButton.addActionListener(this);
         
     }
     
@@ -157,7 +171,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         }
 
 
-		/**
+		/*
 		 * Met a jour le board pour la GUI. Appele apres dans la methode update via repaint().
 		 */
         @Override
@@ -194,6 +208,9 @@ public class BoardVueGui extends BoardVue implements ActionListener {
             	g.drawString(String.valueOf(k), (i + 27), 85);
             	k++;
             }
+            
+            
+            // on dessine notre plateau de jeu
             
             int pixelY = 100;
             int pixelX = 100;
@@ -256,6 +273,8 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         }
     }
 
+    // on determine quelles actions feront les differents listeners
+    
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(!endOfGame) {
@@ -284,11 +303,16 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 				rulesJFrame = new JFrame("Règles de Quoridor");
 				JOptionPane.showMessageDialog(rulesJFrame, rulesString(),"Règles de Quoridor",JOptionPane.INFORMATION_MESSAGE);
 			}
+			if (source == rewindButton) {
+				model.rewind();
+			}
 			
 		}
 	}
 
 
+	// on permet l'ecriture dans le chat 
+	
 	@Override
 	public void affiche(String string) {
 		chatTextPane.setEditable(true);
@@ -298,6 +322,8 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	}
 
 
+	// methode qui met a jour le jframe 
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		displayInfoP1.setEditable(true);
