@@ -960,7 +960,7 @@ public class Board extends Observable {
 	public boolean pathFinder(Barrier b, char c){
 		String[][] boardTemp = new String[17][17];
 		Stack<Case> casesAParcourir = new Stack<Case>();
-		Set<Case> casesParcourues = new HashSet();
+		Set<Case> casesParcourues = new HashSet<Case>();
 		
 		for(int i=0;i<board.length;i++) {
 			for(int j=0;j<board[0].length;j++) {
@@ -1006,7 +1006,7 @@ public class Board extends Observable {
 				}
 			}
 			if(!chemin) {return chemin;}// si chemin n'existe pas pour le joueur 1, on arrete ici	
-			
+			chemin = false;
 			casesParcourues.clear(); // on clear notre set
 			casesAParcourir.clear(); // on clear le stack
 			won = 0; // le joueur 2 doit arriver ligne 0
