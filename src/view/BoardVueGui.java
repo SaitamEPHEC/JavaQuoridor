@@ -277,8 +277,8 @@ public class BoardVueGui extends BoardVue implements ActionListener {
     
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
 		if(!endOfGame) {
-			Object source = e.getSource();
 			if (source == upButton) {
 				controller.moveUpAffichage();
 			}
@@ -296,16 +296,18 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 				controller.putBarrier(inputs);
 				barrierTextField.setText("");
 			}
-			if (source == newGameButton) {
-				model.resetBoard();
-			}
-			if (source == rulesButton) {
-				rulesJFrame = new JFrame("Règles de Quoridor");
-				JOptionPane.showMessageDialog(rulesJFrame, rulesString(),"Règles de Quoridor",JOptionPane.INFORMATION_MESSAGE);
-			}
 			if (source == rewindButton) {
 				model.rewind();
 			}
+			
+		}
+		if (source == newGameButton) {
+			model.resetBoard();
+		}
+		if (source == rulesButton) {
+			rulesJFrame = new JFrame("Règles de Quoridor");
+			rulesJFrame.setResizable(true);
+			JOptionPane.showMessageDialog(rulesJFrame, rulesString(),"Règles de Quoridor",JOptionPane.INFORMATION_MESSAGE);
 			
 		}
 	}
