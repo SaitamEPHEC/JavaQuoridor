@@ -130,7 +130,6 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		
 		jPanel2.add(displayInfoBarrier);
 		displayInfoBarrier.setBounds(10,755,330,85);
-		displayInfoBarrier.setEditable(true);
 		displayInfoBarrier.setText("Si vous placez une barrière horizontale, elle sera placée au-dessus des coordonnées indiquées.\nSi vous"
 				+ " placez une barrière verticale, elle sera placée à droite des coordonnées indiquées.\n"
 				+ "Exemple : \"g8g9\" (horizontale) ou \"b3c3\" (verticale)\n");
@@ -303,6 +302,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		}
 		if (source == newGameButton) {
 			model.resetBoard();
+			chatTextPane.setText("");
 		}
 		if (source == rulesButton) {
 			rulesJFrame = new JFrame("Règles de Quoridor");
@@ -317,10 +317,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	
 	@Override
 	public void affiche(String string) {
-		chatTextPane.setEditable(true);
 		chatTextPane.setText(string);
-		chatTextPane.setEditable(false);
-		
 	}
 
 
@@ -328,17 +325,11 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		displayInfoP1.setEditable(true);
 		displayInfoP1.setText(model.getPlayer1Nickname()+", barrières restantes : " + model.getPlayer1BarrierLeft());
-		displayInfoP1.setEditable(false);
 		
-		displayInfoP2.setEditable(true);
 		displayInfoP2.setText(model.getPlayer2Nickname()+", barrières restantes : " + model.getPlayer2BarrierLeft());
-		displayInfoP2.setEditable(false);
 		
-		displayInfoTurn.setEditable(true);
 		displayInfoTurn.setText("Tour de : " + model.getTurn().getNickname());
-		displayInfoTurn.setEditable(false);
 		boardJFrame.repaint();
 		
 	}

@@ -374,7 +374,7 @@ public class Board extends Observable {
 			//P2 est a plus d'une case du bord inferieur du board
 			else if(getP2Y() < 14) {
 				//P2 est au-dessus de P1 et ne peut pas sauter en-dessous de P1 a cause d'une barriere
-				if(player2.isJustAbove(player1) && isPositionOfBarrierOnBoard(getP1Y()+3, getP2X())) {
+				if(player2.isJustAbove(player1) && isPositionOfBarrierOnBoard(getP2Y()+3, getP2X())) {
 					return 9;
 				}
 				//P2 est au-dessus de P1 et peut sauter en-dessous de lui
