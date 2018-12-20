@@ -42,7 +42,7 @@ public class Board extends Observable {
 	 * @param posXP2
 	 * @param posYP1
 	 */
-	public Board(String board[][], int nbrBarrierLeftP1, int nbrBarrierLeftP2, int posXP1, int posYP1, int posXP2, int posYP2) {
+	public Board(String board[][],ArrayList<Barrier> barriersOnBoard, int nbrBarrierLeftP1, int nbrBarrierLeftP2, int posXP1, int posYP1, int posXP2, int posYP2) {
 		this.board = board;
 		this.nbrBarrierLeftP1 = nbrBarrierLeftP1;
 		this.nbrBarrierLeftP2 = nbrBarrierLeftP2;
@@ -50,6 +50,7 @@ public class Board extends Observable {
 		this.posYP1 = posYP1;
 		this.posXP2 = posXP2;
 		this.posYP2 = posYP2;
+		this.barriersOnBoard = barriersOnBoard;
 		}
 	
 	/**
@@ -231,6 +232,7 @@ public class Board extends Observable {
 				}
 				//P1 est en-dessous de P2 et peut sauter au-dessus de lui
 				else if(player1.isJustBelow(player2)) {
+					save();
 					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()-4,getP1X()));
 					turn = player2;
 					setChanged();
@@ -238,6 +240,7 @@ public class Board extends Observable {
 					return 0;
 				}
 				else{
+					save();
 					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()-2,getP1X()));
 					turn = player2;
 					setChanged();
@@ -246,6 +249,7 @@ public class Board extends Observable {
 				}
 			}
 			else{
+				save();
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()-2,getP1X()));
 				turn = player2;
 				setChanged();
@@ -274,6 +278,7 @@ public class Board extends Observable {
 				}
 				//P2 est en-dessous de P1 et peut sauter au-dessus de lui
 				else if(player2.isJustBelow(player1)) {
+					save();
 					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()-4,getP2X()));
 					turn = player1;
 					setChanged();
@@ -281,6 +286,7 @@ public class Board extends Observable {
 					return 1;
 				}
 				else{
+					save();
 					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()-2,getP2X()));
 					turn = player1;
 					setChanged();
@@ -289,6 +295,7 @@ public class Board extends Observable {
 				}
 			}
 			else{
+				save();
 				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()-2,getP2X()));
 				turn = player1;
 				setChanged();
@@ -326,6 +333,7 @@ public class Board extends Observable {
 				}
 				//P1 est au-dessus de P2 et peut sauter en-dessous de lui
 				else if(player1.isJustAbove(player2)) {
+					save();
 					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()+4,getP1X()));
 					turn = player2;
 					setChanged();
@@ -333,6 +341,7 @@ public class Board extends Observable {
 					return 1;
 				}
 				else{
+					save();
 					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()+2,getP1X()));
 					turn = player2;
 					setChanged();
@@ -341,6 +350,7 @@ public class Board extends Observable {
 				}
 			}
 			else{
+				save();
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y()+2,getP1X()));
 				turn = player2;
 				setChanged();
@@ -369,6 +379,7 @@ public class Board extends Observable {
 				}
 				//P2 est au-dessus de P1 et peut sauter en-dessous de lui
 				else if(player2.isJustAbove(player1)) {
+					save();
 					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()+4,getP2X()));
 					turn = player1;
 					setChanged();
@@ -376,6 +387,7 @@ public class Board extends Observable {
 					return 0;
 				}
 				else{
+					save();
 					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()+2,getP2X()));
 					turn = player1;
 					setChanged();
@@ -384,6 +396,7 @@ public class Board extends Observable {
 				}
 			}
 			else{
+				save();
 				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y()+2,getP2X()));
 				turn = player1;
 				setChanged();
@@ -421,6 +434,7 @@ public class Board extends Observable {
 				}
 				//P1 est a droite de P2 et peut sauter a gauche de lui
 				else if(player1.isJustToTheRightOf(player2)) {
+					save();
 					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()-4));
 					turn = player2;
 					setChanged();
@@ -428,6 +442,7 @@ public class Board extends Observable {
 					return 0;
 				}
 				else{
+					save();
 					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()-2));
 					turn = player2;
 					setChanged();
@@ -436,6 +451,7 @@ public class Board extends Observable {
 				}
 			}
 			else{
+				save();
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()-2));
 				turn = player2;
 				setChanged();
@@ -464,6 +480,7 @@ public class Board extends Observable {
 				}
 				//P2 est a droite de P1 et peut sauter a gauche de lui
 				else if(player2.isJustToTheRightOf(player1)) {
+					save();
 					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()-4));
 					turn = player1;
 					setChanged();
@@ -471,6 +488,7 @@ public class Board extends Observable {
 					return 0;
 				}
 				else{
+					save();
 					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()-2));
 					turn = player1;
 					setChanged();
@@ -479,6 +497,7 @@ public class Board extends Observable {
 				}
 			}
 			else{
+				save();
 				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()-2));
 				turn = player1;
 				setChanged();
@@ -517,6 +536,7 @@ public class Board extends Observable {
 				}
 				//P1 est a gauche de P2 et peut sauter a droite de lui
 				else if(player1.isJustToTheLeftOf(player2)) {
+					save();
 					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()+4));
 					turn = player2;
 					setChanged();
@@ -524,6 +544,7 @@ public class Board extends Observable {
 					return 0;
 				}
 				else{
+					save();
 					drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()+2));
 					turn = player2;
 					setChanged();
@@ -532,6 +553,7 @@ public class Board extends Observable {
 				}
 			}
 			else{
+				save();
 				drawP1(new Pawn(getP1Y(),getP1X()),new Pawn(getP1Y(),getP1X()+2));
 				turn = player2;
 				setChanged();
@@ -560,6 +582,7 @@ public class Board extends Observable {
 				}
 				//P2 est a gauche de P1 et peut sauter a droite de lui
 				else if(player2.isJustToTheLeftOf(player1)) {
+					save();
 					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()+4));
 					turn = player1;
 					setChanged();
@@ -567,6 +590,7 @@ public class Board extends Observable {
 					return 0;
 				}
 				else{
+					save();
 					drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()+2));
 					turn = player1;
 					setChanged();
@@ -575,6 +599,7 @@ public class Board extends Observable {
 				}
 			}
 			else{
+				save();
 				drawP2(new Pawn(getP2Y(),getP2X()),new Pawn(getP2Y(),getP2X()+2));
 				turn = player1;
 				setChanged();
@@ -1126,31 +1151,48 @@ public class Board extends Observable {
 				turn = player1;
 			}
 			
+			this.barriersOnBoard = previousTurn.barriersOnBoard;
 			player1.setNbrBarrierLeft(previousTurn.getNbrBarrierLeftP1()); // on remet au bon nombre le nombre de barriere restantes pour P1
 			player2.setNbrBarrierLeft(previousTurn.getNbrBarrierLeftP2()); // on remet au bon nombre le nombre de barriere restantes pour P2
 			
-			player1.getPawn().setPosX(getPosXP1()); // on donne
-			player1.getPawn().setPosY(getPosYP1());
+			player1.getPawn().setPosX(previousTurn.getPosXP1()); // on donne la pos du pion
+			player1.getPawn().setPosY(previousTurn.getPosYP1());
 			
-			player2.getPawn().setPosX(getPosXP2());
-			player2.getPawn().setPosX(getPosYP2());
+			player2.getPawn().setPosX(previousTurn.getPosXP2());
+			player2.getPawn().setPosY(previousTurn.getPosYP2());
+			
+			setChanged();
+			notifyObservers();
 		}
 		return true;
 	}
 	
 	public void save() {
 		String[][] strTemp = new String[17][17];
-		int tempPX1 = player1.getPawn().getPosX();
-		int tempPX2 = player2.getPawn().getPosX();
-		int tempPY1 = player1.getPawn().getPosY();
-		int tempPY2 = player2.getPawn().getPosY();
+		ArrayList<Barrier> arrayBarrierTemp = new ArrayList<Barrier>(this.barriersOnBoard);
+		int tempPX1 = getP1X();
+		int tempPY1 = getP1Y();
+		
+		int tempPX2 = getP2X();
+		int tempPY2 = getP2Y();
 		
 		for(int i = 0;i<this.board.length;i++) {
 			for(int j = 0;j<this.board[0].length;j++) {
 				strTemp[i][j] = this.board[i][j]; // copie du board actuelle
 			}
 		}
-		Board temp = new Board(strTemp, player1.getNbrBarrierLeft(), player2.getNbrBarrierLeft(), tempPX1, tempPY1, tempPX2, tempPY2);
+		
+/*		for(int i = 0;i<strTemp.length;i++) {
+	*	for(int j = 0;j<strTemp.length;j++) {
+	*		if(j == strTemp.length-1) {
+	*			System.out.println(strTemp[i][j]);
+	*		}
+	*		else {
+	*			System.out.print(strTemp[i][j]);
+	*		}
+	*	}
+	}*/
+		Board temp = new Board(strTemp, arrayBarrierTemp, player1.getNbrBarrierLeft(), player2.getNbrBarrierLeft(), tempPX1, tempPY1, tempPX2, tempPY2);
 		history.push(temp);
 	}	
 	

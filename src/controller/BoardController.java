@@ -93,7 +93,6 @@ public class BoardController {
 		int up = model.moveUp();
 		switch(up) {
 		case 0 :
-			model.save();
 			break;
 		case 1 : //mouvement correct du joueur 2 + check si victoire
 			if(model.player2HasWon()) {
@@ -141,7 +140,6 @@ public class BoardController {
 		int down = model.moveDown();
 		switch(down) {
 		case 0 :
-			model.save();
 			break;
 		case 1 : //mouvement correct du joueur 1 + check si victoire
 			if(model.player1HasWon()) {
@@ -189,7 +187,6 @@ public class BoardController {
 		int left = model.moveLeft();
 		switch(left) {
 		case 0 :
-			model.save();
 			break;
 		case 1 :
 			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral gauche du plateau de jeu"
@@ -231,7 +228,6 @@ public class BoardController {
 		int right = model.moveRight();
 		switch(right) {
 		case 0 :
-			model.save();
 			break;
 		case 1 :
 			this.vue.affiche("\n" + model.getPlayer1Nickname() + " : Vous ne pouvez pas faire ce déplacement, vous êtes bloqué contre le bord latéral droit du plateau de jeu"
@@ -489,6 +485,7 @@ public class BoardController {
 	}
 	
 	public boolean rewind() {
+		this.vue.affiche("Vous avez demandé a revenir en arriere");
 		return model.rewind();
 	}
 }
