@@ -24,6 +24,7 @@ import model.Board;
 
 public class BoardVueGui extends BoardVue implements ActionListener {
 	private JFrame boardJFrame;
+	private JFrame rulesJFrame;
 	private JTextField chatTextField = new JTextField();
 	private JTextField barrierTextField = new JTextField();
 	private JButton upButton = new JButton("HAUT");
@@ -33,12 +34,15 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	private JButton setBarrierButton = new JButton("POSER");
 	private JButton onlineButton = new JButton("EN LIGNE");
 	private JButton newGameButton = new JButton("NOUVELLE PARTIE");
+	private JButton rulesButton = new JButton("RÈGLES");
 	private JTextPane chatTextPane = new JTextPane();
 	private JScrollPane chatScrollPane = new JScrollPane(chatTextPane);
 	private JTextPane displayInfoTurn = new JTextPane();
 	private JTextPane displayInfoP2 = new JTextPane();
 	private JTextPane displayInfoP1 = new JTextPane();
+	private JTextPane displayInfoBarrier = new JTextPane();
 	private JPanel jPanel2;
+	private JPanel jPanelRules = new Panel2();
 	
     public BoardVueGui(Board model, BoardController controller) {
 		super(model, controller);
@@ -66,7 +70,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         jPanel2.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         jPanel2.setLayout(null);
         
-        jPanel2.add(onlineButton);
+        jPanel2.add(onlineButton); 	
         onlineButton.setBounds(720, 295, 191, 23);
         
         jPanel2.add(newGameButton);
@@ -81,23 +85,26 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		chatTextPane.setEditable(false);
 		
 		jPanel2.add(upButton);
-		upButton.setBounds(450, 700, 90, 25);
+		upButton.setBounds(480, 732, 90, 25);
 		
 		jPanel2.add(downButton);
-		downButton.setBounds(450, 735, 90, 25);
+		downButton.setBounds(480, 767, 90, 25);
 		
 		jPanel2.add(leftButton);
-		leftButton.setBounds(350, 735, 90, 25);
+		leftButton.setBounds(380, 767, 90, 25);
 		
 		jPanel2.add(rightButton);
-		rightButton.setBounds(550, 735, 90, 25);
-		
-		jPanel2.add(barrierTextField);
-		barrierTextField.setBounds(50, 735, 90, 25);
-		barrierTextField.setColumns(10);
+		rightButton.setBounds(580, 767, 90, 25);
 		
 		jPanel2.add(setBarrierButton);
-		setBarrierButton.setBounds(145, 735, 90, 25);
+		setBarrierButton.setBounds(177, 720, 90, 25);
+		
+		jPanel2.add(rulesButton);
+		rulesButton.setBounds(770, 770, 90, 25);
+		
+		jPanel2.add(barrierTextField);
+		barrierTextField.setBounds(82, 720, 90, 25);
+		barrierTextField.setColumns(10);
 		
 		jPanel2.add(displayInfoP1);
 		displayInfoP1.setBounds(720, 100, 191 ,23);
@@ -110,6 +117,14 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		jPanel2.add(displayInfoTurn);
 		displayInfoTurn.setBounds(720, 184, 191 ,23);
 		displayInfoTurn.setEditable(false);
+		
+		jPanel2.add(displayInfoBarrier);
+		displayInfoBarrier.setBounds(10,755,330,85);
+		displayInfoBarrier.setEditable(true);
+		displayInfoBarrier.setText("Si vous placez une barrière horizontale, elle sera placée au-dessus des coordonnées indiquées.\nSi vous"
+				+ " placez une barrière verticale, elle sera placée à droite des coordonnées indiquées.\n"
+				+ "Exemple : \"g8g9\" (horizontale) ou \"b3c3\" (verticale)\n");
+		displayInfoBarrier.setEditable(false);
 		
         
         // ajouter les composants au frame
@@ -125,6 +140,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         onlineButton.addActionListener(this);
         setBarrierButton.addActionListener(this);
         newGameButton.addActionListener(this);
+        rulesButton.addActionListener(this);
         
     }
     
@@ -264,6 +280,11 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 			if (source == newGameButton) {
 				model.resetBoard();
 			}
+			if (source == rulesButton) {
+				rulesJFrame = new JFrame("Règles de Quoridor");
+				JOptionPane.showMessageDialog(rulesJFrame, rulesString(),"Règles de Quoridor",JOptionPane.INFORMATION_MESSAGE);
+			}
+			
 		}
 	}
 
@@ -283,7 +304,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		displayInfoP1.setText(model.getPlayer1Nickname()+", barrières restantes : " + model.getPlayer1BarrierLeft());
 		displayInfoP1.setEditable(false);
 		
-		displayInfoP2.setEditable(false);
+		displayInfoP2.setEditable(true);
 		displayInfoP2.setText(model.getPlayer2Nickname()+", barrières restantes : " + model.getPlayer2BarrierLeft());
 		displayInfoP2.setEditable(false);
 		
@@ -310,5 +331,23 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 		}
 		
 		return coordonnees;
+	}
+	
+	/**
+	 * Renvoie les regles du jeu sous forme de String
+	 * @return String representant les regles du jeu
+	 */
+	public String rulesString() {
+		return "Chaque joueur possède un pion et 10 barrières. À tour de rôles, chaque joueur choisit de "
+				+ "déplacer son pion ou de déposer une de ses barrières. Lorsqu'il n'y a plus de barrières, un joueur est obligé de déplacer son pion.\n\n"
+				+ "Déplacements des pions :\nLes pions se déplacent d'une case, horizontalement ou verticalement, "
+				+ "en avant ou en arrière ; les barrières doivent être contournées.\n\n"
+				+ "Pose des barrières :\nUne barrière doit être posée exactement entre 2 blocs de 2 cases. La pose des barrières a pour "
+				+ "but de se créer son propre chemin ou de ralentir l'adversaire, mais il est interdit de lui fermer totalement l'accès "
+				+ "a sa ligne de but : il faut toujours lui laisser une solution.\n\n"
+				+ "Face à face :\nQuand les 2 pions se retrouvent en vis-à-vis sur 2 cases voisines non séparées par une barrière, le joueur dont "
+				+ "c'est le tour peut sauter son adversaire et se placer derrière lui. Si une barrière est située derrière le pion sauté, le joueur "
+				+ "peut choisir de bifurquer à droite ou à gauche du pion sauté.\n\n"
+				+ "Fin de la partie :\nLe premier joueur qui atteint une des 9 cases de la ligne opposée à sa ligne de départ gagne la partie.\n";
 	}
 }
