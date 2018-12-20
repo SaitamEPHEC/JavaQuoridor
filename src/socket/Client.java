@@ -28,7 +28,7 @@ public class Client {
             new BufferedReader(new InputStreamReader(s.getInputStream()));
         String answer = input.readLine();
         System.out.println(answer);
-        }
+        
         PrintWriter out =
                 new PrintWriter(s.getOutputStream(), true);
             out.println("Message ecrit dans le terminal du server");

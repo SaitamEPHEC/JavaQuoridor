@@ -19,12 +19,38 @@ public class Board extends Observable {
 	private String contours[][]= new String [17][17];
 	private String premiereLigneContours = "123456789000";
 	private String lettreContours = "HHGGFFEEDDCCBBAA000";
+	private Stack<Board> history = new Stack<Board>();
+	private int nbrBarrierLeftP1;
+	private int nbrBarrierLeftP2;
+	private int posXP1; 
+	private int posYP1;
+	private int posXP2; 
+	private int posYP2;
 	
 	public Board(){
 		super();
 		initiateBoard();
 		barriersOnBoard = new ArrayList<Barrier>();
 	}
+	/**
+	 * Constructeur pour les retours en arriere
+	 * @param board
+	 * @param nbrBarrierLeftP1
+	 * @param nbrBarrierLeftP2
+	 * @param posXP1
+	 * @param posYP1
+	 * @param posXP2
+	 * @param posYP1
+	 */
+	public Board(String board[][], int nbrBarrierLeftP1, int nbrBarrierLeftP2, int posXP1, int posYP1, int posXP2, int posYP2) {
+		this.board = board;
+		this.nbrBarrierLeftP1 = nbrBarrierLeftP1;
+		this.nbrBarrierLeftP2 = nbrBarrierLeftP2;
+		this.posXP1 = posXP1;
+		this.posYP1 = posYP1;
+		this.posXP2 = posXP2;
+		this.posYP2 = posYP2;
+		}
 	
 	/**
 	 * Dessine le plateau de jeu au demarrage de la partie. Instancie les 2 joueurs et place les pions a leurs positions de depart.
@@ -958,25 +984,26 @@ public class Board extends Observable {
 		 // test par rapport a joueur 1, a.k.a doit arriver sur la ligne 16
 			int won = 16;
 			Case positionCase = new Case(this.getP1X(), this.getP1Y());
-			if(positionCase.getY() == won) {return true;}
+			if(positionCase.getY() == won) {chemin = true;}
+			else {
+				casesParcourues.add(positionCase);
+				if(checkUp(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+				if(checkLeft(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+				if(checkRight(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+				if(checkDown(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
+	
+				
+				while(!casesAParcourir.empty()){ // tant que notre pile n'est pas vide, a.k.a qu'il nous reste des cases non testees
+					positionCase = casesAParcourir.pop(); // on prend la suivante
+					if(positionCase.getY() == won) {chemin = true;} // si position qui gagne (0, X) ou (16, X) en fct du joueur
+	
+					casesParcourues.add(positionCase); // on ajoute la position que l'on vient de testee a notre set 
 			
-			casesParcourues.add(positionCase);
-			if(checkUp(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
-			if(checkLeft(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
-			if(checkRight(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
-			if(checkDown(positionCase.getX(), positionCase.getY(), boardTemp)) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}
-
-			
-			while(!casesAParcourir.empty()){ // tant que notre pile n'est pas vide, a.k.a qu'il nous reste des cases non testees
-				positionCase = casesAParcourir.pop(); // on prend la suivante
-				if(positionCase.getY() == won) {chemin = true; break;} // si position qui gagne (0, X) ou (16, X) en fct du joueur
-
-				casesParcourues.add(positionCase); // on ajoute la position que l'on vient de testee a notre set 
-		
-				if( (checkUp(positionCase.getX(), positionCase.getY(), boardTemp)) && ((!(stackComparator(casesAParcourir, positionUp(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionUp(positionCase.getX(), positionCase.getY()))))))) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
-				if( (checkLeft(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionLeft(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionLeft(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
-				if( (checkRight(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionRight(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionRight(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
-				if( (checkDown(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionDown(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionDown(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}			
+					if( (checkUp(positionCase.getX(), positionCase.getY(), boardTemp)) && ((!(stackComparator(casesAParcourir, positionUp(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionUp(positionCase.getX(), positionCase.getY()))))))) {casesAParcourir.push(positionUp(positionCase.getX(), positionCase.getY()));}
+					if( (checkLeft(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionLeft(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionLeft(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionLeft(positionCase.getX(), positionCase.getY()));}
+					if( (checkRight(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionRight(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionRight(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionRight(positionCase.getX(), positionCase.getY()));}
+					if( (checkDown(positionCase.getX(), positionCase.getY(), boardTemp)) && (!(stackComparator(casesAParcourir, positionDown(positionCase.getX(), positionCase.getY()))) && (!(setComparator(casesParcourues, positionDown(positionCase.getX(), positionCase.getY())))))) {casesAParcourir.push(positionDown(positionCase.getX(), positionCase.getY()));}			
+				}
 			}
 			if(!chemin) {return chemin;}// si chemin n'existe pas pour le joueur 1, on arrete ici	
 			
@@ -1080,6 +1107,75 @@ public class Board extends Observable {
 		turn = player1;
 		setChanged();
 		notifyObservers();
+	}
+	
+	public boolean rewind() { // methode permettant de revenir un coup en arriere
+		if(history.empty()) {return false;} // si on n'a rien dans la pile et donc tour 1.
+		else {
+			Board previousTurn = history.pop(); // on prends le dernier tour qui a ete push, soit celui du tour d'avant
+			String[][] previousStrBoard = previousTurn.getBoard();
+			for(int i = 0;i<this.board.length;i++) {
+				for(int j = 0;j<this.board[0].length;j++) {
+					this.board[i][j] = previousStrBoard[i][j]; // on redonne a board ses valeurs du tour d'avant
+				}
+			}
+			if(turn.equals(player1)) { // on inverse aussi le tour vu que l'on revient un coup en arriere
+				turn = player2;
+			}
+			else {
+				turn = player1;
+			}
+			
+			player1.setNbrBarrierLeft(previousTurn.getNbrBarrierLeftP1()); // on remet au bon nombre le nombre de barriere restantes pour P1
+			player2.setNbrBarrierLeft(previousTurn.getNbrBarrierLeftP2()); // on remet au bon nombre le nombre de barriere restantes pour P2
+			
+			player1.getPawn().setPosX(getPosXP1()); // on donne
+			player1.getPawn().setPosY(getPosYP1());
+			
+			player2.getPawn().setPosX(getPosXP2());
+			player2.getPawn().setPosX(getPosYP2());
+		}
+		return true;
+	}
+	
+	public void save() {
+		String[][] strTemp = new String[17][17];
+		int tempPX1 = player1.getPawn().getPosX();
+		int tempPX2 = player2.getPawn().getPosX();
+		int tempPY1 = player1.getPawn().getPosY();
+		int tempPY2 = player2.getPawn().getPosY();
+		
+		for(int i = 0;i<this.board.length;i++) {
+			for(int j = 0;j<this.board[0].length;j++) {
+				strTemp[i][j] = this.board[i][j]; // copie du board actuelle
+			}
+		}
+		Board temp = new Board(strTemp, player1.getNbrBarrierLeft(), player2.getNbrBarrierLeft(), tempPX1, tempPY1, tempPX2, tempPY2);
+		history.push(temp);
+	}	
+	
+	public int getNbrBarrierLeftP1() {
+		return nbrBarrierLeftP1;
+	}
+	
+	public int getNbrBarrierLeftP2() {
+		return nbrBarrierLeftP2;
+	}
+	
+	public int getPosXP1() {
+		return posXP1;
+	}
+	
+	public int getPosYP1() {
+		return posYP1;
+	}
+	
+	public int getPosXP2() {
+		return posXP2;
+	}
+	
+	public int getPosYP2() {
+		return posYP2;
 	}
 }	
 
