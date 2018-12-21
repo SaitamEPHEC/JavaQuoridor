@@ -170,7 +170,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         }
 
 
-		/*
+		/**
 		 * Met a jour le board pour la GUI. Appele apres dans la methode update via repaint().
 		 */
         @Override
