@@ -2,7 +2,6 @@ package test;
 
 import controller.BoardController;
 import model.Board;
-import model.Player;
 import view.BoardVueConsole;
 import view.BoardVueGui;
 
