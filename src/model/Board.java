@@ -1258,6 +1258,10 @@ public class Board extends Observable {
 	public ArrayList<Barrier> getBarriersOnBoard() {
 		return barriersOnBoard;
 	}
+	
+	public void setBoard(int X, int Y, String str) {
+		board[X][Y] = str;
+	}
 }	
 
 

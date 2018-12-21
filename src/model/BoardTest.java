@@ -604,5 +604,39 @@ class BoardTest {
 		test1.setP2Y(0);
 		assertEquals(true,test1.player2HasWon());
 	}
+	
+	@Test
+	/**
+	 * Test la methode rewind()
+	 */
+	void rewind() {
+		Board test1 = new Board();
+		assertEquals(false,test1.rewind());
+		test1.moveLeft();
+		assertEquals(true,test1.rewind());
+	}
+	
+	@Test
+	/**
+	 * Test la methode pathFinder()
+	 */
+	void pathFinder() {
+		Board test1 = new Board();
+		Barrier b = new Barrier(1, 2, 1, 3);
+		assertEquals(true,test1.pathFinder(b, 'v'));
+		test1.setBoard(7, 0, "――");
+		test1.setBoard(7, 2, "――");
+		test1.setBoard(7, 4, "――");
+		test1.setBoard(7, 6, "――");
+		test1.setBoard(7, 8, "――");
+		test1.setBoard(7, 10, "――");
+		test1.setBoard(7, 12, "――");
+		test1.setBoard(7, 14, "――");
+		test1.setBoard(7, 16, "――");
+		assertEquals(false,test1.pathFinder(b, 'v'));
+		
+	}
+
+
 
 }
