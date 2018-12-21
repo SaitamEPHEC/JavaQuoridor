@@ -15,7 +15,6 @@ public class Board extends Observable {
 	private Player player1;
 	private Player player2;
 	private ArrayList<Barrier> barriersOnBoard;
-	private int numberBarriersOnBoard = 0;
 	private String contours[][]= new String [17][17];
 	private String premiereLigneContours = "123456789000";
 	private String lettreContours = "HHGGFFEEDDCCBBAA000";
@@ -164,7 +163,6 @@ public class Board extends Observable {
 			if(turn.equals(player1)) {
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
 				barriersOnBoard.add(b);
-				numberBarriersOnBoard++;
 				turn = player2;
 				setChanged();
 				notifyObservers();
@@ -172,7 +170,6 @@ public class Board extends Observable {
 			else {
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
 				barriersOnBoard.add(b);
-				numberBarriersOnBoard++;
 				turn = player1;
 				setChanged();
 				notifyObservers();
@@ -189,7 +186,6 @@ public class Board extends Observable {
 			if(turn.equals(player1)) {
 				player1.setNbrBarrierLeft(player1.getNbrBarrierLeft() - 1);
 				barriersOnBoard.add(b);
-				numberBarriersOnBoard++;
 				turn = player2;
 				setChanged();
 				notifyObservers();
@@ -197,7 +193,6 @@ public class Board extends Observable {
 			else {
 				player2.setNbrBarrierLeft(player2.getNbrBarrierLeft() - 1);
 				barriersOnBoard.add(b);
-				numberBarriersOnBoard++;
 				turn = player1;
 				setChanged();
 				notifyObservers();
@@ -1218,6 +1213,10 @@ public class Board extends Observable {
 	
 	public int getPosYP2() {
 		return posYP2;
+	}
+	
+	public void setTurn(Player turn) {
+		this.turn = turn;
 	}
 }	
 
