@@ -1218,6 +1218,14 @@ public class Board extends Observable {
 	public void setTurn(Player turn) {
 		this.turn = turn;
 	}
+	
+	/**
+	 * Permet de recuperer la liste de barriere du board
+	 * @return barriersOnBoard : la liste de barriere du board
+	 */
+	public ArrayList<Barrier> getBarriersOnBoard() {
+		return barriersOnBoard;
+	}
 }	
 
 
