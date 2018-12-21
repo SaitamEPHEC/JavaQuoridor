@@ -1129,6 +1129,10 @@ public class Board extends Observable {
 		notifyObservers();
 	}
 	
+	/**
+	 * Rewind permet d'annuler le dernier coup joué.
+	 * @return true si le rewind s'est effectué, false sinon
+	 */
 	public boolean rewind() { // methode permettant de revenir un coup en arriere
 		if(history.empty()) {return false;} // si on n'a rien dans la pile et donc tour 1.
 		else {
@@ -1162,6 +1166,9 @@ public class Board extends Observable {
 		return true;
 	}
 	
+	/**
+	 * la methode save() copie l'ensemble des elements pouvant changer apres un coup.
+	 */
 	public void save() {
 		String[][] strTemp = new String[17][17];
 		ArrayList<Barrier> arrayBarrierTemp = new ArrayList<Barrier>(this.barriersOnBoard);
@@ -1177,44 +1184,69 @@ public class Board extends Observable {
 			}
 		}
 		
-/*		for(int i = 0;i<strTemp.length;i++) {
-	*	for(int j = 0;j<strTemp.length;j++) {
-	*		if(j == strTemp.length-1) {
-	*			System.out.println(strTemp[i][j]);
-	*		}
-	*		else {
-	*			System.out.print(strTemp[i][j]);
-	*		}
-	*	}
-	}*/
 		Board temp = new Board(strTemp, arrayBarrierTemp, player1.getNbrBarrierLeft(), player2.getNbrBarrierLeft(), tempPX1, tempPY1, tempPX2, tempPY2);
-		history.push(temp);
+		history.push(temp); // ajout du board avant la mise en place du coup joué dans notre stack
 	}	
 	
+	/**
+	 * recupere le nombre de barrieres restante du joueur 1 dans un autre objet que this.board
+	 * Utilisé par save() et rewind() uniquement
+	 * @return le nombre de barrieres restantes de joueur 1 avec int < = 0
+	 */
 	public int getNbrBarrierLeftP1() {
 		return nbrBarrierLeftP1;
 	}
 	
+	/**
+	 * recupere le nombre de barrieres restante du joueur 2 dans un autre objet que this.board
+	 * Utilisé par save() et rewind() uniquement
+	 * @return le nombre de barrieres restantes de joueur 2 avec int < = 0
+	 */
 	public int getNbrBarrierLeftP2() {
 		return nbrBarrierLeftP2;
 	}
 	
+	/**
+	 * recuperer la position X du pion du joueur 1 dans un objet autre que this.board
+	 * Utilisé par save() et rewind() uniquement
+	 * @return un int entre 0 et board.length
+	 */
 	public int getPosXP1() {
 		return posXP1;
 	}
 	
+	/**
+	 * recuperer la position Y du pion du joueur 1 dans un objet autre que this.board
+	 * Utilisé par save() et rewind() uniquement
+	 * @return un int entre 0 et board.length
+	 */
 	public int getPosYP1() {
 		return posYP1;
 	}
 	
+	/**
+	 * recuperer la position X du pion du joueur 2 dans un objet autre que this.board
+	 * Utilisé par save() et rewind() uniquement
+	 * @return un int entre 0 et board.length
+	 */
 	public int getPosXP2() {
 		return posXP2;
 	}
 	
+	/**
+	 * recuperer la position Y du pion du joueur 2 dans un objet autre que this.board
+	 * Utilisé par save() et rewind() uniquement
+	 * @return un int entre 0 et board.length
+	 */
 	public int getPosYP2() {
 		return posYP2;
 	}
 	
+	/**
+	 * retourne le tour de jeu de board au moment actuel
+	 * Utilisé par save() et rewind() uniquement
+	 * @param turn le tour de jeu
+	 */
 	public void setTurn(Player turn) {
 		this.turn = turn;
 	}
