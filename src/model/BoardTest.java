@@ -510,6 +510,83 @@ class BoardTest {
 		assertEquals(positionXAttendue4,positionXObtenue4);
 	}
 	
+	@Test
+	void isBarrierOnBoardTest() {
+		Board test1 = new Board();
+		Barrier bInList = new Barrier(1,2,1,4);
+		Barrier bToCompareInList = new Barrier(1,2,1,4);
+		Barrier bToCompareNotInList = new Barrier(1,4,1,6);
+		test1.getBarriersOnBoard().add(bInList);
+		assertEquals(true,test1.isBarrierOnBoard(bToCompareInList));
+		assertEquals(false,test1.isBarrierOnBoard(bToCompareNotInList));
+	}
 	
+	@Test
+	/**
+	 * Test la methode isPositionOfBarrierOnBoard(int posY, int posX)
+	 */
+	void isPositionOfBarrierOnBoardTest1() {
+		Board test1 = new Board();
+		Barrier b1InList = new Barrier(1,2,1,4);
+		Barrier b2InList = new Barrier(6,5,4,5);
+		test1.getBarriersOnBoard().add(b1InList);
+		test1.getBarriersOnBoard().add(b2InList);
+		int posY1BInList = 1;
+		int posX1BInList = 2;
+		int posY2BInList = 4;
+		int posX2BInList = 5;
+		int posYBNotInList = 8;
+		int posXBNotInList = 5;
+		assertEquals(true,test1.isPositionOfBarrierOnBoard(posY1BInList, posX1BInList));
+		assertEquals(true,test1.isPositionOfBarrierOnBoard(posY2BInList, posX2BInList));
+		assertEquals(false,test1.isPositionOfBarrierOnBoard(posYBNotInList, posXBNotInList));
+	}
+	
+	@Test
+	/**
+	 * Test la methode isPositionOfBarrierOnBoard(Barrier b)
+	 */
+	void isPositionOfBarrierOnBoardTest2() {
+		Board test1 = new Board();
+		Barrier b1InList = new Barrier(1,2,1,4);
+		Barrier b2InList = new Barrier(6,5,4,5);
+		Barrier b3InList = new Barrier(8,7,6,7);
+		test1.getBarriersOnBoard().add(b1InList);
+		test1.getBarriersOnBoard().add(b2InList);
+		test1.getBarriersOnBoard().add(b3InList);
+		Barrier b1ToCompareInList = new Barrier(1,0,1,2);
+		Barrier b2ToCompareInList = new Barrier(4,5,2,5);
+		Barrier b3ToCompareInList = new Barrier(8,7,6,7);
+		Barrier bToCompareNotInList = new Barrier(1,6,1,8);
+		
+		assertEquals(true,test1.isPositionOfBarrierOnBoard(b1ToCompareInList));
+		assertEquals(true,test1.isPositionOfBarrierOnBoard(b2ToCompareInList));
+		assertEquals(true,test1.isPositionOfBarrierOnBoard(b3ToCompareInList));
+		assertEquals(false,test1.isPositionOfBarrierOnBoard(bToCompareNotInList));
+	}
+	
+	@Test
+	/**
+	 * Test la methode player1HasWon()
+	 */
+	void player1HasWonTest() {
+		Board test1 = new Board();
+		test1.setP1Y(8);
+		assertEquals(false,test1.player1HasWon());
+		test1.setP1Y(16);
+		assertEquals(true,test1.player1HasWon());
+	}
+	
+	@Test
+	/**
+	 * Test la methode player2HasWon()
+	 */
+	void player2HasWonTest() {
+		Board test1 = new Board();
+		test1.setP2Y(8);
+		assertEquals(false,test1.player2HasWon());
+		test1.setP2Y(0);
+		assertEquals(true,test1.player2HasWon());
+	}
 
 }
