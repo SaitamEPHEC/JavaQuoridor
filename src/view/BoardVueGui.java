@@ -46,9 +46,14 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	private JPanel jPanel2;
 	
 	
+	/**
+	 * Methode qui cree le JFrame de la GUI
+	 * @param model
+	 * @param controller
+	 */
     public BoardVueGui(Board model, BoardController controller) {
     	
-    	//on cree notre JFrame qui contiendra nos composants precedemment instancies
+    	
 		super(model, controller);
 		boardJFrame = new JFrame("Quoridor - Java Project");
     	boardJFrame.setResizable(false);
@@ -65,6 +70,8 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         model.setPlayerNicknames(optionPane1,optionPane2);
 	}
     
+    
+    
     private void initComponents() {
     	
         /*
@@ -73,7 +80,7 @@ public class BoardVueGui extends BoardVue implements ActionListener {
          */
         jPanel2 = new Panel2();
         
-        // chaque element est place sur le jpanel
+        
         
         jPanel2.setBackground(new Color(77, 0, 0));
         jPanel2.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -169,10 +176,12 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         }
 
 
-		/**
-		 * Met a jour le board pour la GUI. Appele apres dans la methode update via repaint().
-		 */
+		
         @Override
+        /**
+         * Met a jour le board pour la GUI. Appele apres dans la methode update via repaint().
+         * @param g un element Graphics
+         */
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
 
@@ -271,9 +280,13 @@ public class BoardVueGui extends BoardVue implements ActionListener {
         }
     }
 
-    // on determine quelles actions feront les differents listeners
+    
     
 	@Override
+	/**
+	 * permet de set up nos action listeners
+	 * @param e un actionEvent
+	 */
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		if(!endOfGame) {
@@ -312,17 +325,26 @@ public class BoardVueGui extends BoardVue implements ActionListener {
 	}
 
 
-	// on permet l'ecriture dans le chat 
+	
 	
 	@Override
+	/**
+	 * Permet d'afficher un string dans le chat
+	 * @param string un string a faire passer
+	 */
 	public void affiche(String string) {
 		chatTextPane.setText(string);
 	}
 
 
-	// methode qui met a jour le jframe 
+	
 	
 	@Override
+	/**
+	 * Permet de mettre a jour la GUI
+	 * @param o un observable
+	 * @param arg un object
+	 */
 	public void update(Observable o, Object arg) {
 		displayInfoP1.setText(model.getPlayer1Nickname()+", barrières restantes : " + model.getPlayer1BarrierLeft());
 		

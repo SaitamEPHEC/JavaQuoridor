@@ -11,6 +11,12 @@ public class Pawn {
 		super();
 	}
 
+	
+	/**
+	 * Constructeur de pawn
+	 * @param posY
+	 * @param posX
+	 */
 	public Pawn(int posY, int posX) {
 		this.posY = posY;
 		this.posX = posX;

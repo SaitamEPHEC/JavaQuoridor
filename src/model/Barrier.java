@@ -111,6 +111,10 @@ public class Barrier {
 	}
 	
 	@Override
+	/**
+	 * Permet de comparer deux objets barrieres sur base de leur position
+	 * @param obj une barriere
+	 */
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
