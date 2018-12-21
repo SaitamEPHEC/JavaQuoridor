@@ -26,6 +26,9 @@ public class Board extends Observable {
 	private int posXP2; 
 	private int posYP2;
 	
+	/**
+	 * Constructeur a vide
+	 */
 	public Board(){
 		super();
 		initiateBoard();
@@ -84,6 +87,9 @@ public class Board extends Observable {
 		turn = player1;
 	}
 	
+	/**
+	 * Initialise les contours du board dans la console (les lettres a gauche et les chiffres en haut)
+	 */
 	public void initiateContoursConsole() {
 		int k = 0;
 		int m = 0;
@@ -125,6 +131,11 @@ public class Board extends Observable {
 		contours[0][0] = "   ";
 	}
 	
+	/**
+	 * Permet de recuperer le tableau contenant les lettres a gauche du board et les chiffres au-dessus du board place 
+	 * de maniere a etre bien positionne par rapport au board
+	 * @return une matrice de String
+	 */
 	public String[][] getContours() {
 		return contours;
 	}
@@ -676,6 +687,7 @@ public class Board extends Observable {
 		 player2.setNickname(nicknameP2);
 		 setChanged();
 		 notifyObservers();
+		 
 	}
 	
 	/**

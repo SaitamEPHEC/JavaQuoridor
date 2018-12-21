@@ -89,6 +89,9 @@ public class BoardController {
 		}
 	}
 	
+	/**
+	 * Deplace le pion vers le haut et test les differents cas d'erreur possibles en envoyant un message associé
+	 */
 	public void moveUpAffichage() {
 		int up = model.moveUp();
 		switch(up) {
@@ -136,6 +139,9 @@ public class BoardController {
 		}
 	}
 	
+	/**
+	 * Deplace le pion vers le bas et test les differents cas d'erreur possibles en envoyant un message associé
+	 */
 	public void moveDownAffichage() {
 		int down = model.moveDown();
 		switch(down) {
@@ -183,6 +189,9 @@ public class BoardController {
 		}
 	}
 	
+	/**
+	 * Deplace le pion vers la gauche et test les differents cas d'erreur possibles en envoyant un message associé
+	 */
 	public void moveLeftAffichage() {
 		int left = model.moveLeft();
 		switch(left) {
@@ -224,6 +233,9 @@ public class BoardController {
 		}
 	}
 	
+	/**
+	 * Deplace le pion vers la droite et test les differents cas d'erreur possibles en envoyant un message associé
+	 */
 	public void moveRightAffichage() {
 		int right = model.moveRight();
 		switch(right) {
