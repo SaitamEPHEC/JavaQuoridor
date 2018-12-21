@@ -10,8 +10,12 @@ import model.Board;
 public class BoardVueConsole extends BoardVue {
 	protected Scanner sc;
 
-	public BoardVueConsole(Board model,
-			BoardController controller){
+	/**
+	 * Constructeur de la vue console
+	 * @param model
+	 * @param controller
+	 */
+	public BoardVueConsole(Board model, BoardController controller){
 		super(model, controller);
 		this.model = model;
 		update(null, null);
@@ -20,6 +24,11 @@ public class BoardVueConsole extends BoardVue {
 	}
 	
 	@Override
+	/**
+	 * Permet d'update la vue console afin d'afficher les changements, les erreurs de jeu eventuelles, ...
+	 * @param o un observable
+	 * @param arg un object
+	 */
 	public void update(Observable o, Object arg) {
 		String[][] temp = this.model.getContours();
 		printHelp();
@@ -64,6 +73,10 @@ public class BoardVueConsole extends BoardVue {
 		}
 }
 	
+	
+	/**
+	 * Permet d'afficher les regles du jeu
+	 */
 	public void printHelp(){
 		affiche("\nPour déplacer votre pion, Entrez \"P\" puis appuyez sur Enter.\n"
 				+ "Ensuite, tapez \"U\" pour déplacer votre pion d'une case en haut, \"D\" pour déplacer votre pion d'une case en bas,\n"
@@ -77,6 +90,10 @@ public class BoardVueConsole extends BoardVue {
 
 	
 	private class ReadInput implements Runnable{
+		
+		/**
+		 * Permet de lancer le jeu en mode console
+		 */
 		public void run() {
 			while(!endOfGame){
 				try {
@@ -132,6 +149,10 @@ public class BoardVueConsole extends BoardVue {
 	}
 
 	@Override
+	/**
+	 * Permet d'afficher une string en console
+	 * @param string string a faire apparaitre
+	 */
 	public void affiche(String string) {
 		System.out.println(string);
 		

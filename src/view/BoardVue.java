@@ -15,6 +15,12 @@ public abstract class BoardVue implements Observer{
 	protected static final String LETTRES_AXE_Y = "ABCDEFGHI";
 	protected static final String CHIFFRES_AXE_X = "123456789";
 	
+	
+	/**
+	 * Constructeur 
+	 * @param model
+	 * @param controller
+	 */
 	BoardVue(Board model, BoardController controller) {
 		this.model = model;
 		this.controller = controller;
