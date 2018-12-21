@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
+	
 	@Test
+	/**
+	 * test de la methode moveUp()
+	 */
 	void moveUpTest() {
 		
 		//P1 est bloque contre le bord superieur du board
@@ -132,7 +136,11 @@ class BoardTest {
 		assertEquals(positionXAttendue4,positionXObtenue4);
 	}
 	
+	
 	@Test
+	/**
+	 * test de la methode moveDown()
+	 */
 	void moveDownTest() {
 		
 		//P1 est bloque contre le bord inferieur du board
@@ -258,7 +266,11 @@ class BoardTest {
 		assertEquals(positionXAttendue4,positionXObtenue4);
 	}
 	
+	
 	@Test
+	/**
+	 * test de la methode moveLeft()
+	 */
 	void moveLeftTest() {
 		
 		//P1 est bloque contre le bord gauche du board
@@ -384,7 +396,11 @@ class BoardTest {
 		assertEquals(positionXAttendue4,positionXObtenue4);
 	}
 	
+	
 	@Test
+	/**
+	 * test de la methode moveRight()
+	 */
 	void moveRightTest() {
 		
 		//P1 est bloque contre le bord droit du board
