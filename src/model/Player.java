@@ -22,31 +22,22 @@ public class Player {
 		myPawn = new Pawn();
 	}
 	
-	/**
-	 * @return le pseudo du joueur
-	 */
+	
 	public String getNickname() {
 		return nickname;
 	}
 	
-	/**
-	 * Attribue nickname comme pseudo du joueur
-	 * @param nickname pseudo du joueur
-	 */
+	
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
 
-	/**
-	 * @return the nbrBarrierLeft
-	 */
+	
 	public int getNbrBarrierLeft() {
 		return nbrBarrierLeft;
 	}
 
-	/**
-	 * @return the pawn
-	 */
+	
 	public Pawn getPawn() {
 		return myPawn;
 	}
@@ -120,18 +111,12 @@ public class Player {
 		return "Joueur " + playerCounter + " : " + nickname;
 	}
 	
-	/**
-	 * Permet de recuperer la couleur du pion du joueur
-	 * @return la couleur du pion du joueur
-	 */
+	
 	public Color getPawnColor() {
 		return myPawn.getColor();
 	}
 	
-	/**
-	 * Attribue la couleur color comme couleur du pion du joueur
-	 * @param pawnColor la couleur du pion du joueur
-	 */
+	
 	public void setPawnColor(Color pawnColor) {
 		myPawn.setColor(pawnColor);
 	}
